@@ -66,17 +66,17 @@ audio { display:none; }
 
 <script>
 const tracks = [
-  {title:"End of an Era", file:"mech.mp3", length:"3:36"},
-  {title:"Houdini", file:"Kouzelník.mp3", length:"3:06"},
-  {title:"Training Season", file:"60m.mp3", length:"3:30"},
-  {title:"These Walls", file:"Zeď.mp3", length:"3:36"},
-  {title:"Whatcha Doing", file:"Co.mp3", length:"3:08"},
-  {title:"French Exit", file:"Francosisch.mp3", length:"3:22"},
-  {title:"Illusion", file:"Iluze.mp3", length:"3:08"},
-  {title:"Falling Forever", file:"Padat.mp3", length:"3:51"},
-  {title:"Anything for Love", file:"Láska.mp3", length:"2:59"},
-  {title:"Maria", file:"Marie.mp3", length:"2:52"},
-  {title:"Happy for You", file:"Pro tebe.mp3", length:"4:09"}
+  {title:"End of an Era", file:"mech.mp3", length:"3:36", gif:"gif1.gif"},
+  {title:"Houdini", file:"Kouzelník.mp3", length:"3:06", gif:"gif2.gif"},
+  {title:"Training Season", file:"60m.mp3", length:"3:30", gif:"gif3.gif"},
+  {title:"These Walls", file:"Zeď.mp3", length:"3:36", gif:"gif4.gif"},
+  {title:"Whatcha Doing", file:"Co.mp3", length:"3:08", gif:"gif5.gif"},
+  {title:"French Exit", file:"Francosisch.mp3", length:"3:22", gif:"gif6.gif"},
+  {title:"Illusion", file:"Iluze.mp3", length:"3:08", gif:"gif7.gif"},
+  {title:"Falling Forever", file:"Padat.mp3", length:"3:51", gif:"gif8.gif"},
+  {title:"Anything for Love", file:"Láska.mp3", length:"2:59", gif:"gif9.gif"},
+  {title:"Maria", file:"Marie.mp3", length:"2:52", gif:"gif10.gif"},
+  {title:"Happy for You", file:"Pro tebe.mp3", length:"4:09", gif:"gif11.gif"}
 ];
 
 let tracklistDiv = document.getElementById("tracklist");
@@ -99,7 +99,7 @@ tracks.forEach((t,i)=>{
   tracklistDiv.appendChild(div);
 });
 
-// Otevření fullscreen a spuštění skladby
+// Otevření fullscreen a spuštění skladby s GIF
 function openFullscreen(index){
   currentTrack = index;
   let t = tracks[index];
@@ -109,6 +109,9 @@ function openFullscreen(index){
   audio.play();
   playPauseBtn.textContent="⏸️";
 
+  // Změna GIF podle skladby
+  document.querySelector(".gif-overlay img").src = t.gif;
+
   audio.onloadedmetadata = ()=>{
     totalTimeDisplay.textContent = formatTime(audio.duration);
   }
@@ -116,6 +119,18 @@ function openFullscreen(index){
   clearInterval(progressInterval);
   progressInterval = setInterval(updateProgress, 500);
 }
+
+// Automatický přechod na další skladbu
+audio.onended = function(){
+  if(currentTrack < tracks.length-1){
+    openFullscreen(currentTrack+1);
+  } else {
+    audio.pause();
+    playPauseBtn.textContent="▶️";
+    progressBar.style.width = "0%";
+    currentTimeDisplay.textContent = "0:00";
+  }
+};
 
 // Zavření fullscreen
 function closeFullscreen(){
@@ -157,4 +172,3 @@ function formatTime(seconds){
 </script>
 </body>
 </html>
-

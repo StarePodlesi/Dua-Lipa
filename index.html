@@ -12,17 +12,16 @@ header p { max-width:700px; margin:10px auto; line-height:1.5em;}
 .tracklist { max-width:700px; margin:20px auto; padding:20px; background:rgba(0,0,0,0.6); border-radius:20px; }
 .track { display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #444; cursor:pointer;}
 .track:hover { background: rgba(29,185,84,0.2);}
-#start-album { display:block; margin:20px auto; font-size:20px; padding:10px 20px; cursor:pointer; background:#1db954; border:none; border-radius:10px; color:white; }
 #fullscreen-player { position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.95); z-index:999; flex-direction:column;}
 #fullscreen-player img { width:300px; border-radius:16px; margin-bottom:15px;}
 #fullscreen-player .song-title { font-size:1.5em; margin-bottom:10px; }
 .controls { margin-top:20px; }
-.controls button { font-size:28px; margin:0 15px; }
+.controls button { font-size:28px; margin:0 15px; cursor:pointer; }
 .close-btn { position:absolute; top:20px; right:20px; font-size:24px; cursor:pointer; }
 .player-container { position:relative; width:100%; height:400px; overflow:hidden; }
 .gif-overlay { position:absolute; top:0; left:0; width:100%; height:100%; z-index:10; }
-.gif-overlay img { width:100%; height:100%; object-fit:cover; }
-iframe.yt-audio { width:1px; height:1px; }
+.gif-overlay img { width:100%; height:100%; object-fit:cover; opacity:0.5; }
+audio { display:none; }
 </style>
 </head>
 <body>
@@ -34,15 +33,10 @@ iframe.yt-audio { width:1px; height:1px; }
 
 <img src="radical_optimism.jpg" alt="Cover" class="album-cover">
 
-<button id="start-album">Spustit album</button>
-
 <div class="tracklist" id="tracklist"></div>
 
 <div id="fullscreen-player">
   <div class="player-container">
-    <iframe id="ytplayer" class="yt-audio"
-      src="https://www.youtube.com/embed/apSZ77414bA?enablejsapi=1&autoplay=0&controls=0&modestbranding=1&rel=0"
-      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <div class="gif-overlay">
       <img src="background.gif" alt="GIF pozadí">
     </div>
@@ -50,6 +44,7 @@ iframe.yt-audio { width:1px; height:1px; }
   <span class="close-btn" onclick="closeFullscreen()">✖</span>
   <img src="radical_optimism.jpg" alt="Cover" id="fullscreen-cover">
   <div class="song-title" id="fullscreen-title"></div>
+  <audio id="audio" controls></audio>
   <div class="controls">
     <button onclick="prevSong()">⏮️</button>
     <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
@@ -57,29 +52,29 @@ iframe.yt-audio { width:1px; height:1px; }
   </div>
 </div>
 
-<script src="https://www.youtube.com/iframe_api"></script>
 <script>
 const tracks = [
-  {title: "End of an Era", ytId:"apSZ77414bA", length:"3:36"},
-  {title: "Houdini", ytId:"YOUTUBE_ID2", length:"3:06"},
-  {title: "Training Season", ytId:"YOUTUBE_ID3", length:"3:30"},
-  {title: "These Walls", ytId:"YOUTUBE_ID4", length:"3:36"},
-  {title: "Whatcha Doing", ytId:"YOUTUBE_ID5", length:"3:08"},
-  {title: "French Exit", ytId:"YOUTUBE_ID6", length:"3:22"},
-  {title: "Illusion", ytId:"YOUTUBE_ID7", length:"3:08"},
-  {title: "Falling Forever", ytId:"YOUTUBE_ID8", length:"3:51"},
-  {title: "Anything for Love", ytId:"YOUTUBE_ID9", length:"2:59"},
-  {title: "Maria", ytId:"YOUTUBE_ID10", length:"2:52"},
-  {title: "Happy for You", ytId:"YOUTUBE_ID11", length:"4:09"}
+  {title:"End of an Era", file:"mech.mp3", length:"3:36"},
+  {title:"Houdini", file:"Kouzelník.mp3", length:"3:06"},
+  {title:"Training Season", file:"Training_Season.mp3", length:"3:30"},
+  {title:"These Walls", file:"These_Walls.mp3", length:"3:36"},
+  {title:"Whatcha Doing", file:"Whatcha_Doing.mp3", length:"3:08"},
+  {title:"French Exit", file:"French_Exit.mp3", length:"3:22"},
+  {title:"Illusion", file:"Illusion.mp3", length:"3:08"},
+  {title:"Falling Forever", file:"Falling_Forever.mp3", length:"3:51"},
+  {title:"Anything for Love", file:"Anything_for_Love.mp3", length:"2:59"},
+  {title:"Maria", file:"Maria.mp3", length:"2:52"},
+  {title:"Happy for You", file:"Happy_for_You.mp3", length:"4:09"}
 ];
 
 let tracklistDiv = document.getElementById("tracklist");
-let currentTrack = 0;
-let player;
 let fullscreenPlayer = document.getElementById("fullscreen-player");
 let fullscreenTitle = document.getElementById("fullscreen-title");
+let audio = document.getElementById("audio");
 let playPauseBtn = document.getElementById("play-pause-btn");
+let currentTrack = 0;
 
+// Vytvoření seznamu skladeb
 tracks.forEach((t,i)=>{
   let div = document.createElement("div");
   div.className="track";
@@ -88,47 +83,38 @@ tracks.forEach((t,i)=>{
   tracklistDiv.appendChild(div);
 });
 
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('ytplayer');
-}
-
-// Funkce otevření fullscreen a spuštění skladby
+// Otevření fullscreen a spuštění skladby
 function openFullscreen(index){
-  currentTrack=index;
+  currentTrack = index;
   let t = tracks[index];
-  fullscreenPlayer.style.display = "flex";
+  fullscreenPlayer.style.display="flex";
   fullscreenTitle.textContent = t.title;
-  player.loadVideoById({videoId:t.ytId, suggestedQuality:"small"});
-  player.unMute();
+  audio.src = t.file;
+  audio.play();
   playPauseBtn.textContent="⏸️";
 }
 
-// Funkce zavření fullscreen
+// Zavření fullscreen
 function closeFullscreen(){
   fullscreenPlayer.style.display="none";
-  player.stopVideo();
+  audio.pause();
 }
 
 // Play/Pause
 function togglePlay(){
-  if(player.getPlayerState() === YT.PlayerState.PLAYING){
-    player.pauseVideo();
-    playPauseBtn.textContent="▶️";
-  } else {
-    player.playVideo();
+  if(audio.paused){
+    audio.play();
     playPauseBtn.textContent="⏸️";
+  } else {
+    audio.pause();
+    playPauseBtn.textContent="▶️";
   }
 }
 
-// Předchozí / následující skladba
+// Next / Prev
 function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
 function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
 
-// Spuštění alba po kliknutí na tlačítko
-document.getElementById("start-album").addEventListener("click", ()=>{
-  openFullscreen(0);
-});
 </script>
-
 </body>
 </html>

@@ -14,7 +14,7 @@ body {
   color:white;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 header {
   text-align:center;
   padding:40px 20px;
@@ -35,7 +35,7 @@ header p {
   text-shadow:1px 1px 3px rgba(0,0,0,0.3);
 }
 
-/* ALBUM COVER */
+/* ================= ALBUM COVER ================= */
 .album-cover {
   display:block;
   margin:30px auto;
@@ -44,7 +44,7 @@ header p {
   box-shadow:0 0 50px rgba(0,0,0,0.7);
 }
 
-/* TRACKLIST */
+/* ================= TRACKLIST ================= */
 .tracklist {
   max-width:900px;
   margin:30px auto;
@@ -69,20 +69,20 @@ header p {
   transform:scale(1.02);
 }
 
-/* FULLSCREEN PLAYER */
+/* ================= FULLSCREEN PLAYER ================= */
 #fullscreen-player {
   position:fixed;
   top:0; left:0;
   width:100%; height:100%;
   display:none;
-  flex-direction:column;
   justify-content:flex-end;
   align-items:center;
   background:black;
   z-index:999;
+  flex-direction:column;
   overflow:hidden;
-  transition: all 0.5s ease;
 }
+
 .video-overlay {
   position:absolute;
   top:0; left:0;
@@ -96,88 +96,84 @@ header p {
   object-fit:cover;
 }
 
-/* FULLSCREEN INFO PANEL (MENŠÍ) */
+/* fullscreen info panel */
 #fullscreen-info {
   width:100%;
-  padding:20px 15px;
+  position:absolute;
+  bottom:0;
   background:linear-gradient(to top, #40E0D0, #ffffff);
-  z-index:1;
+  color:black;
   display:flex;
   flex-direction:column;
+  padding:20px;
+  transition:all 0.5s ease;
+  border-top-left-radius:15px;
+  border-top-right-radius:15px;
+}
+#fullscreen-info.small {
+  padding:8px 15px;
+  height:60px;
+}
+.info-top {
+  display:flex;
+  justify-content:space-between;
   align-items:center;
-  transition: all 0.5s ease;
 }
 #fullscreen-title {
   font-size:2.5em;
   font-weight:bold;
-  margin-bottom:20px;
-  color:black;
+  transition:all 0.5s ease;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  transition: all 0.5s ease;
+}
+#fullscreen-info.small #fullscreen-title {
+  font-size:1.2em;
 }
 
-/* PROGRESS BAR */
-.progress-container {
-  width:90%;
-  background:#222;
-  height:20px;
-  border-radius:10px;
-  margin:10px auto;
-  position:relative;
-  cursor:pointer;
-}
-#progress-bar {
-  width:0%;
-  height:100%;
-  background:#40E0D0;
-  border-radius:10px;
-  transition:width 0.1s linear;
-}
-
-/* TIME DISPLAY */
-#time-display {
-  font-size:1.5em;
-  font-weight:bold;
-  margin:8px 0;
-  color:black;
-  transition: all 0.5s ease;
-}
-
-/* CONTROLS */
+/* controls */
 .controls {
   display:flex;
-  justify-content:center;
-  margin-top:15px;
+  gap:10px;
 }
 .controls button {
   font-size:32px;
-  margin:0 20px;
-  cursor:pointer;
-  border:none;
+  width:50px;
+  height:50px;
   border-radius:50%;
-  width:60px; height:60px;
-  color:white;
   background:#333;
+  color:white;
+  border:none;
+  cursor:pointer;
   transition:0.3s;
 }
-.controls button:hover {
-  background:#40E0D0;
-}
+.controls button:hover { background:#40E0D0; }
 
-/* FULLSCREEN ARROW */
-#fullscreen-arrow {
-  position:absolute;
-  top:15px; right:15px;
-  font-size:40px;
+#toggle-size {
   cursor:pointer;
-  color:black;
-  z-index:2;
-  transition: all 0.5s ease;
+  font-size:28px;
+  margin-left:15px;
+  transition:transform 0.5s ease;
 }
 
-/* MINI PLAYER (MENŠÍ) */
+/* progress bar */
+.progress-container {
+  width:100%;
+  height:10px;
+  background:#222;
+  border-radius:5px;
+  margin-top:10px;
+  position:relative;
+}
+#progress-bar {
+  height:100%;
+  width:0%;
+  background:#40E0D0;
+  border-radius:5px;
+  transition:width 0.1s linear;
+}
+
+/* ================= MINI PLAYER ================= */
 #mini-player {
   position:fixed;
   bottom:0; left:0;
@@ -186,48 +182,54 @@ header p {
   display:none;
   align-items:center;
   justify-content:space-between;
-  flex-direction:column;
   padding:8px 15px;
   box-shadow:0 -2px 10px rgba(0,0,0,0.3);
   z-index:1000;
-  transition: all 0.5s ease;
 }
-#mini-title {
+#mini-player #mini-title {
   font-weight:bold;
   font-size:1.2em;
   color:black;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  margin-bottom:5px;
 }
 #mini-controls {
   display:flex;
   align-items:center;
-  justify-content:flex-start;
-  width:100%;
 }
 #mini-controls button {
-  font-size:24px;
-  margin:0 8px;
+  font-size:28px;
+  margin:0 5px;
   cursor:pointer;
   border:none;
   border-radius:50%;
-  width:45px; height:45px;
+  width:40px; height:40px;
   color:white;
   background:#333;
   transition:0.3s;
 }
 #mini-controls button:hover {background:#40E0D0;}
-#mini-arrow {font-size:28px; margin-left:10px; cursor:pointer;}
-#mini-progress-bar {height:8px;border-radius:4px;}
+#mini-arrow { cursor:pointer; font-size:24px; margin-left:10px; }
 
-/* RESPONSIVE */
-@media(max-width:768px){
+/* ================= RESPONSIVE ================= */
+@media(max-width:1200px){
+  header h1 {font-size:2.5em;}
+  header p {font-size:1.1em;}
+  .album-cover {width:280px;}
+  .track {font-size:1.1em;}
   #fullscreen-title {font-size:2em;}
-  #time-display {font-size:1.2em;}
-  #mini-title {font-size:1em;}
-  .controls button {width:50px;height:50px;font-size:28px;}
+}
+@media(max-width:768px){
+  header h1 {font-size:2em;}
+  header p {font-size:1em;}
+  .album-cover {width:220px;}
+  .track {font-size:1em;}
+  #fullscreen-title {font-size:1.5em;}
+}
+@media(max-width:480px){
+  header h1 {font-size:1.5em;}
+  header p {font-size:0.9em;}
+  .album-cover {width:180px;}
+  .track {font-size:0.9em;}
+  #fullscreen-title {font-size:1em;}
 }
 </style>
 </head>
@@ -246,19 +248,18 @@ header p {
   <div class="video-overlay">
     <video id="bg-video" autoplay muted loop playsinline preload="none"></video>
   </div>
-  <span id="fullscreen-arrow">⬇️</span>
-  <div id="fullscreen-info">
-    <div id="fullscreen-title"></div>
+  <div id="fullscreen-info" class="expanded">
+    <div class="info-top">
+      <div id="fullscreen-title"></div>
+      <div class="controls">
+        <button onclick="prevSong()">⏮️</button>
+        <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
+        <button onclick="nextSong()">⏭️</button>
+      </div>
+      <span id="toggle-size" onclick="toggleFullscreenSize()">⬇️</span>
+    </div>
     <div class="progress-container" id="progress-container">
       <div id="progress-bar"></div>
-    </div>
-    <div id="time-display">
-      <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
-    </div>
-    <div class="controls">
-      <button onclick="prevSong()">⏮️</button>
-      <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
-      <button onclick="nextSong()">⏭️</button>
     </div>
   </div>
   <audio id="audio" preload="none"></audio>
@@ -267,22 +268,15 @@ header p {
 <div id="mini-player">
   <div id="mini-title"></div>
   <div id="mini-controls">
-    <div style="display:flex;align-items:center;width:100%;justify-content:space-between;">
-      <div>
-        <button onclick="prevSong()">⏮️</button>
-        <button id="mini-play-pause" onclick="toggleMiniPlay()">▶️</button>
-        <button onclick="nextSong()">⏭️</button>
-      </div>
-      <span id="mini-arrow">⬆️</span>
-    </div>
-    <div class="progress-container" style="width:100%;margin-top:5px;">
-      <div id="mini-progress-bar" style="width:0%;background:#40E0D0;"></div>
-    </div>
+    <button onclick="prevSong()">⏮️</button>
+    <button id="mini-play-pause" onclick="toggleMiniPlay()">▶️</button>
+    <button onclick="nextSong()">⏭️</button>
+    <span id="mini-arrow">⬆️</span>
   </div>
 </div>
 
 <script>
-// TRACKS
+// ======================== TRACKS ========================
 const tracks = [
   {title:"End of an Era", file:"mech.mp3", length:"3:36", video:"a82x20.mp4"},
   {title:"Houdini", file:"kouzelník.mp3", length:"3:06", video:"a82xf4.mp4"},
@@ -297,40 +291,51 @@ const tracks = [
   {title:"Happy for You", file:"Pro tebe.mp3", length:"4:09", video:"a83003.mp4"}
 ];
 
-let tracklistDiv=document.getElementById("tracklist");
-let fullscreenPlayer=document.getElementById("fullscreen-player");
-let fullscreenTitle=document.getElementById("fullscreen-title");
-let audio=document.getElementById("audio");
-let bgVideo=document.getElementById("bg-video");
-let playPauseBtn=document.getElementById("play-pause-btn");
-let progressBar=document.getElementById("progress-bar");
-let progressContainer=document.getElementById("progress-container");
-let currentTimeDisplay=document.getElementById("current-time");
-let totalTimeDisplay=document.getElementById("total-time");
-let header=document.getElementById("header");
-let currentTrack=0;
+let tracklistDiv = document.getElementById("tracklist");
+let fullscreenPlayer = document.getElementById("fullscreen-player");
+let fullscreenTitle = document.getElementById("fullscreen-title");
+let audio = document.getElementById("audio");
+let bgVideo = document.getElementById("bg-video");
+let playPauseBtn = document.getElementById("play-pause-btn");
+let progressBar = document.getElementById("progress-bar");
+let progressContainer = document.getElementById("progress-container");
+let currentTimeDisplay = document.getElementById("current-time");
+let totalTimeDisplay = document.getElementById("total-time");
+let header = document.getElementById("header");
+let currentTrack = 0;
 let progressInterval;
 
-// MINI PLAYER
-let miniPlayer=document.getElementById("mini-player");
-let miniTitle=document.getElementById("mini-title");
-let miniPlayPause=document.getElementById("mini-play-pause");
-let miniProgressBar=document.getElementById("mini-progress-bar");
+// mini player
+let miniPlayer = document.getElementById("mini-player");
+let miniTitle = document.getElementById("mini-title");
+let miniPlayPause = document.getElementById("mini-play-pause");
+let miniArrow = document.getElementById("mini-arrow");
 
-// ARROWS
-let fullscreenArrow=document.getElementById("fullscreen-arrow");
-let miniArrow=document.getElementById("mini-arrow");
+// fullscreen toggle
+let isFullscreenSmall = false;
+function toggleFullscreenSize(){
+  const info = document.getElementById("fullscreen-info");
+  const toggle = document.getElementById("toggle-size");
+  if(isFullscreenSmall){
+    info.classList.remove("small");
+    toggle.textContent="⬇️";
+  } else {
+    info.classList.add("small");
+    toggle.textContent="⬆️";
+  }
+  isFullscreenSmall = !isFullscreenSmall;
+}
 
-// CREATE TRACKLIST
+// ================= CREATE TRACKLIST =================
 tracks.forEach((t,i)=>{
-  let div=document.createElement("div");
+  let div = document.createElement("div");
   div.className="track";
   div.innerHTML=`<span class="title">${i+1}. ${t.title}</span><span class="duration">${t.length}</span>`;
-  div.onclick=()=> openFullscreen(i);
+  div.onclick = ()=> openFullscreen(i);
   tracklistDiv.appendChild(div);
 });
 
-// FUNCTIONS
+// ================= FUNCTIONS =================
 function openFullscreen(index){
   currentTrack=index;
   let t=tracks[index];
@@ -340,26 +345,35 @@ function openFullscreen(index){
   fullscreenTitle.textContent=t.title;
   audio.src=t.file;
   bgVideo.src=t.video;
-  audio.load(); bgVideo.load();
-  audio.play(); bgVideo.play();
-  playPauseBtn.textContent="⏸️"; miniPlayPause.textContent="⏸️";
-
-  audio.onloadedmetadata=()=>{ totalTimeDisplay.textContent=formatTime(audio.duration); }
+  audio.load();
+  bgVideo.load();
+  audio.play();
+  bgVideo.play();
+  playPauseBtn.textContent="⏸️";
+  miniPlayPause.textContent="⏸️";
 
   clearInterval(progressInterval);
-  progressInterval=setInterval(updateProgress,200);
+  progressInterval=setInterval(updateProgress,500);
 }
 
 function closeFullscreen(){
   fullscreenPlayer.style.display="none";
   header.style.display="block";
   miniPlayer.style.display="flex";
-  updateMini();
 }
 
 function togglePlay(){
-  if(audio.paused){audio.play(); bgVideo.play(); playPauseBtn.textContent="⏸️"; miniPlayPause.textContent="⏸️";}
-  else {audio.pause(); bgVideo.pause(); playPauseBtn.textContent="▶️"; miniPlayPause.textContent="▶️";}
+  if(audio.paused){
+    audio.play();
+    bgVideo.play();
+    playPauseBtn.textContent="⏸️";
+    miniPlayPause.textContent="⏸️";
+  } else {
+    audio.pause();
+    bgVideo.pause();
+    playPauseBtn.textContent="▶️";
+    miniPlayPause.textContent="▶️";
+  }
 }
 
 function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
@@ -369,43 +383,33 @@ function updateProgress(){
   if(audio.duration){
     let percent=(audio.currentTime/audio.duration)*100;
     progressBar.style.width=percent+"%";
-    miniProgressBar.style.width=percent+"%";
-    currentTimeDisplay.textContent=formatTime(audio.currentTime);
   }
 }
 
-function formatTime(seconds){
-  let m=Math.floor(seconds/60);
-  let s=Math.floor(seconds%60);
-  if(s<10)s="0"+s;
-  return m+":"+s;
-}
-
-// MINI PLAYER
+// mini player
 function updateMini(){
   miniPlayer.style.display="flex";
   miniTitle.textContent=tracks[currentTrack].title;
   miniPlayPause.textContent=audio.paused ? "▶️":"⏸️";
 }
 
-// MINI PLAY/PAUSE
+// mini controls
 function toggleMiniPlay(){ togglePlay(); }
+miniArrow.onclick = ()=>{ openFullscreen(currentTrack); }
 
-// ARROW EVENTS
-fullscreenArrow.onclick=()=>{closeFullscreen();}
-miniArrow.onclick=()=>{openFullscreen(currentTrack);}
-
-// AUDIO ENDED
+// audio ended
 audio.onended=function(){
   if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1);
-  else {audio.pause(); playPauseBtn.textContent="▶️"; miniPlayPause.textContent="▶️"; progressBar.style.width="0%"; miniProgressBar.style.width="0%"; currentTimeDisplay.textContent="0:00";}
+  else {audio.pause(); playPauseBtn.textContent="▶️"; miniPlayPause.textContent="▶️"; progressBar.style.width="0%";}
 }
 
-// PROGRESS CLICK
+// progress click
 progressContainer.addEventListener("click",(e)=>{
   const rect=progressContainer.getBoundingClientRect();
   const clickX=e.clientX-rect.left;
-  audio.currentTime=(clickX/rect.width)*audio.duration;
+  const width=rect.width;
+  const duration=audio.duration;
+  audio.currentTime=(clickX/width)*duration;
   updateProgress();
 });
 </script>

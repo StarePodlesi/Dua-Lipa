@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Dua Lipa — Radical Optimism (Player)</title>
 <link rel="icon" href="radical_optimism.jpg" type="image/x-icon">
 <style>
-/* ========== RESET & BASE ========== */
+/* ================== RESET & BASE ================== */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
   font-family:"Inter","Arial",sans-serif;
   -webkit-font-smoothing:antialiased;
-  background:linear-gradient(180deg,#40E0D0 0%,#ffffff 85%);
   color:#111;
   overflow-x:hidden;
+  background:linear-gradient(180deg,#40E0D0 0%, #ffffff 85%);
 }
 
-/* ========== HEADER / INTRO ========== */
+/* ================== HEADER / INTRO ================== */
 header{
   position:relative;
   text-align:center;
-  padding:40px 20px;
-  background:linear-gradient(120deg,#40E0D0,#ffffff);
+  padding:44px 20px;
   color:#000;
-  transition:all .4s ease;
   overflow:hidden;
+  background:linear-gradient(135deg,#40E0D0,#ffffff);
+  transition:all .4s ease;
 }
 header .intro-wrap{
   max-width:1000px;
@@ -41,15 +41,19 @@ header .intro-left{
   text-align:left;
 }
 header h1{font-size:2.2rem;font-weight:800;line-height:1.05;margin-bottom:8px}
-header p{font-size:1.05rem;line-height:1.5;font-weight:600;color:#0b0b0b;opacity:.95}
-
+header p{font-size:1.03rem;line-height:1.5;font-weight:600;color:#0b0b0b;opacity:.95}
 .header-bio{
   width:200px;height:200px;border-radius:16px;overflow:hidden;flex-shrink:0;
   box-shadow:0 12px 40px rgba(0,0,0,.18);
 }
 .header-bio img{width:100%;height:100%;object-fit:cover;display:block}
+.header-bg{
+  position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .45s ease;pointer-events:none;
+  background-position:center;background-size:cover;filter: blur(2px) saturate(1.05);transform:scale(1.02);
+}
+header > *{position:relative;z-index:2}
 
-/* ========== ALBUM COVER & TRACKLIST ========== */
+/* ================== ALBUM COVER & TRACKLIST ================== */
 .album-cover{
   display:block;margin:26px auto;width:300px;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.16);
 }
@@ -65,22 +69,25 @@ header p{font-size:1.05rem;line-height:1.5;font-weight:600;color:#0b0b0b;opacity
 .track:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.06);background:rgba(0,0,0,0.02)}
 .track .left{display:flex;align-items:center;gap:12px;min-width:0}
 .track .num{width:36px;text-align:center;color:#666;font-weight:800}
-.track .title{font-weight:800;color:#111;white-space:normal} 
+.track .title{font-weight:800;color:#111;white-space:normal}
 .track .duration{color:#666;font-weight:700;white-space:nowrap}
 
-/* ========== FULLSCREEN PLAYER ========== */
+/* ================== FULLSCREEN PLAYER ================== */
 #fullscreen-player{
   position:fixed;inset:0;display:none;z-index:1400;align-items:flex-end;justify-content:flex-end;
   overflow:hidden;background:#000;transition:opacity .25s ease;
 }
 .bg-video-wrap{position:absolute;inset:0;z-index:0;overflow:hidden;transition:opacity .35s ease}
 .bg-video-wrap video{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Close button in top-right corner */
 #close-full{
   position:absolute;top:12px;right:12px;z-index:1600;background:rgba(0,0,0,0.55);color:#fff;border:0;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;
   box-shadow:0 8px 24px rgba(0,0,0,.4);
 }
 #close-full:hover{background:#ff4d4d}
 
+/* Fullscreen info */
 #fullscreen-info{
   position:relative;z-index:1500;width:100%;padding:36px 30px;background:linear-gradient(to top,#40E0D0,#ffffff);
   border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -18px 60px rgba(0,0,0,.25);
@@ -102,7 +109,7 @@ header p{font-size:1.05rem;line-height:1.5;font-weight:600;color:#0b0b0b;opacity
 .progress-bar{width:100%;height:14px;background:#000;border-radius:10px;overflow:hidden;cursor:pointer}
 .progress-fill{height:100%;width:0%;background:#40E0D0;border-radius:10px;transition:width .06s linear}
 
-/* ========== MINI PLAYER ========== */
+/* ================== MINI PLAYER ================== */
 #mini-player{
   position:fixed;left:12px;right:12px;bottom:12px;z-index:1500;display:none;
   background:linear-gradient(90deg,#40E0D0,#ffffff);padding:12px;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,.22);
@@ -118,11 +125,11 @@ header p{font-size:1.05rem;line-height:1.5;font-weight:600;color:#0b0b0b;opacity
 #mini-time{font-weight:800;color:#111;min-width:140px;text-align:right}
 #mini-expand{font-size:20px;cursor:pointer;background:transparent;border:0}
 
-/* ========== ANIMATIONS ========== */
+/* ANIMATIONS */
 .fade-in{animation:fadeIn .35s ease both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* ========== RESPONSIVE ========== */
+/* RESPONSIVE */
 @media(max-width:980px){
   .title-big{font-size:1.4rem}
   #time-big{font-size:1rem}
@@ -147,36 +154,40 @@ header p{font-size:1.05rem;line-height:1.5;font-weight:600;color:#0b0b0b;opacity
   <div class="intro-wrap">
     <div class="intro-left">
       <h1>Dua Lipa — Radical Optimism (2024)</h1>
-      <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Album kombinuje taneční pop, disco a moderní elektroniku. Klikni na skladbu a spusť přehrávač. Po zmenšení lišty se zobrazí stručný popis a obrázek Dua Lipy.</p>
+      <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Album kombinuje taneční pop, disco a moderní elektroniku. Klikni na skladbu níže pro spuštění interaktivního přehrávače a vizuálního videa.</p>
     </div>
     <div class="header-bio">
-      <img id="header-bio-img" src="radical_optimism.jpg" alt="Dua Lipa - portrait" loading="lazy">
+      <img src="radical_optimism.jpg" alt="Dua Lipa album cover">
     </div>
   </div>
 </header>
 
-<img class="album-cover" src="radical_optimism.jpg" alt="Radical Optimism cover" loading="lazy">
+<img class="album-cover" src="radical_optimism.jpg" alt="Album Cover">
 
-<div class="tracklist" id="tracklist" aria-label="Seznam skladeb"></div>
+<div class="tracklist" id="tracklist">
+  <!-- Track list bude vložen JS -->
+</div>
 
 <!-- FULLSCREEN PLAYER -->
-<div id="fullscreen-player" aria-hidden="true">
-  <div class="bg-video-wrap" id="bg-video-wrap">
-    <video id="bg-video" autoplay muted loop></video>
+<div id="fullscreen-player">
+  <div class="bg-video-wrap">
+    <video id="video-full" autoplay muted></video>
   </div>
+  <button id="close-full">✕</button>
   <div id="fullscreen-info">
     <div class="info-row">
       <div class="left-block">
-        <div class="title-big" id="big-title">Radical Optimism</div>
+        <div class="title-big" id="full-title">Track Title</div>
+      </div>
+      <div class="controls">
+        <button id="prev">⏮</button>
+        <button id="play-pause">⏯</button>
+        <button id="next">⏭</button>
       </div>
       <div id="time-big">0:00 / 0:00</div>
     </div>
     <div class="progress-wrap">
-      <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-    </div>
-    <div class="controls">
-      <button id="play-pause">▶</button>
-      <button id="close-full">✕</button>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
   </div>
 </div>
@@ -184,93 +195,125 @@ header p{font-size:1.05rem;line-height:1.5;font-weight:600;color:#0b0b0b;opacity
 <!-- MINI PLAYER -->
 <div id="mini-player">
   <div class="mini-left">
-    <img id="mini-cover" class="mini-cover" src="" alt="Cover">
+    <img src="radical_optimism.jpg" class="mini-cover" id="mini-cover">
     <div class="mini-meta">
-      <div id="mini-title" class="mini-title">Radical Optimism</div>
-      <div id="mini-desc" class="mini-desc">Klikni na šipku pro zmenšení / přehrání</div>
+      <div class="mini-title" id="mini-title">Track Title</div>
+      <div class="mini-desc" id="mini-desc">Dua Lipa — Radical Optimism</div>
     </div>
   </div>
   <div class="mini-controls">
-    <div id="mini-time">0:00 / 0:00</div>
-    <button id="mini-play">▶</button>
-    <button id="mini-expand">⬆</button>
+    <button id="mini-prev">⏮</button>
+    <button id="mini-play">⏯</button>
+    <button id="mini-next">⏭</button>
   </div>
+  <div id="mini-time">0:00 / 0:00</div>
+  <button id="mini-expand">⬆</button>
 </div>
 
 <script>
 const tracks = [
-  {num:1,title:"End of an Era",mp3:"mech.mp3",mp4:"a82x20.mp4",duration:"3:35"},
-  {num:2,title:"Houdini",mp3:"kouzelník.mp3",mp4:"a82xf4.mp4",duration:"2:58"},
-  {num:3,title:"Training Season",mp3:"60m.mp3",mp4:"a82xvv.mp4",duration:"3:12"},
-  {num:4,title:"These Walls",mp3:"zeď.mp3",mp4:"a82xxp.mp4",duration:"3:21"},
-  {num:5,title:"Whatcha Doing",mp3:"Co.mp3",mp4:"a82ywb.mp4",duration:"2:46"},
-  {num:6,title:"French Exit",mp3:"Francosisch.mp3",mp4:"a82yxv.mp4",duration:"3:05"},
-  {num:7,title:"Illusion",mp3:"Iluze.mp3",mp4:"a82zdu.mp4",duration:"3:19"},
-  {num:8,title:"Falling Forever",mp3:"Padat.mp3",mp4:"a82zjs.mp4",duration:"3:29"},
-  {num:9,title:"Anything for Love",mp3:"Láska.mp3",mp4:"a82zlw.mp4",duration:"3:33"},
-  {num:10,title:"Maria",mp3:"Marie.mp3",mp4:"a82zxw.mp4",duration:"3:02"},
-  {num:11,title:"Happy for You",mp3:"Pro tebe.mp3",mp4:"a83003.mp4",duration:"3:16"}
+  {num:1,title:"Track 1",duration:"3:45",file:"track1.mp3",video:"track1.mp4"},
+  {num:2,title:"Track 2",duration:"4:12",file:"track2.mp3",video:"track2.mp4"},
+  {num:3,title:"Track 3",duration:"3:58",file:"track3.mp3",video:"track3.mp4"},
+  {num:4,title:"Track 4",duration:"4:05",file:"track4.mp3",video:"track4.mp4"},
+  {num:5,title:"Track 5",duration:"3:33",file:"track5.mp3",video:"track5.mp4"},
+  {num:6,title:"Track 6",duration:"4:20",file:"track6.mp3",video:"track6.mp4"},
+  {num:7,title:"Track 7",duration:"3:55",file:"track7.mp3",video:"track7.mp4"},
+  {num:8,title:"Track 8",duration:"4:10",file:"track8.mp3",video:"track8.mp4"},
+  {num:9,title:"Track 9",duration:"3:48",file:"track9.mp3",video:"track9.mp4"},
+  {num:10,title:"Track 10",duration:"4:00",file:"track10.mp3",video:"track10.mp4"},
+  {num:11,title:"Track 11",duration:"3:59",file:"track11.mp3",video:"track11.mp4"}
 ];
 
-const tracklistDiv = document.getElementById('tracklist');
-tracks.forEach(track=>{
-  const div = document.createElement('div');
-  div.className='track';
-  div.innerHTML=`<div class="left"><div class="num">${track.num}</div><div class="title">${track.title}</div></div><div class="duration">${track.duration}</div>`;
-  div.onclick=()=>playTrack(track);
-  tracklistDiv.appendChild(div);
+// Vytvoření tracklistu
+const tracklistEl = document.getElementById('tracklist');
+tracks.forEach(t=>{
+  const div=document.createElement('div');
+  div.classList.add('track');
+  div.innerHTML=`<div class="left"><div class="num">${t.num}</div><div class="title">${t.title}</div></div><div class="duration">${t.duration}</div>`;
+  div.addEventListener('click',()=>playTrack(t));
+  tracklistEl.appendChild(div);
 });
 
-const fsPlayer=document.getElementById('fullscreen-player');
-const bgVideo=document.getElementById('bg-video');
-const bigTitle=document.getElementById('big-title');
-const playPause=document.getElementById('play-pause');
-const closeFull=document.getElementById('close-full');
-const progressFill=document.getElementById('progress-fill');
-const timeBig=document.getElementById('time-big');
+// Přehled hráče
+const fullscreen = document.getElementById('fullscreen-player');
+const videoFull = document.getElementById('video-full');
+const fullTitle = document.getElementById('full-title');
+const closeFull = document.getElementById('close-full');
+const playPauseBtn = document.getElementById('play-pause');
+const nextBtn = document.getElementById('next');
+const prevBtn = document.getElementById('prev');
+const progressFill = document.getElementById('progress-fill');
+const timeBig = document.getElementById('time-big');
 
-const miniPlayer=document.getElementById('mini-player');
-const miniCover=document.getElementById('mini-cover');
-const miniTitle=document.getElementById('mini-title');
-const miniDesc=document.getElementById('mini-desc');
-const miniTime=document.getElementById('mini-time');
-const miniPlay=document.getElementById('mini-play');
-const miniExpand=document.getElementById('mini-expand');
+const miniPlayer = document.getElementById('mini-player');
+const miniTitle = document.getElementById('mini-title');
+const miniDesc = document.getElementById('mini-desc');
+const miniCover = document.getElementById('mini-cover');
+const miniTime = document.getElementById('mini-time');
+const miniPlay = document.getElementById('mini-play');
+const miniNext = document.getElementById('mini-next');
+const miniPrev = document.getElementById('mini-prev');
+const miniExpand = document.getElementById('mini-expand');
 
-let currentTrack=null;
-let playing=false;
+let currentTrackIndex = 0;
+let playing = false;
 
 function playTrack(track){
-  currentTrack=track;
-  fsPlayer.style.display='flex';
-  miniPlayer.style.display='flex';
-  bgVideo.src=track.mp4;
-  bgVideo.play();
-  bigTitle.textContent=track.title;
-  miniCover.src='radical_optimism.jpg';
+  currentTrackIndex = tracks.indexOf(track);
+  videoFull.src=track.video;
+  fullTitle.textContent=track.title;
   miniTitle.textContent=track.title;
+  miniCover.src="radical_optimism.jpg";
+  miniDesc.textContent="Dua Lipa — Radical Optimism";
+  fullscreen.style.display='flex';
+  miniPlayer.style.display='flex';
+  videoFull.play();
   playing=true;
-  playPause.textContent='⏸';
-  miniPlay.textContent='⏸';
+  updateTime();
 }
 
-playPause.onclick=()=>{if(playing){bgVideo.pause();playing=false;playPause.textContent='▶';miniPlay.textContent='▶'}else{bgVideo.play();playing=true;playPause.textContent='⏸';miniPlay.textContent='⏸'}};
-miniPlay.onclick=playPause.onclick;
-
-closeFull.onclick=()=>{fsPlayer.style.display='none';bgVideo.pause();playing=false;playPause.textContent='▶';miniPlay.textContent='▶'};
-
-miniExpand.onclick=()=>{fsPlayer.style.display='flex'};
-
-bgVideo.addEventListener('timeupdate',()=>{
-  const curr=bgVideo.currentTime;
-  const dur=bgVideo.duration;
-  const progress=(curr/dur)*100;
-  progressFill.style.width=progress+'%';
-  function format(t){const m=Math.floor(t/60);const s=Math.floor(t%60);return m+':'+(s<10?'0':'')+s}
-  timeBig.textContent=format(curr)+' / '+format(dur);
-  miniTime.textContent=format(curr)+' / '+format(dur);
+playPauseBtn.addEventListener('click',()=>{
+  if(playing){videoFull.pause();playing=false}else{videoFull.play();playing=true}
 });
-</script>
+miniPlay.addEventListener('click',()=>{playPauseBtn.click()});
 
+nextBtn.addEventListener('click',nextTrack);
+miniNext.addEventListener('click',nextTrack);
+prevBtn.addEventListener('click',prevTrack);
+miniPrev.addEventListener('click',prevTrack);
+
+function nextTrack(){
+  currentTrackIndex=(currentTrackIndex+1)%tracks.length;
+  playTrack(tracks[currentTrackIndex]);
+}
+function prevTrack(){
+  currentTrackIndex=(currentTrackIndex-1+tracks.length)%tracks.length;
+  playTrack(tracks[currentTrackIndex]);
+}
+
+closeFull.addEventListener('click',()=>{fullscreen.style.display='none'});
+
+miniExpand.addEventListener('click',()=>{fullscreen.style.display='flex'});
+
+// Progress bar
+videoFull.addEventListener('timeupdate',updateTime);
+progressFill.parentElement.addEventListener('click',e=>{
+  const rect=e.currentTarget.getBoundingClientRect();
+  const pct=(e.clientX-rect.left)/rect.width;
+  videoFull.currentTime=pct*videoFull.duration;
+});
+
+function updateTime(){
+  const c=videoFull.currentTime,d=videoFull.duration||1;
+  progressFill.style.width=((c/d)*100)+"%";
+  timeBig.textContent=formatTime(c)+" / "+formatTime(d);
+  miniTime.textContent=timeBig.textContent;
+}
+function formatTime(sec){
+  const m=Math.floor(sec/60),s=Math.floor(sec%60);
+  return m+":"+s.toString().padStart(2,'0');
+}
+</script>
 </body>
 </html>

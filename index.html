@@ -6,7 +6,7 @@
 <title>Dua Lipa – Radical Optimism</title>
 <link rel="icon" href="radical_optimism.jpg" type="image/x-icon">
 <style>
-/* ===== Základní nastavení ===== */
+/* =================== ZÁKLADNÍ STYL =================== */
 body{
   margin:0;
   padding:0;
@@ -20,36 +20,40 @@ header{
   padding:60px 20px;
 }
 header h1{
-  font-size:3em;
-  margin:0;
+  font-size:3.5em;
   font-weight:bold;
+  margin:0;
   line-height:1.2em;
+  text-shadow:1px 1px 3px rgba(0,0,0,0.2);
 }
 header p{
-  max-width:900px;
+  max-width:950px;
   margin:25px auto 0;
   line-height:1.8em;
   font-size:1.2em;
   text-shadow:0 1px 2px rgba(0,0,0,0.1);
 }
+
+/* =================== ALBUM COVER =================== */
 .album-cover{
   display:block;
   margin:40px auto;
-  width:300px;
+  width:320px;
   border-radius:25px;
   box-shadow:0 0 50px rgba(0,0,0,0.3);
-  transition:transform 0.3s ease;
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
 }
 .album-cover:hover{
-  transform:scale(1.05);
+  transform:scale(1.08);
+  box-shadow:0 0 70px rgba(0,0,0,0.5);
 }
 
-/* ===== Tracklist ===== */
+/* =================== TRACKLIST =================== */
 .tracklist{
-  max-width:900px;
+  max-width:950px;
   margin:30px auto;
   padding:25px;
-  background:rgba(255,255,255,0.6);
+  background:rgba(255,255,255,0.7);
   border-radius:25px;
   box-shadow:0 0 25px rgba(0,0,0,0.2);
   overflow:hidden;
@@ -57,10 +61,11 @@ header p{
 .track{
   display:flex;
   justify-content:space-between;
-  padding:15px 20px;
-  border-bottom:1px solid rgba(0,0,0,0.1);
+  padding:18px 22px;
+  border-bottom:1px solid rgba(0,0,0,0.15);
   cursor:pointer;
-  font-size:1.3em;
+  font-size:1.35em;
+  font-weight:500;
   transition:all 0.3s ease;
 }
 .track:hover{
@@ -68,7 +73,7 @@ header p{
   transform:scale(1.02);
 }
 
-/* ===== Přehrávač ===== */
+/* =================== PŘEHRÁVAČ =================== */
 #player-container{
   position:fixed;
   bottom:0;
@@ -103,51 +108,62 @@ header p{
   width:100%;
   height:100%;
   object-fit:cover;
-  filter:brightness(0.7);
+  filter:brightness(0.6);
   transition:all 0.5s ease;
 }
 
-/* ===== Fullscreen lišta ===== */
+/* =================== FULLSCREEN LIŠTA =================== */
 #fullscreen-bar{
   position:absolute;
   bottom:0;
   width:100%;
   background:#40E0D0;
   color:black;
-  padding:30px 40px;
+  padding:40px 50px;
   display:flex;
   flex-direction:column;
   align-items:center;
   z-index:2;
   transition:all 0.5s ease;
-  box-shadow:0 -5px 20px rgba(0,0,0,0.3);
-  font-size:1.5em;
+  box-shadow:0 -5px 30px rgba(0,0,0,0.4);
+  font-size:1.7em;
 }
 #fullscreen-bar.small{
-  padding:12px 20px;
-  font-size:1em;
+  padding:12px 25px;
+  font-size:1.1em;
 }
 #fullscreen-bar .title-time{
   width:100%;
   display:flex;
   justify-content:space-between;
-  margin-bottom:20px;
+  margin-bottom:25px;
+  font-weight:bold;
+  text-shadow:1px 1px 2px rgba(0,0,0,0.2);
+  font-size:2em;
+}
+#fullscreen-bar.small .title-time{
+  font-size:1.2em;
+  margin-bottom:12px;
 }
 #fullscreen-bar .progress-container{
   width:95%;
   background:rgba(255,255,255,0.4);
-  height:15px;
-  border-radius:12px;
+  height:20px;
+  border-radius:15px;
   cursor:pointer;
-  margin-bottom:20px;
+  margin-bottom:25px;
   position:relative;
   overflow:hidden;
+}
+#fullscreen-bar.small .progress-container{
+  height:12px;
+  margin-bottom:12px;
 }
 #fullscreen-bar #progress-bar{
   width:0%;
   height:100%;
   background:#1db954;
-  border-radius:12px;
+  border-radius:15px;
   transition:width 0.1s linear;
 }
 #fullscreen-bar .controls{
@@ -155,9 +171,9 @@ header p{
   justify-content:center;
 }
 #fullscreen-bar .controls button{
-  margin:0 15px;
-  font-size:28px;
-  padding:12px 14px;
+  margin:0 18px;
+  font-size:32px;
+  padding:14px 16px;
   border:none;
   border-radius:50%;
   background:#333;
@@ -172,13 +188,14 @@ header p{
   position:absolute;
   top:15px;
   right:25px;
-  font-size:30px;
+  font-size:36px;
   background:none;
   border:none;
   cursor:pointer;
+  font-weight:bold;
 }
 
-/* ===== Animace ===== */
+/* =================== ANIMACE =================== */
 @keyframes fadeIn{
   from{opacity:0;}
   to{opacity:1;}
@@ -187,27 +204,34 @@ header p{
   animation:fadeIn 1s ease;
 }
 
-/* ===== Responzivita ===== */
+/* =================== RESPONSIVITA =================== */
+@media(max-width:1200px){
+  header h1{font-size:3em;}
+  header p{font-size:1.15em;}
+  .album-cover{width:280px;}
+  .track{font-size:1.3em;}
+  #fullscreen-bar{padding:35px 40px;font-size:1.6em;}
+}
 @media(max-width:1024px){
   header h1{font-size:2.5em;}
   header p{font-size:1.1em;}
   .album-cover{width:250px;}
   .track{font-size:1.2em;}
-  #fullscreen-bar{padding:25px 30px; font-size:1.3em;}
+  #fullscreen-bar{padding:30px 35px;font-size:1.5em;}
 }
 @media(max-width:768px){
   header h1{font-size:2em;}
   header p{font-size:1em;}
   .album-cover{width:220px;}
   .track{font-size:1.1em;}
-  #fullscreen-bar{padding:20px; font-size:1.2em;}
+  #fullscreen-bar{padding:25px 25px;font-size:1.35em;}
 }
 @media(max-width:480px){
   header h1{font-size:1.5em;}
   header p{font-size:0.95em;}
-  .album-cover{width:150px;}
+  .album-cover{width:160px;}
   .track{font-size:1em;}
-  #fullscreen-bar{padding:15px; font-size:1em;}
+  #fullscreen-bar{padding:20px 15px;font-size:1em;}
 }
 </style>
 </head>
@@ -247,7 +271,7 @@ header p{
 </div>
 
 <script>
-// ===== Seznam skladeb =====
+// =================== SEZNAM SKLADEB ===================
 const tracks=[
 {title:"End of an Era", file:"mech.mp3", video:"a82x20.mp4"},
 {title:"Houdini", file:"kouzelník.mp3", video:"a82xf4.mp4"},
@@ -262,7 +286,7 @@ const tracks=[
 {title:"Happy for You", file:"Pro tebe.mp3", video:"a83003.mp4"}
 ];
 
-// ===== Elementy =====
+// =================== ELEMENTY ===================
 let tracklistDiv=document.getElementById("tracklist");
 let fullscreen=document.getElementById("fullscreen-player");
 let fullscreenBar=document.getElementById("fullscreen-bar");
@@ -279,7 +303,7 @@ let toggleBtn=document.querySelector(".toggle-btn");
 let currentTrack=0;
 let progressInterval=null;
 
-// ===== Vytvoření seznamu skladeb =====
+// =================== VYTVOŘENÍ SEZNAMU ===================
 tracks.forEach((t,i)=>{
   let div=document.createElement("div");
   div.className="track";
@@ -288,7 +312,7 @@ tracks.forEach((t,i)=>{
   tracklistDiv.appendChild(div);
 });
 
-// ===== Funkce fullscreen =====
+// =================== FUNKCE FULLSCREEN ===================
 function openFullscreen(index){
   currentTrack=index;
   let t=tracks[index];
@@ -309,7 +333,7 @@ function openFullscreen(index){
   audio.onloadedmetadata=()=>{ totalTimeDisplay.textContent=formatTime(audio.duration); };
 }
 
-// ===== Update progress =====
+// =================== UPDATE PROGRESS ===================
 function updateProgress(){
   if(audio.duration){
     let percent=(audio.currentTime/audio.duration)*100;
@@ -318,7 +342,7 @@ function updateProgress(){
   }
 }
 
-// ===== Klikání na progress bar =====
+// =================== KLIKNUTÍ NA PROGRESS BAR ===================
 progressContainer.addEventListener("click",(e)=>{
   const rect=progressContainer.getBoundingClientRect();
   const clickX=e.clientX-rect.left;
@@ -327,17 +351,17 @@ progressContainer.addEventListener("click",(e)=>{
   updateProgress();
 });
 
-// ===== Play / Pause =====
+// =================== PLAY / PAUSE ===================
 function togglePlay(){
   if(audio.paused){ audio.play(); bgVideo.play(); playPauseBtn.textContent="⏸️"; }
   else{ audio.pause(); bgVideo.pause(); playPauseBtn.textContent="▶️"; }
 }
 
-// ===== Další / Předchozí skladba =====
+// =================== DALŠÍ / PŘEDCHOZÍ ===================
 function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
 function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
 
-// ===== Čas formát =====
+// =================== FORMÁT ČASU ===================
 function formatTime(seconds){
   let m=Math.floor(seconds/60);
   let s=Math.floor(seconds%60);
@@ -345,19 +369,18 @@ function formatTime(seconds){
   return m+":"+s;
 }
 
-// ===== Toggle lišty =====
+// =================== TOGGLE LIŠTY ===================
 function toggleBar(){
   fullscreenBar.classList.toggle("small");
   if(fullscreenBar.classList.contains("small")){ toggleBtn.textContent="⬆️"; }
   else{ toggleBtn.textContent="⬇️"; }
 }
 
-// ===== Konec skladby =====
+// =================== KONEC SKLADBY ===================
 audio.onended=function(){
   if(currentTrack<tracks.length-1){ openFullscreen(currentTrack+1); }
   else{ audio.pause(); bgVideo.pause(); playPauseBtn.textContent="▶️"; progressBar.style.width="0%"; currentTimeDisplay.textContent="0:00";}
 };
 </script>
-
 </body>
 </html>

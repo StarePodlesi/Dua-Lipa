@@ -65,9 +65,9 @@ header p {
   width:100%;
   height:100%;
   display:none;
-  justify-content:flex-end; /* obsah dole */
+  justify-content:flex-end;
   align-items:center;
-  background:rgba(0,0,0,0.95);
+  background:black;
   z-index:999;
   flex-direction:column;
   overflow:hidden;
@@ -84,13 +84,12 @@ header p {
   width:100%;
   height:100%;
   object-fit:cover;
-  opacity:0.5;
 }
 #fullscreen-info {
   width:100%;
   z-index:1;
   padding:20px;
-  background:rgba(0,0,0,0.4);
+  background:black; /* neprůhledný */
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -101,7 +100,7 @@ header p {
 }
 .progress-container {
   width:80%;
-  background:rgba(255,255,255,0.2);
+  background:#222; /* neprůhledný pruh */
   height:12px;
   border-radius:6px;
   margin:10px auto;
@@ -129,7 +128,7 @@ header p {
   font-size:32px;
   margin:0 20px;
   cursor:pointer;
-  background:rgba(255,255,255,0.1);
+  background:#333;
   border:none;
   border-radius:50%;
   width:60px;
@@ -188,7 +187,7 @@ audio { display:none; }
 <script>
 const tracks = [
   {title:"End of an Era", file:"mech.mp3", length:"3:36", gif:"a82rl9.gif"},
-  {title:"Houdini", file:"kouzelník.mp3", length:"3:06", gif:"gif2.gif"},
+  {title:"Houdini", file:"kouzelník.mp3", length:"3:06", gif:"a82v2t.gif"},
   {title:"Training Season", file:"60m.mp3", length:"3:30", gif:"gif3.gif"},
   {title:"These Walls", file:"Zeď.mp3", length:"3:36", gif:"gif4.gif"},
   {title:"Whatcha Doing", file:"Co.mp3", length:"3:08", gif:"gif5.gif"},
@@ -225,7 +224,7 @@ function openFullscreen(index){
   currentTrack = index;
   let t = tracks[index];
   fullscreenPlayer.style.display="flex";
-  header.style.display="none"; // skryje úvodní banner
+  header.style.display="none";
   fullscreenTitle.textContent = t.title;
   audio.src = t.file;
   audio.play();
@@ -254,7 +253,7 @@ audio.onended = function(){
 
 function closeFullscreen(){
   fullscreenPlayer.style.display="none";
-  header.style.display="block"; // znovu zobrazí úvodní banner
+  header.style.display="block";
   audio.pause();
   clearInterval(progressInterval);
 }
@@ -280,7 +279,6 @@ function updateProgress(){
   }
 }
 
-// Klikací progres bar
 progressContainer.addEventListener("click",(e)=>{
   const rect = progressContainer.getBoundingClientRect();
   const clickX = e.clientX - rect.left;
@@ -299,3 +297,4 @@ function formatTime(seconds){
 </script>
 </body>
 </html>
+

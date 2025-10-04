@@ -1,116 +1,131 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dua Lipa — Radical Optimism Player</title>
-<link rel="icon" href="radical_optimism.jpg" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dua Lipa — Radical Optimism (Player)</title>
+<link rel="icon" href="Dua_Lipa.jpg">
 <style>
-/* ===== RESET & BASE ===== */
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:"Inter",sans-serif;overflow-x:hidden;background:#f5f5f5;color:#111;-webkit-font-smoothing:antialiased;}
-button{cursor:pointer}
+/* ================== RESET & BASE ================== */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:"Inter",Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+body{background:linear-gradient(180deg,#40E0D0 0%,#ffffff 85%);color:#111;overflow-x:hidden;transition:background 1s ease;}
+img{display:block;max-width:100%;height:auto;}
 
-/* ===== HEADER / INTRO ===== */
-header{position:relative;width:100%;text-align:center;overflow:hidden;padding:40px 20px;background:linear-gradient(120deg,#40E0D0,#ffffff);}
-header h1{font-size:2.2rem;font-weight:800;margin-bottom:12px;}
-header p{font-size:1.05rem;line-height:1.5;color:#111;max-width:700px;margin:0 auto;}
-.header-img{width:220px;height:220px;border-radius:16px;margin-top:20px;object-fit:cover;box-shadow:0 12px 40px rgba(0,0,0,.2);}
+/* ================== HEADER / INTRO ================== */
+header{position:relative;text-align:center;padding:40px 20px;transition:all .4s ease;overflow:hidden;}
+header .intro-wrap{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;}
+header .intro-left{text-align:left;max-width:600px;}
+header h1{font-size:2.2rem;font-weight:800;line-height:1.1;margin-bottom:10px;}
+header p{font-size:1.05rem;line-height:1.5;font-weight:600;color:#0b0b0b;opacity:.95;}
+header img{width:200px;height:200px;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.18);}
 
-/* ===== TRACKLIST ===== */
-.tracklist{max-width:980px;margin:28px auto;padding:16px;border-radius:12px;background:rgba(0,0,0,0.03);box-shadow:0 8px 30px rgba(0,0,0,0.06);}
-.track{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:10px;margin-bottom:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0));transition:0.15s;cursor:pointer}
-.track:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.08);background:rgba(0,0,0,0.02);}
-.track .num{width:36px;text-align:center;color:#666;font-weight:800}
-.track .title{font-weight:800;color:#111}
-.track .duration{color:#666;font-weight:700}
-
-/* ===== MINI PLAYER ===== */
-#mini-player{position:fixed;left:12px;right:12px;bottom:12px;background:linear-gradient(90deg,#40E0D0,#ffffff);padding:12px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 12px 36px rgba(0,0,0,.22);display:none;z-index:1500;}
-.mini-left{display:flex;align-items:center;gap:12px}
+/* ================== MINI PLAYER ================== */
+#mini-player{position:fixed;left:12px;right:12px;bottom:12px;z-index:1500;display:none;
+background:linear-gradient(90deg,#40E0D0,#ffffff);padding:12px;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,.22);
+display:flex;align-items:center;justify-content:space-between;gap:14px;transition:all .3s ease;}
+.mini-left{display:flex;align-items:center;gap:12px;min-width:0;}
 .mini-cover{width:66px;height:66px;border-radius:8px;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,.18);}
-.mini-meta{overflow:hidden;min-width:0;}
-.mini-title{font-weight:800;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;}
+.mini-meta{min-width:0;overflow:hidden;}
+.mini-title{font-weight:800;color:#000;white-space:normal;max-width:280px;}
+.mini-desc{font-size:.92rem;color:#111;opacity:.95;max-width:420px;}
 .mini-controls{display:flex;align-items:center;gap:8px;}
-.mini-controls button{width:40px;height:40px;border-radius:50%;border:0;background:#222;color:#fff;font-size:18px;}
+.mini-controls button{width:40px;height:40px;border-radius:50%;border:0;background:#222;color:#fff;font-size:18px;cursor:pointer;}
+#mini-time{font-weight:800;color:#111;min-width:80px;text-align:right;}
+#mini-expand{font-size:20px;cursor:pointer;background:transparent;border:0;}
 
-/* ===== FULLSCREEN PLAYER ===== */
-#fullscreen-player{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:flex-end;z-index:2000;background:#000;overflow:hidden;transition:opacity .25s;}
+/* ================== FULLSCREEN PLAYER ================== */
+#fullscreen-player{position:fixed;inset:0;display:none;z-index:1400;align-items:flex-end;justify-content:flex-end;overflow:hidden;background:#000;}
 .bg-video-wrap{position:absolute;inset:0;z-index:0;overflow:hidden;}
 .bg-video-wrap video{width:100%;height:100%;object-fit:cover;}
 #close-full{position:absolute;top:12px;right:12px;z-index:1600;background:rgba(0,0,0,0.55);color:#fff;border:0;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.4);}
 #close-full:hover{background:#ff4d4d;}
-#fullscreen-info{position:relative;z-index:1500;width:100%;padding:36px 30px;background:linear-gradient(to top,#40E0D0,#ffffff);border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -18px 60px rgba(0,0,0,.25);}
-#fullscreen-info.compact{padding:10px 12px;height:74px;background:rgba(0,0,0,0.92);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top-left-radius:10px;border-top-right-radius:10px;}
+#fullscreen-info{position:relative;z-index:1500;width:100%;padding:36px 30px;background:linear-gradient(to top,#40E0D0,#ffffff);border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -18px 60px rgba(0,0,0,.25);transition:transform .36s cubic-bezier(.2,.9,.3,1), background .36s, padding .25s;}
 .info-row{display:flex;align-items:center;justify-content:space-between;gap:16px;}
 .left-block{display:flex;align-items:center;gap:18px;min-width:0;}
 .title-big{font-size:1.9rem;font-weight:900;color:#000;line-height:1.05;max-width:68%;}
-.controls{display:flex;align-items:center;gap:12px}
+.controls{display:flex;align-items:center;gap:12px;}
 .controls button{width:52px;height:52px;border-radius:50%;border:0;background:#222;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.2);transition:all .16s;}
 .controls button:hover{transform:scale(1.04);background:#40E0D0;}
-#time-big{font-size:2.3rem;font-weight:900;color:#000;min-width:160px;text-align:right;}
-.progress-wrap{width:100%;margin-top:12px}
+#time-big{font-size:2rem;font-weight:900;color:#000;min-width:160px;text-align:right;}
+.progress-wrap{width:100%;margin-top:12px;}
 .progress-bar{width:100%;height:14px;background:#000;border-radius:10px;overflow:hidden;cursor:pointer;}
 .progress-fill{height:100%;width:0%;background:#40E0D0;border-radius:10px;transition:width .06s linear;}
 
-/* ===== ANIMATIONS ===== */
-.fade-in{animation:fadeIn .35s ease both}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* ================== TRACKLIST ================== */
+.tracklist{max-width:980px;margin:22px auto;padding:18px;background:rgba(0,0,0,0.03);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.06);}
+.track{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:10px;cursor:pointer;transition:transform .14s ease, box-shadow .14s ease, background .14s ease;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));margin-bottom:10px;}
+.track:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.06);background:rgba(0,0,0,0.02);}
+.track .left{display:flex;align-items:center;gap:12px;min-width:0;}
+.track .num{width:36px;text-align:center;color:#666;font-weight:800;}
+.track .title{font-weight:800;color:#111;white-space:normal;}
+.track .duration{color:#666;font-weight:700;white-space:nowrap;}
+
+/* ================== RESPONSIVE ================== */
+@media(max-width:980px){.title-big{font-size:1.4rem}#time-big{font-size:1rem}.mini-desc{display:none}.album-cover{width:220px}}
+@media(max-width:480px){header h1{font-size:1.2rem}.album-cover{width:160px}.title-big{font-size:1rem}#time-big{font-size:1rem}#mini-player{left:8px;right:8px;bottom:8px;padding:8px}.mini-cover{width:48px;height:48px}.mini-title{font-size:0.95rem}}
 </style>
 </head>
 <body>
 
+<!-- ========== HEADER / INTRO ================== -->
 <header id="header">
-  <h1>Dua Lipa — Radical Optimism (2024)</h1>
-  <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Album kombinuje taneční pop, disco a moderní elektroniku. Zde najdeš kompletní seznam skladeb a interaktivní přehrávač — klikni na skladbu pro spuštění.</p>
-  <img class="header-img" src="radical_optimism.jpg" alt="Dua Lipa">
+  <div class="intro-wrap">
+    <div class="intro-left">
+      <h1>Dua Lipa — Radical Optimism (2024)</h1>
+      <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Album kombinuje taneční pop, disco a moderní elektroniku. Zde najdeš kompletní seznam skladeb a interaktivní přehrávač — klikni na skladbu pro spuštění.</p>
+    </div>
+    <img src="Dua_Lipa.jpg" alt="Dua Lipa" loading="lazy">
+  </div>
 </header>
 
-<div class="tracklist" id="tracklist"></div>
+<!-- tracklist -->
+<div class="tracklist" id="tracklist" aria-label="Seznam skladeb"></div>
 
+<!-- MINI PLAYER -->
 <div id="mini-player">
   <div class="mini-left">
-    <img id="mini-cover" class="mini-cover" src="radical_optimism.jpg" alt="cover">
+    <img src="" alt="cover" class="mini-cover">
     <div class="mini-meta">
-      <div id="mini-title" class="mini-title">—</div>
+      <div class="mini-title"></div>
+      <div class="mini-desc"></div>
     </div>
   </div>
   <div class="mini-controls">
     <button id="mini-prev">⏮</button>
     <button id="mini-play">▶</button>
     <button id="mini-next">⏭</button>
-    <button id="mini-expand">⬆</button>
   </div>
+  <div id="mini-time">0:00 / 0:00</div>
+  <button id="mini-expand">⤢</button>
 </div>
 
+<!-- FULLSCREEN PLAYER -->
 <div id="fullscreen-player">
-  <div class="bg-video-wrap"><video id="bg-video" autoplay muted loop playsinline></video></div>
-  <button id="close-full">✖</button>
-  <div id="fullscreen-info" class="fade-in">
+  <div class="bg-video-wrap">
+    <video src="" autoplay muted loop></video>
+  </div>
+  <div id="fullscreen-info">
     <div class="info-row">
       <div class="left-block">
-        <div class="title-big" id="fs-title"><p>—</p></div>
+        <div class="title-big"></div>
       </div>
-      <div style="display:flex;align-items:center;gap:16px">
-        <div id="time-big">0:00 / 0:00</div>
-        <div class="controls">
-          <button id="prev-btn">⏮</button>
-          <button id="play-btn">▶</button>
-          <button id="next-btn">⏭</button>
-        </div>
-        <button id="toggle-size">⬇</button>
+      <div class="controls">
+        <button id="prev">⏮</button>
+        <button id="play">▶</button>
+        <button id="next">⏭</button>
       </div>
+      <div id="time-big">0:00 / 0:00</div>
+      <button id="close-full">✖</button>
     </div>
     <div class="progress-wrap">
-      <div class="progress-bar" id="progress-bar">
-        <div class="progress-fill" id="progress-fill"></div>
-      </div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
   </div>
 </div>
 
 <script>
-const tracks=[
+const tracks = [
   {num:1,title:"End of an Era",mp3:"mech.mp3",mp4:"a82x20.mp4",duration:"3:35"},
   {num:2,title:"Houdini",mp3:"kouzelník.mp3",mp4:"a82xf4.mp4",duration:"2:58"},
   {num:3,title:"Training Season",mp3:"60m.mp3",mp4:"a82xvv.mp4",duration:"3:12"},
@@ -124,91 +139,79 @@ const tracks=[
   {num:11,title:"Happy for You",mp3:"Pro tebe.mp3",mp4:"a83003.mp4",duration:"3:16"}
 ];
 
-const tracklistDiv=document.getElementById("tracklist");
-tracks.forEach(track=>{
-  const div=document.createElement("div");
-  div.className="track fade-in";
-  div.dataset.num=track.num-1;
-  div.innerHTML=`<div class="num">${track.num}</div>
-                 <div class="title">${track.title}</div>
-                 <div class="duration">${track.duration}</div>`;
-  div.addEventListener("click",()=>playTrack(track.num-1));
-  tracklistDiv.appendChild(div);
+let current = 0;
+let audio = new Audio();
+audio.src = tracks[current].mp3;
+audio.autoplay = false;
+
+// ---------- tracklist render ----------
+const tracklistEl = document.getElementById('tracklist');
+tracks.forEach((t,i)=>{
+  const tr=document.createElement('div');
+  tr.className='track';
+  tr.innerHTML=`<div class="left"><div class="num">${t.num}</div><div class="title">${t.title}</div></div><div class="duration">${t.duration}</div>`;
+  tr.addEventListener('click',()=>{playTrack(i);showMini();});
+  tracklistEl.appendChild(tr);
 });
 
-// MINI PLAYER
-const miniPlayer=document.getElementById("mini-player");
-const miniTitle=document.getElementById("mini-title");
-const miniCover=document.getElementById("mini-cover");
-const miniPlay=document.getElementById("mini-play");
-const miniPrev=document.getElementById("mini-prev");
-const miniNext=document.getElementById("mini-next");
-const miniExpand=document.getElementById("mini-expand");
-
-// FULLSCREEN
-const fsPlayer=document.getElementById("fullscreen-player");
-const fsTitle=document.getElementById("fs-title");
-const bgVideo=document.getElementById("bg-video");
-const closeFull=document.getElementById("close-full");
-const playBtn=document.getElementById("play-btn");
-const prevBtn=document.getElementById("prev-btn");
-const nextBtn=document.getElementById("next-btn");
-const progressBar=document.getElementById("progress-bar");
-const progressFill=document.getElementById("progress-fill");
-const timeBig=document.getElementById("time-big");
-
-let currentIndex=0;
-let audio=new Audio();
-audio.autoplay=true;
-audio.preload="metadata";
-
-// ===== FUNCTIONS =====
-function playTrack(index){
-  currentIndex=index;
-  const t=tracks[currentIndex];
-  audio.src=t.mp3;
+// ---------- PLAY FUNCTION ----------
+function playTrack(idx){
+  current=idx;
+  audio.src=tracks[current].mp3;
+  document.querySelector('#mini-player .mini-cover').src='Dua_Lipa.jpg';
+  document.querySelector('#mini-player .mini-title').textContent=tracks[current].title;
+  document.querySelector('#mini-player .mini-desc').textContent=`Track ${tracks[current].num}`;
+  document.querySelector('#fullscreen-player video').src=tracks[current].mp4;
+  document.querySelector('#fullscreen-player .title-big').textContent=tracks[current].title;
   audio.play();
-  miniPlayer.style.display="flex";
-  miniTitle.textContent=t.title;
-  miniCover.src="radical_optimism.jpg";
-  fsTitle.innerHTML=t.title;
-  bgVideo.src=t.mp4;
+  showMini();
 }
-function playNext(){currentIndex=(currentIndex+1)%tracks.length;playTrack(currentIndex);}
-function playPrev(){currentIndex=(currentIndex-1+tracks.length)%tracks.length;playTrack(currentIndex);}
-audio.addEventListener("ended",()=>playNext());
 
-// MINI CONTROLS
-miniPlay.addEventListener("click",()=>{audio.paused?audio.play():audio.pause();miniPlay.textContent=audio.paused?"▶":"⏸";});
-miniPrev.addEventListener("click",playPrev);
-miniNext.addEventListener("click",playNext);
-miniExpand.addEventListener("click",()=>{fsPlayer.style.display="flex";});
+// ---------- MINI PLAYER ----------
+const miniPlayer = document.getElementById('mini-player');
+function showMini(){miniPlayer.style.display='flex';}
 
-// FULLSCREEN CONTROLS
-closeFull.addEventListener("click",()=>{fsPlayer.style.display="none";});
-playBtn.addEventListener("click",()=>{audio.paused?audio.play():audio.pause();playBtn.textContent=audio.paused?"▶":"⏸";});
-prevBtn.addEventListener("click",playPrev);
-nextBtn.addEventListener("click",playNext);
+// ---------- MINI CONTROLS ----------
+document.getElementById('mini-play').onclick=()=>{
+  audio.paused?audio.play():audio.pause();
+  document.getElementById('mini-play').textContent=audio.paused?'▶':'⏸';
+};
+document.getElementById('mini-prev').onclick=()=>{current=(current-1+tracks.length)%tracks.length;playTrack(current);}
+document.getElementById('mini-next').onclick=()=>{current=(current+1)%tracks.length;playTrack(current);}
+document.getElementById('mini-expand').onclick=()=>{document.getElementById('fullscreen-player').style.display='flex';};
 
-// PROGRESS
-audio.addEventListener("timeupdate",()=>{
-  let percent=(audio.currentTime/audio.duration)*100;
-  progressFill.style.width=percent+"%";
-  timeBig.textContent=`${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
-});
-progressBar.addEventListener("click",(e)=>{
-  let rect=progressBar.getBoundingClientRect();
-  let x=e.clientX-rect.left;
-  let perc=x/rect.width;
-  audio.currentTime=perc*audio.duration;
-});
+// ---------- FULLSCREEN CONTROLS ----------
+const fsPlay=document.getElementById('play');
+const fsPrev=document.getElementById('prev');
+const fsNext=document.getElementById('next');
+fsPlay.onclick=()=>{audio.paused?audio.play():audio.pause();fsPlay.textContent=audio.paused?'▶':'⏸';};
+fsPrev.onclick=()=>{current=(current-1+tracks.length)%tracks.length;playTrack(current);}
+fsNext.onclick=()=>{current=(current+1)%tracks.length;playTrack(current);}
+document.getElementById('close-full').onclick=()=>{document.getElementById('fullscreen-player').style.display='none';};
 
-function formatTime(t){
-  if(isNaN(t)) return "0:00";
-  let m=Math.floor(t/60);
-  let s=Math.floor(t%60);
-  return m+":"+(s<10?"0"+s:s);
-}
+// ---------- TIME UPDATE ----------
+audio.ontimeupdate=()=>{
+  let min=Math.floor(audio.currentTime/60);
+  let sec=Math.floor(audio.currentTime%60);
+  if(sec<10)sec='0'+sec;
+  let totalMin=Math.floor(audio.duration/60)||0;
+  let totalSec=Math.floor(audio.duration%60)||0;
+  if(totalSec<10)totalSec='0'+totalSec;
+  document.getElementById('mini-time').textContent=`${min}:${sec} / ${totalMin}:${totalSec}`;
+  document.getElementById('time-big').textContent=`${min}:${sec} / ${totalMin}:${totalSec}`;
+  document.querySelector('.progress-fill').style.width=(audio.currentTime/audio.duration*100||0)+'%';
+};
+
+// ---------- PROGRESS BAR CLICK ----------
+document.querySelector('.progress-bar').onclick=(e)=>{
+  let rect=e.target.getBoundingClientRect();
+  let percent=(e.clientX-rect.left)/rect.width;
+  audio.currentTime=percent*audio.duration;
+};
+
+// ---------- AUTO NEXT ----------
+audio.onended=()=>{current=(current+1)%tracks.length;playTrack(current);};
+
 </script>
 </body>
 </html>

@@ -299,8 +299,6 @@ let bgVideo = document.getElementById("bg-video");
 let playPauseBtn = document.getElementById("play-pause-btn");
 let progressBar = document.getElementById("progress-bar");
 let progressContainer = document.getElementById("progress-container");
-let currentTimeDisplay = document.getElementById("current-time");
-let totalTimeDisplay = document.getElementById("total-time");
 let header = document.getElementById("header");
 let currentTrack = 0;
 let progressInterval;
@@ -319,9 +317,11 @@ function toggleFullscreenSize(){
   if(isFullscreenSmall){
     info.classList.remove("small");
     toggle.textContent="⬇️";
+    miniPlayer.style.display="none";
   } else {
     info.classList.add("small");
     toggle.textContent="⬆️";
+    miniPlayer.style.display="flex";
   }
   isFullscreenSmall = !isFullscreenSmall;
 }
@@ -354,25 +354,16 @@ function openFullscreen(index){
 
   clearInterval(progressInterval);
   progressInterval=setInterval(updateProgress,500);
-}
-
-function closeFullscreen(){
-  fullscreenPlayer.style.display="none";
-  header.style.display="block";
-  miniPlayer.style.display="flex";
+  updateMini();
 }
 
 function togglePlay(){
   if(audio.paused){
-    audio.play();
-    bgVideo.play();
-    playPauseBtn.textContent="⏸️";
-    miniPlayPause.textContent="⏸️";
+    audio.play(); bgVideo.play();
+    playPauseBtn.textContent="⏸️"; miniPlayPause.textContent="⏸️";
   } else {
-    audio.pause();
-    bgVideo.pause();
-    playPauseBtn.textContent="▶️";
-    miniPlayPause.textContent="▶️";
+    audio.pause(); bgVideo.pause();
+    playPauseBtn.textContent="▶️"; miniPlayPause.textContent="▶️";
   }
 }
 
@@ -388,14 +379,14 @@ function updateProgress(){
 
 // mini player
 function updateMini(){
-  miniPlayer.style.display="flex";
+  miniPlayer.style.display=isFullscreenSmall ? "flex" : "none";
   miniTitle.textContent=tracks[currentTrack].title;
   miniPlayPause.textContent=audio.paused ? "▶️":"⏸️";
 }
 
 // mini controls
 function toggleMiniPlay(){ togglePlay(); }
-miniArrow.onclick = ()=>{ openFullscreen(currentTrack); }
+miniArrow.onclick = ()=>{ isFullscreenSmall=false; toggleFullscreenSize(); };
 
 // audio ended
 audio.onended=function(){

@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Dua Lipa – Radical Optimism</title>
-<link rel="icon" href="radical_optimism.jpg" type="image/x-icon">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body {
@@ -50,15 +49,7 @@ header p {
 .track:hover { background: rgba(0,255,255,0.1); transform:scale(1.02); }
 
 /* Player */
-#player-container {
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  z-index:999;
-}
+#player-container { position:fixed; bottom:0; left:0; width:100%; display:flex; flex-direction:column; z-index:999; }
 #fullscreen-player {
   position:fixed;
   top:0; left:0;
@@ -74,46 +65,26 @@ header p {
 
 #fullscreen-bar {
   position:absolute;
-  bottom:0;
-  width:100%;
-  background:linear-gradient(to right, #40E0D0, #ffffff);
-  padding:10px;
+  bottom:0; width:100%;
+  background:#40E0D0;
+  color:black;
+  padding:15px 20px;
   display:flex;
   flex-direction:column;
   align-items:center;
   z-index:2;
+  transition: all 0.4s ease;
 }
-#fullscreen-bar .progress-container {
-  width:90%;
-  background:#aaa;
-  height:8px;
-  border-radius:6px;
-  cursor:pointer;
-  margin-bottom:8px;
-  position:relative;
-}
-#fullscreen-bar #progress-bar {
-  width:0%; height:100%;
-  background:#1db954;
-  border-radius:6px;
-  transition:width 0.1s linear;
-}
+#fullscreen-bar.small { padding:8px 15px; font-size:0.9em; }
+
+#fullscreen-bar .title-time { width:100%; display:flex; justify-content:space-between; margin-bottom:8px; }
+#fullscreen-bar .progress-container { width:90%; background:#aaa; height:8px; border-radius:6px; cursor:pointer; margin-bottom:8px; position:relative; }
+#fullscreen-bar #progress-bar { width:0%; height:100%; background:#1db954; border-radius:6px; transition:width 0.1s linear; }
 #fullscreen-bar .controls { display:flex; justify-content:center; }
 #fullscreen-bar .controls button { margin:0 10px; font-size:20px; padding:5px 8px; border:none; border-radius:50%; background:#333; color:white; cursor:pointer; }
 #fullscreen-bar .controls button:hover{ background:#1db954; }
 
-#minimized-bar {
-  width:100%;
-  background:linear-gradient(to right, #40E0D0, #ffffff);
-  display:none;
-  align-items:center;
-  justify-content:space-between;
-  padding:5px 10px;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.3);
-  cursor:pointer;
-}
-#minimized-bar span { font-weight:bold; }
-#minimized-bar button { font-size:20px; background:none; border:none; cursor:pointer; }
+#fullscreen-bar .toggle-btn { position:absolute; top:10px; right:15px; font-size:24px; background:none; border:none; cursor:pointer; }
 
 audio { display:none; }
 
@@ -147,6 +118,10 @@ audio { display:none; }
       <video id="bg-video" autoplay muted loop playsinline preload="none"></video>
     </div>
     <div id="fullscreen-bar">
+      <div class="title-time">
+        <span id="track-title">Název skladby</span>
+        <span id="time-display"><span id="current-time">0:00</span> / <span id="total-time">0:00</span></span>
+      </div>
       <div class="progress-container" id="progress-container">
         <div id="progress-bar"></div>
       </div>
@@ -154,16 +129,10 @@ audio { display:none; }
         <button onclick="prevSong()">⏮️</button>
         <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
         <button onclick="nextSong()">⏭️</button>
-        <button onclick="minimizePlayer()">⬇️</button>
       </div>
+      <button class="toggle-btn" onclick="toggleBar()">⬇️</button>
     </div>
   </div>
-
-  <div id="minimized-bar">
-    <span id="minimized-title"></span>
-    <button onclick="restorePlayer()">⬆️</button>
-  </div>
-
   <audio id="audio" preload="none"></audio>
 </div>
 
@@ -184,15 +153,17 @@ const tracks = [
 
 let tracklistDiv = document.getElementById("tracklist");
 let fullscreen = document.getElementById("fullscreen-player");
-let minimized = document.getElementById("minimized-bar");
 let fullscreenBar = document.getElementById("fullscreen-bar");
-let minimizedTitle = document.getElementById("minimized-title");
+let trackTitle = document.getElementById("track-title");
 let audio = document.getElementById("audio");
 let bgVideo = document.getElementById("bg-video");
 let playPauseBtn = document.getElementById("play-pause-btn");
 let progressBar = document.getElementById("progress-bar");
 let progressContainer = document.getElementById("progress-container");
+let currentTimeDisplay = document.getElementById("current-time");
+let totalTimeDisplay = document.getElementById("total-time");
 let header = document.getElementById("header");
+let toggleBtn = document.querySelector(".toggle-btn");
 let currentTrack = 0;
 let progressInterval = null;
 
@@ -208,9 +179,10 @@ function openFullscreen(index){
   currentTrack = index;
   let t = tracks[index];
   fullscreen.style.display="flex";
-  minimized.style.display="none";
   header.style.display="none";
-  minimizedTitle.textContent = t.title;
+  trackTitle.textContent = t.title;
+  toggleBtn.textContent = "⬇️";
+  fullscreenBar.classList.remove("small");
 
   audio.src = t.file;
   bgVideo.src = t.video;
@@ -222,14 +194,14 @@ function openFullscreen(index){
   progressInterval = setInterval(updateProgress,500);
 }
 
-function minimizePlayer(){
-  fullscreen.style.display="none";
-  minimized.style.display="flex";
-}
-
-function restorePlayer(){
-  fullscreen.style.display="flex";
-  minimized.style.display="none";
+function toggleBar(){
+  if(fullscreenBar.classList.contains("small")){
+    fullscreenBar.classList.remove("small");
+    toggleBtn.textContent="⬇️";
+  } else {
+    fullscreenBar.classList.add("small");
+    toggleBtn.textContent="⬆️";
+  }
 }
 
 function togglePlay(){
@@ -241,7 +213,11 @@ function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
 function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
 
 function updateProgress(){
-  if(audio.duration){ progressBar.style.width = (audio.currentTime/audio.duration*100)+"%"; }
+  if(audio.duration){
+    progressBar.style.width = (audio.currentTime/audio.duration*100)+"%";
+    currentTimeDisplay.textContent = formatTime(audio.currentTime);
+    totalTimeDisplay.textContent = formatTime(audio.duration);
+  }
 }
 
 progressContainer.addEventListener("click",(e)=>{
@@ -250,6 +226,13 @@ progressContainer.addEventListener("click",(e)=>{
   audio.currentTime = (clickX/rect.width)*audio.duration;
   updateProgress();
 });
+
+function formatTime(seconds){
+  let m = Math.floor(seconds/60);
+  let s = Math.floor(seconds%60);
+  if(s<10) s="0"+s;
+  return m+":"+s;
+}
 </script>
 </body>
 </html>

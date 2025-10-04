@@ -1,396 +1,214 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Dua Lipa — Radical Optimism (Player)</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dua Lipa — Radical Optimism Player</title>
 <link rel="icon" href="radical_optimism.jpg" type="image/x-icon">
 <style>
-/* ================= RESET & BASE ================= */
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:Inter,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased;
-  background:linear-gradient(180deg,#40E0D0 0%, #ffffff 82%);
-  color:#111;overflow-x:hidden;
-}
+/* ===== RESET & BASE ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:"Inter",sans-serif;overflow-x:hidden;background:#f5f5f5;color:#111;-webkit-font-smoothing:antialiased;}
+button{cursor:pointer}
 
-/* ================= INTRO / HEADER ================= */
-#intro{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:100vh;padding:44px 20px;text-align:center;transition:transform .5s ease,opacity .4s ease;
-  background:linear-gradient(120deg,#40E0D0,#ffffff);
-}
-.intro-wrap{max-width:1100px;width:100%;display:flex;gap:28px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.intro-left{flex:1;min-width:280px;text-align:left}
-.intro-left h1{font-size:2.2rem;font-weight:900;margin-bottom:8px}
-.intro-left p{font-size:1.03rem;line-height:1.5;color:#022}
-.intro-bio-img{width:220px;height:220px;border-radius:14px;overflow:hidden;flex-shrink:0;box-shadow:0 12px 40px rgba(0,0,0,.18)}
-.intro-bio-img img{width:100%;height:100%;object-fit:cover;display:block}
-#playAlbumBtn{margin-top:22px;padding:12px 20px;border-radius:12px;border:0;background:#022;color:#fff;font-weight:800;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.12)}
-#playAlbumBtn:hover{transform:translateY(-3px)}
+/* ===== HEADER / INTRO ===== */
+header{position:relative;width:100%;text-align:center;overflow:hidden;padding:40px 20px;background:linear-gradient(120deg,#40E0D0,#ffffff);}
+header h1{font-size:2.2rem;font-weight:800;margin-bottom:12px;}
+header p{font-size:1.05rem;line-height:1.5;color:#111;max-width:700px;margin:0 auto;}
+.header-img{width:220px;height:220px;border-radius:16px;margin-top:20px;object-fit:cover;box-shadow:0 12px 40px rgba(0,0,0,.2);}
 
-/* ================= PLAYLIST ================= */
-#playlist{max-width:980px;margin:30px auto;padding:18px;border-radius:12px;background:rgba(255,255,255,0.85);box-shadow:0 8px 30px rgba(0,0,0,.06)}
-.track{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;cursor:pointer;margin-bottom:10px;transition:all .18s}
-.track:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.06)}
-.track .left{display:flex;align-items:center;gap:12px;min-width:0}
-.track .num{width:40px;text-align:center;color:#666;font-weight:800}
-.track .title{font-weight:800;color:#111;white-space:normal}
+/* ===== TRACKLIST ===== */
+.tracklist{max-width:980px;margin:28px auto;padding:16px;border-radius:12px;background:rgba(0,0,0,0.03);box-shadow:0 8px 30px rgba(0,0,0,0.06);}
+.track{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:10px;margin-bottom:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0));transition:0.15s;cursor:pointer}
+.track:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.08);background:rgba(0,0,0,0.02);}
+.track .num{width:36px;text-align:center;color:#666;font-weight:800}
+.track .title{font-weight:800;color:#111}
 .track .duration{color:#666;font-weight:700}
-.track.active{background:linear-gradient(90deg,#40E0D0,#a7f0ec);color:#000;border-radius:10px;box-shadow:0 14px 40px rgba(0,0,0,.08)}
 
-/* ================= FULLSCREEN PLAYER ================= */
-#fullPlayer{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:flex-end;z-index:1500;overflow:hidden;background:rgba(0,0,0,0.6);transition:opacity .25s ease}
-#bgVideoWrap{position:absolute;inset:0;z-index:0;overflow:hidden;transition:opacity .3s}
-#bgVideo{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.6)}
-#fsPanel{position:relative;z-index:2;width:100%;background:linear-gradient(to top,#40E0D0,#ffffff);padding:36px 28px;border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -20px 60px rgba(0,0,0,.28);transition:all .36s cubic-bezier(.2,.9,.3,1)}
-#fsTop{display:flex;align-items:center;justify-content:space-between;gap:16px}
-#fsTitle{font-size:2rem;font-weight:900;color:#000;max-width:60%;line-height:1.05}
-#fsControls{display:flex;align-items:center;gap:12px}
-.fsBtn{width:56px;height:56px;border-radius:50%;border:0;background:#222;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.18)}
-.fsBtn:hover{transform:scale(1.05);background:#40E0D0}
-#fsTime{font-weight:900;color:#000;min-width:160px;text-align:right}
-#fsProgress{width:100%;height:14px;background:#000;border-radius:10px;margin-top:14px;cursor:pointer;overflow:hidden}
-#fsFill{height:100%;width:0%;background:#40E0D0;transition:width .06s linear;border-radius:10px}
-#closeFull{position:absolute;top:14px;right:14px;z-index:1600;background:rgba(255,255,255,.92);border:0;padding:8px 10px;border-radius:10px;font-weight:800;cursor:pointer}
-#closeFull:hover{background:#ff6b6b;color:#fff}
+/* ===== MINI PLAYER ===== */
+#mini-player{position:fixed;left:12px;right:12px;bottom:12px;background:linear-gradient(90deg,#40E0D0,#ffffff);padding:12px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 12px 36px rgba(0,0,0,.22);display:none;z-index:1500;}
+.mini-left{display:flex;align-items:center;gap:12px}
+.mini-cover{width:66px;height:66px;border-radius:8px;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,.18);}
+.mini-meta{overflow:hidden;min-width:0;}
+.mini-title{font-weight:800;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;}
+.mini-controls{display:flex;align-items:center;gap:8px;}
+.mini-controls button{width:40px;height:40px;border-radius:50%;border:0;background:#222;color:#fff;font-size:18px;}
 
-/* ================= MINI PLAYER ================= */
-#miniPlayer{position:fixed;left:12px;right:12px;bottom:12px;z-index:1550;display:none;align-items:center;justify-content:space-between;padding:10px;border-radius:12px;background:linear-gradient(90deg,#40E0D0,#ffffff);box-shadow:0 12px 36px rgba(0,0,0,.22)}
-.mini-left{display:flex;align-items:center;gap:12px;min-width:0}
-.mini-cover{width:64px;height:64px;border-radius:8px;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,.18)}
-.mini-meta{overflow:hidden}
-.mini-title{font-weight:800;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px}
-.mini-desc{font-size:.9rem;color:#111;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mini-controls{display:flex;align-items:center;gap:8px}
-.miniControlsBtn{width:44px;height:44px;border-radius:50%;border:0;background:#222;color:#fff;font-size:18px}
-.miniControlsBtn:hover{background:#40E0D0}
-#miniTime{font-weight:800;color:#111;min-width:120px;text-align:right}
+/* ===== FULLSCREEN PLAYER ===== */
+#fullscreen-player{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:flex-end;z-index:2000;background:#000;overflow:hidden;transition:opacity .25s;}
+.bg-video-wrap{position:absolute;inset:0;z-index:0;overflow:hidden;}
+.bg-video-wrap video{width:100%;height:100%;object-fit:cover;}
+#close-full{position:absolute;top:12px;right:12px;z-index:1600;background:rgba(0,0,0,0.55);color:#fff;border:0;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+#close-full:hover{background:#ff4d4d;}
+#fullscreen-info{position:relative;z-index:1500;width:100%;padding:36px 30px;background:linear-gradient(to top,#40E0D0,#ffffff);border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -18px 60px rgba(0,0,0,.25);}
+#fullscreen-info.compact{padding:10px 12px;height:74px;background:rgba(0,0,0,0.92);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top-left-radius:10px;border-top-right-radius:10px;}
+.info-row{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.left-block{display:flex;align-items:center;gap:18px;min-width:0;}
+.title-big{font-size:1.9rem;font-weight:900;color:#000;line-height:1.05;max-width:68%;}
+.controls{display:flex;align-items:center;gap:12px}
+.controls button{width:52px;height:52px;border-radius:50%;border:0;background:#222;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.2);transition:all .16s;}
+.controls button:hover{transform:scale(1.04);background:#40E0D0;}
+#time-big{font-size:2.3rem;font-weight:900;color:#000;min-width:160px;text-align:right;}
+.progress-wrap{width:100%;margin-top:12px}
+.progress-bar{width:100%;height:14px;background:#000;border-radius:10px;overflow:hidden;cursor:pointer;}
+.progress-fill{height:100%;width:0%;background:#40E0D0;border-radius:10px;transition:width .06s linear;}
 
-/* ================= RESPONSIVE ================= */
-@media(max-width:900px){
-  #fsTitle{font-size:1.4rem}
-  #fsTime{min-width:110px}
-  .mini-title{max-width:160px}
-  .intro-bio-img{width:160px;height:160px}
-}
-@media(max-width:480px){
-  .intro-wrap{flex-direction:column;align-items:center;text-align:center}
-  #fsTitle{font-size:1.1rem}
-  #fsTime{display:none}
-  .mini-title{max-width:120px}
-  .mini-desc{display:none}
-}
+/* ===== ANIMATIONS ===== */
+.fade-in{animation:fadeIn .35s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 
-<!-- INTRO -->
-<section id="intro" aria-label="Intro">
-  <div class="intro-wrap">
-    <div class="intro-left">
-      <h1>Dua Lipa — Radical Optimism (2024)</h1>
-      <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Album kombinuje taneční pop, disco a moderní elektroniku. Klikni na tlačítko níže pro spuštění přehrávače.</p>
-      <button id="playAlbumBtn" aria-label="Přehraj album">⬇ Přehraj album</button>
-    </div>
-    <div class="intro-bio-img">
-      <img src="radical_optimism.jpg" alt="Dua Lipa — Radical Optimism" loading="lazy">
+<header id="header">
+  <h1>Dua Lipa — Radical Optimism (2024)</h1>
+  <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Album kombinuje taneční pop, disco a moderní elektroniku. Zde najdeš kompletní seznam skladeb a interaktivní přehrávač — klikni na skladbu pro spuštění.</p>
+  <img class="header-img" src="radical_optimism.jpg" alt="Dua Lipa">
+</header>
+
+<div class="tracklist" id="tracklist"></div>
+
+<div id="mini-player">
+  <div class="mini-left">
+    <img id="mini-cover" class="mini-cover" src="radical_optimism.jpg" alt="cover">
+    <div class="mini-meta">
+      <div id="mini-title" class="mini-title">—</div>
     </div>
   </div>
-</section>
+  <div class="mini-controls">
+    <button id="mini-prev">⏮</button>
+    <button id="mini-play">▶</button>
+    <button id="mini-next">⏭</button>
+    <button id="mini-expand">⬆</button>
+  </div>
+</div>
 
-<!-- PLAYLIST -->
-<section id="playlist" aria-label="Seznam skladeb"></section>
-
-<!-- FULLSCREEN PLAYER -->
-<div id="fullPlayer" aria-hidden="true" role="dialog" aria-label="Fullscreen přehrávač">
-  <div id="bgVideoWrap"><video id="bgVideo" autoplay muted loop playsinline></video></div>
-
-  <div id="fsPanel" role="region" aria-label="Ovládací panel">
-    <button id="closeFull" title="Zavřít fullscreen">✖</button>
-
-    <div id="fsTop">
-      <div id="fsTitle">—</div>
-      <div id="fsControls">
-        <div style="display:flex;align-items:center;gap:12px">
-          <button id="prevBtn" class="fsBtn" title="Předchozí">⏮</button>
-          <button id="playBtn" class="fsBtn" title="Přehrát / Pauza">▶</button>
-          <button id="nextBtn" class="fsBtn" title="Další">⏭</button>
+<div id="fullscreen-player">
+  <div class="bg-video-wrap"><video id="bg-video" autoplay muted loop playsinline></video></div>
+  <button id="close-full">✖</button>
+  <div id="fullscreen-info" class="fade-in">
+    <div class="info-row">
+      <div class="left-block">
+        <div class="title-big" id="fs-title"><p>—</p></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div id="time-big">0:00 / 0:00</div>
+        <div class="controls">
+          <button id="prev-btn">⏮</button>
+          <button id="play-btn">▶</button>
+          <button id="next-btn">⏭</button>
         </div>
-        <div id="fsTime">0:00 / 0:00</div>
+        <button id="toggle-size">⬇</button>
       </div>
     </div>
-
-    <div id="fsProgress" aria-label="Posun skladby">
-      <div id="fsFill"></div>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
     </div>
   </div>
 </div>
-
-<!-- MINI PLAYER -->
-<div id="miniPlayer" aria-hidden="true" role="complementary" aria-label="Mini přehrávač">
-  <div class="mini-left" id="miniClickable">
-    <img id="miniCover" class="mini-cover" src="radical_optimism.jpg" alt="cover" loading="lazy">
-    <div class="mini-meta">
-      <div class="mini-title" id="miniTitle">—</div>
-      <div class="mini-desc" id="miniDesc">Dua Lipa — Radical Optimism</div>
-    </div>
-  </div>
-
-  <div class="mini-controls">
-    <div style="display:flex;align-items:center;gap:8px">
-      <button id="miniPrev" class="miniControlsBtn" title="Předchozí">⏮</button>
-      <button id="miniPlay" class="miniControlsBtn" title="Přehrát / Pauza">▶</button>
-      <button id="miniNext" class="miniControlsBtn" title="Další">⏭</button>
-    </div>
-    <div id="miniTime">0:00 / 0:00</div>
-  </div>
-</div>
-
-<!-- AUDIO element (lazy src set from JS) -->
-<audio id="audio" preload="none"></audio>
 
 <script>
-/* ================= PLAYLIST DATA (upraveno podle tvého seznamu) ================= */
-const tracks = [
-  { num:1, title:"End of an Era", mp3:"mech.mp3", mp4:"a82x20.mp4", duration:"3:35" },
-  { num:2, title:"Houdini", mp3:"kouzelník.mp3", mp4:"a82xf4.mp4", duration:"2:58" },
-  { num:3, title:"Training Season", mp3:"60m.mp3", mp4:"a82xvv.mp4", duration:"3:12" },
-  { num:4, title:"These Walls", mp3:"zeď.mp3", mp4:"a82xxp.mp4", duration:"3:21" },
-  { num:5, title:"Whatcha Doing", mp3:"Co.mp3", mp4:"a82ywb.mp4", duration:"2:46" },
-  { num:6, title:"French Exit", mp3:"Francosisch.mp3", mp4:"a82yxv.mp4", duration:"3:05" },
-  { num:7, title:"Illusion", mp3:"Iluze.mp3", mp4:"a82zdu.mp4", duration:"3:19" },
-  { num:8, title:"Falling Forever", mp3:"Padat.mp3", mp4:"a82zjs.mp4", duration:"3:29" },
-  { num:9, title:"Anything for Love", mp3:"Láska.mp3", mp4:"a82zlw.mp4", duration:"3:33" },
-  { num:10, title:"Maria", mp3:"Marie.mp3", mp4:"a82zxw.mp4", duration:"3:02" },
-  { num:11, title:"Happy for You", mp3:"Pro tebe.mp3", mp4:"a83003.mp4", duration:"3:16" }
+const tracks=[
+  {num:1,title:"End of an Era",mp3:"mech.mp3",mp4:"a82x20.mp4",duration:"3:35"},
+  {num:2,title:"Houdini",mp3:"kouzelník.mp3",mp4:"a82xf4.mp4",duration:"2:58"},
+  {num:3,title:"Training Season",mp3:"60m.mp3",mp4:"a82xvv.mp4",duration:"3:12"},
+  {num:4,title:"These Walls",mp3:"zeď.mp3",mp4:"a82xxp.mp4",duration:"3:21"},
+  {num:5,title:"Whatcha Doing",mp3:"Co.mp3",mp4:"a82ywb.mp4",duration:"2:46"},
+  {num:6,title:"French Exit",mp3:"Francosisch.mp3",mp4:"a82yxv.mp4",duration:"3:05"},
+  {num:7,title:"Illusion",mp3:"Iluze.mp3",mp4:"a82zdu.mp4",duration:"3:19"},
+  {num:8,title:"Falling Forever",mp3:"Padat.mp3",mp4:"a82zjs.mp4",duration:"3:29"},
+  {num:9,title:"Anything for Love",mp3:"Láska.mp3",mp4:"a82zlw.mp4",duration:"3:33"},
+  {num:10,title:"Maria",mp3:"Marie.mp3",mp4:"a82zxw.mp4",duration:"3:02"},
+  {num:11,title:"Happy for You",mp3:"Pro tebe.mp3",mp4:"a83003.mp4",duration:"3:16"}
 ];
 
-/* ================= ELEMENTS ================= */
-const playlistEl = document.getElementById('playlist');
-const introEl = document.getElementById('intro');
-const playAlbumBtn = document.getElementById('playAlbumBtn');
+const tracklistDiv=document.getElementById("tracklist");
+tracks.forEach(track=>{
+  const div=document.createElement("div");
+  div.className="track fade-in";
+  div.dataset.num=track.num-1;
+  div.innerHTML=`<div class="num">${track.num}</div>
+                 <div class="title">${track.title}</div>
+                 <div class="duration">${track.duration}</div>`;
+  div.addEventListener("click",()=>playTrack(track.num-1));
+  tracklistDiv.appendChild(div);
+});
 
-const fullPlayer = document.getElementById('fullPlayer');
-const bgVideo = document.getElementById('bgVideo');
-const fsTitle = document.getElementById('fsTitle');
-const playBtn = document.getElementById('playBtn');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const fsTime = document.getElementById('fsTime');
-const fsProgress = document.getElementById('fsProgress');
-const fsFill = document.getElementById('fsFill');
-const closeFull = document.getElementById('closeFull');
+// MINI PLAYER
+const miniPlayer=document.getElementById("mini-player");
+const miniTitle=document.getElementById("mini-title");
+const miniCover=document.getElementById("mini-cover");
+const miniPlay=document.getElementById("mini-play");
+const miniPrev=document.getElementById("mini-prev");
+const miniNext=document.getElementById("mini-next");
+const miniExpand=document.getElementById("mini-expand");
 
-const miniPlayer = document.getElementById('miniPlayer');
-const miniCover = document.getElementById('miniCover');
-const miniTitle = document.getElementById('miniTitle');
-const miniDesc = document.getElementById('miniDesc');
-const miniPlay = document.getElementById('miniPlay');
-const miniPrev = document.getElementById('miniPrev');
-const miniNext = document.getElementById('miniNext');
-const miniTime = document.getElementById('miniTime');
-const miniClickable = document.getElementById('miniClickable');
+// FULLSCREEN
+const fsPlayer=document.getElementById("fullscreen-player");
+const fsTitle=document.getElementById("fs-title");
+const bgVideo=document.getElementById("bg-video");
+const closeFull=document.getElementById("close-full");
+const playBtn=document.getElementById("play-btn");
+const prevBtn=document.getElementById("prev-btn");
+const nextBtn=document.getElementById("next-btn");
+const progressBar=document.getElementById("progress-bar");
+const progressFill=document.getElementById("progress-fill");
+const timeBig=document.getElementById("time-big");
 
-const audio = document.getElementById('audio');
+let currentIndex=0;
+let audio=new Audio();
+audio.autoplay=true;
+audio.preload="metadata";
 
-let currentIndex = null;
-let progressTimer = null;
-let isFullscreenOpen = false;
-
-/* ================= BUILD PLAYLIST UI ================= */
-function buildPlaylist(){
-  playlistEl.innerHTML = '';
-  tracks.forEach((t, i) => {
-    const row = document.createElement('div');
-    row.className = 'track';
-    row.dataset.index = i;
-    row.innerHTML = `<div class="left"><div class="num">${t.num}</div><div class="title">${t.title}</div></div><div class="duration">${t.duration}</div>`;
-    row.addEventListener('click', ()=> {
-      startTrack(i, true); // user-initiated -> open fullscreen and play
-    });
-    playlistEl.appendChild(row);
-  });
+// ===== FUNCTIONS =====
+function playTrack(index){
+  currentIndex=index;
+  const t=tracks[currentIndex];
+  audio.src=t.mp3;
+  audio.play();
+  miniPlayer.style.display="flex";
+  miniTitle.textContent=t.title;
+  miniCover.src="radical_optimism.jpg";
+  fsTitle.innerHTML=t.title;
+  bgVideo.src=t.mp4;
 }
-buildPlaylist();
+function playNext(){currentIndex=(currentIndex+1)%tracks.length;playTrack(currentIndex);}
+function playPrev(){currentIndex=(currentIndex-1+tracks.length)%tracks.length;playTrack(currentIndex);}
+audio.addEventListener("ended",()=>playNext());
 
-/* ================= UTILITIES ================= */
-function formatTime(s){
-  if(!isFinite(s)) return '0:00';
-  const m = Math.floor(s/60), sec = Math.floor(s%60);
-  return `${m}:${sec<10?'0'+sec:sec}`;
+// MINI CONTROLS
+miniPlay.addEventListener("click",()=>{audio.paused?audio.play():audio.pause();miniPlay.textContent=audio.paused?"▶":"⏸";});
+miniPrev.addEventListener("click",playPrev);
+miniNext.addEventListener("click",playNext);
+miniExpand.addEventListener("click",()=>{fsPlayer.style.display="flex";});
+
+// FULLSCREEN CONTROLS
+closeFull.addEventListener("click",()=>{fsPlayer.style.display="none";});
+playBtn.addEventListener("click",()=>{audio.paused?audio.play():audio.pause();playBtn.textContent=audio.paused?"▶":"⏸";});
+prevBtn.addEventListener("click",playPrev);
+nextBtn.addEventListener("click",playNext);
+
+// PROGRESS
+audio.addEventListener("timeupdate",()=>{
+  let percent=(audio.currentTime/audio.duration)*100;
+  progressFill.style.width=percent+"%";
+  timeBig.textContent=`${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+});
+progressBar.addEventListener("click",(e)=>{
+  let rect=progressBar.getBoundingClientRect();
+  let x=e.clientX-rect.left;
+  let perc=x/rect.width;
+  audio.currentTime=perc*audio.duration;
+});
+
+function formatTime(t){
+  if(isNaN(t)) return "0:00";
+  let m=Math.floor(t/60);
+  let s=Math.floor(t%60);
+  return m+":"+(s<10?"0"+s:s);
 }
-function highlightPlaylist(){
-  document.querySelectorAll('.track').forEach((el, idx) => {
-    el.classList.toggle('active', idx === currentIndex);
-  });
-}
-
-/* ================= OPEN / CLOSE FULLSCREEN ================= */
-function openFullscreen(){
-  fullPlayer.style.display = 'flex';
-  fullPlayer.setAttribute('aria-hidden','false');
-  document.body.style.overflow = 'hidden';
-  isFullscreenOpen = true;
-}
-function closeFullscreen(){
-  // keep audio running; just hide fullscreen UI and show intro/mini as needed
-  fullPlayer.style.display = 'none';
-  fullPlayer.setAttribute('aria-hidden','true');
-  document.body.style.overflow = 'auto';
-  isFullscreenOpen = false;
-}
-
-/* ================= PLAY / START TRACK =================
-   startTrack(index, openUi) -> loads track lazily, plays, updates UI
-   - openUi true -> open fullscreen if not open
-*/
-function startTrack(index, openUi=false){
-  if(index < 0 || index >= tracks.length) return;
-  currentIndex = index;
-  const t = tracks[index];
-
-  // lazy load media
-  audio.src = t.mp3;
-  audio.load();
-  bgVideo.src = t.mp4;
-  bgVideo.load();
-
-  // update UI
-  fsTitle.textContent = t.title;
-  miniTitle.textContent = t.title;
-  miniCover.src = 'radical_optimism.jpg';
-  miniDesc.textContent = 'Radical Optimism — Dua Lipa';
-  highlightPlaylist();
-
-  // play (user-initiated from UI => allowed)
-  audio.play().catch(()=>{/* autoplay blocked if no user gesture - but this function is called on user gesture in our flows */});
-  // try to keep video in sync
-  bgVideo.currentTime = audio.currentTime || 0;
-  bgVideo.play().catch(()=>{});
-
-  // start timers & UI
-  startProgressTimer();
-  miniPlayer.style.display = 'flex';
-  if(openUi) openFullscreen();
-  playBtn.textContent = '⏸';
-  miniPlay.textContent = '⏸';
-}
-
-/* ================= PROGRESS & TIME ================= */
-function startProgressTimer(){
-  if(progressTimer) clearInterval(progressTimer);
-  progressTimer = setInterval(()=> {
-    if(!audio.duration || isNaN(audio.duration)) return;
-    const pct = (audio.currentTime / audio.duration) * 100;
-    fsFill.style.width = pct + '%';
-    fsTime.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
-    miniTime.textContent = fsTime.textContent;
-    // keep video synced (simple sync)
-    if(Math.abs((bgVideo.currentTime || 0) - (audio.currentTime || 0)) > 0.5) {
-      try { bgVideo.currentTime = audio.currentTime; } catch(e){}
-    }
-  }, 200);
-}
-
-/* ================= PLAYER CONTROLS ================= */
-playBtn.addEventListener('click', ()=>{
-  if(!audio.src) { startTrack(0, true); return; } // if nothing loaded, start first track
-  if(audio.paused){ audio.play().catch(()=>{}); bgVideo.play().catch(()=>{}); playBtn.textContent='⏸'; miniPlay.textContent='⏸'; }
-  else { audio.pause(); bgVideo.pause(); playBtn.textContent='▶'; miniPlay.textContent='▶'; }
-});
-miniPlay.addEventListener('click', ()=> playBtn.click());
-
-prevBtn.addEventListener('click', ()=> {
-  if(currentIndex === null) startTrack(0, true);
-  else startTrack((currentIndex - 1 + tracks.length) % tracks.length, true);
-});
-miniPrev.addEventListener('click', ()=> prevBtn.click());
-
-nextBtn.addEventListener('click', ()=> {
-  if(currentIndex === null) startTrack(0, true);
-  else startTrack((currentIndex + 1) % tracks.length, true);
-});
-miniNext.addEventListener('click', ()=> nextBtn.click());
-
-/* ================= SEEK via progress bar ================= */
-fsProgress.addEventListener('click', (e)=>{
-  if(!audio.duration) return;
-  const rect = fsProgress.getBoundingClientRect();
-  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-  audio.currentTime = pct * audio.duration;
-  try { bgVideo.currentTime = audio.currentTime; } catch(e){}
-  // update immediately
-  fsFill.style.width = (pct*100) + '%';
-});
-
-/* ================= AUTOPLAY NEXT ON END ================= */
-audio.addEventListener('ended', ()=>{
-  if(currentIndex === null) return;
-  if(currentIndex < tracks.length - 1) startTrack(currentIndex + 1, true);
-  else {
-    // reached end: stop UI but keep mini visible
-    playBtn.textContent = '▶';
-    miniPlay.textContent = '▶';
-    fsFill.style.width = '0%';
-    fsTime.textContent = `0:00 / ${formatTime(audio.duration||0)}`;
-  }
-});
-
-/* ================= OPEN FULLSCREEN FROM MINI (click area, not buttons) ================= */
-miniClickable.addEventListener('click', (e)=>{
-  // if clicked a button inside mini, ignore (we handle buttons separately)
-  if(e.target.closest('button')) return;
-  if(!audio.src){
-    // if no audio playing yet, start first track and open fullscreen
-    startTrack(0, true);
-  } else {
-    openFullscreen();
-  }
-});
-
-/* ================= CLOSE FULLSCREEN (keep audio running) ================= */
-closeFull.addEventListener('click', ()=>{
-  closeFullscreen();
-});
-
-/* ================= PLAY ALBUM BUTTON ================= */
-playAlbumBtn.addEventListener('click', ()=>{
-  // animate intro out, show player and mini, start first track
-  introEl.style.transform = 'translateY(-110%)';
-  // small delay to allow transform; then open UI & play
-  setTimeout(()=>{
-    startTrack(0, true);
-  }, 220);
-});
-
-/* ================= INITIAL UI STATE ================= */
-miniPlayer.style.display = 'none';
-fullPlayer.style.display = 'none';
-fsFill.style.width = '0%';
-fsTime.textContent = '0:00 / 0:00';
-miniTime.textContent = '0:00 / 0:00';
-
-/* ================= KEYBOARD SHORTCUTS (optional) ================= */
-window.addEventListener('keydown', (e)=>{
-  if(e.code === 'Space'){ e.preventDefault(); playBtn.click(); }
-  if(e.code === 'ArrowRight'){ nextBtn.click(); }
-  if(e.code === 'ArrowLeft'){ prevBtn.click(); }
-});
-
-/* ================= SAFETY: if user navigates away, pause media to save CPU ================= */
-window.addEventListener('visibilitychange', ()=>{
-  if(document.hidden){ /* keep playing if you prefer; currently no change */ }
-});
-
-/* ================= NOTES ================= */
-/*
- - Ujisti se, že všechny MP3/MP4 soubory + radical_optimism.jpg jsou v té samé složce jako tento index.html.
- - Pokud chceš crossfade, vizualizér nebo shuffle/repeat, dám to do další verze (můžu přidat i crossfade 0.5-1s při přechodu).
- - Pokud se video nebo audio nespustí automaticky, je to kvůli prohlížeči; kliknutí na "Přehraj album" / track rozehraje (interakce).
-*/
 </script>
 </body>
 </html>

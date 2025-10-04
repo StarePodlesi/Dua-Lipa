@@ -4,63 +4,281 @@
 <meta charset="UTF-8">
 <title>Dua Lipa – Radical Optimism</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="radical_optimism.jpg" type="image/x-icon">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Arial',sans-serif;background:linear-gradient(to bottom,#40E0D0,#ffffff);color:white;transition:0.5s;}
-header{text-align:center;padding:40px 20px;background:linear-gradient(120deg,#40E0D0,#ffffff);color:black;transition:0.5s;}
-header h1{font-size:3em;font-weight:bold;text-shadow:2px 2px 5px rgba(0,0,0,0.5);}
-header p{max-width:900px;margin:20px auto;font-size:1.3em;line-height:1.6em;font-weight:bold;text-shadow:1px 1px 3px rgba(0,0,0,0.3);transition:0.5s;}
-.album-cover{display:block;margin:30px auto;width:320px;border-radius:20px;box-shadow:0 0 50px rgba(0,0,0,0.7);}
-.tracklist{max-width:900px;margin:30px auto;padding:25px;background:rgba(0,0,0,0.4);border-radius:25px;box-shadow:0 0 30px rgba(0,0,0,0.4);}
-.track{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.2);cursor:pointer;transition:0.3s;font-size:1.2em;font-weight:bold;}
-.track:hover{background: rgba(255,255,255,0.1);transform:scale(1.02);}
-#fullscreen-player{position:fixed;top:0;left:0;width:100%;height:100%;display:none;justify-content:flex-end;align-items:center;background:black;z-index:999;flex-direction:column;overflow:hidden;}
-.video-overlay{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:0;transition:0.5s;}
-.video-overlay video{width:100%;height:100%;object-fit:cover;}
-#fullscreen-info{width:100%;position:absolute;bottom:0;background:linear-gradient(to top,#40E0D0,#ffffff);color:black;display:flex;flex-direction:column;padding:50px;transition:0.5s;border-top-left-radius:15px;border-top-right-radius:15px;}
-#fullscreen-info.small{padding:8px 15px;height:70px;background:black;}
-.info-top{display:flex;justify-content:space-between;align-items:center;position:relative;}
-#fullscreen-title{font-size:3em;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-#fullscreen-info.small #fullscreen-title{font-size:1.2em;color:white;}
-.controls{display:flex;gap:10px;align-items:center;}
-.controls button{font-size:32px;width:50px;height:50px;border-radius:50%;background:#333;color:white;border:none;cursor:pointer;transition:0.3s;}
-.controls button:hover{background:#40E0D0;}
-#close-fullscreen{position:absolute;top:10px;right:20px;font-size:32px;cursor:pointer;color:#ff3333;}
-#toggle-size{cursor:pointer;font-size:28px;margin-left:15px;transition:0.5s;}
-#time-display{margin-left:15px;font-weight:bold;}
-.progress-container{width:100%;height:10px;background:black;border-radius:5px;margin-top:10px;position:relative;cursor:pointer;}
-#progress-bar{height:100%;width:0%;background:#40E0D0;border-radius:5px;transition:width 0.1s linear;}
-#mini-player{position:fixed;bottom:0;right:0;width:auto;background:linear-gradient(to right,#40E0D0,#ffffff);display:none;align-items:center;justify-content:space-between;padding:8px 15px;box-shadow:0 -2px 10px rgba(0,0,0,0.3);z-index:1000;transition:all 0.5s;}
-#mini-title{font-weight:bold;font-size:1.2em;color:black;}
-#mini-controls{display:flex;align-items:center;}
-#mini-controls button{font-size:28px;margin:0 5px;cursor:pointer;border:none;border-radius:50%;width:40px;height:40px;color:white;background:#333;transition:0.3s;}
+* {box-sizing:border-box;margin:0;padding:0;}
+body {
+  font-family:'Arial',sans-serif;
+  overflow-x:hidden;
+  background: linear-gradient(to bottom, #40E0D0, #ffffff);
+  color:white;
+}
+
+/* ================= HEADER ================= */
+header {
+  text-align:center;
+  padding:40px 20px;
+  background:linear-gradient(120deg,#40E0D0,#ffffff);
+  color:black;
+  transition:0.5s;
+}
+header h1 {
+  font-size:3em;
+  font-weight:bold;
+  text-shadow:2px 2px 5px rgba(0,0,0,0.5);
+}
+header p {
+  max-width:900px;
+  margin:20px auto;
+  font-size:1.3em;
+  line-height:1.6em;
+  font-weight:bold;
+  text-shadow:1px 1px 3px rgba(0,0,0,0.3);
+}
+
+/* ================= ALBUM COVER ================= */
+.album-cover {
+  display:block;
+  margin:30px auto;
+  width:320px;
+  border-radius:20px;
+  box-shadow:0 0 50px rgba(0,0,0,0.7);
+}
+
+/* ================= TRACKLIST ================= */
+.tracklist {
+  max-width:900px;
+  margin:30px auto;
+  padding:25px;
+  background:rgba(0,0,0,0.4);
+  border-radius:25px;
+  box-shadow:0 0 30px rgba(0,0,0,0.4);
+}
+.track {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.2);
+  cursor:pointer;
+  transition:0.3s;
+  font-size:1.2em;
+  font-weight:bold;
+}
+.track:hover {
+  background: rgba(255,255,255,0.1);
+  transform:scale(1.02);
+}
+
+/* ================= FULLSCREEN PLAYER ================= */
+#fullscreen-player {
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  display:none;
+  justify-content:flex-end;
+  align-items:center;
+  background:black;
+  z-index:999;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.video-overlay {
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  overflow:hidden;
+  z-index:0;
+  transition:opacity 0.5s;
+}
+.video-overlay video {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* fullscreen info panel */
+#fullscreen-info{
+  width:100%;
+  position:absolute;
+  bottom:0;
+  background:linear-gradient(to top,#40E0D0,#ffffff);
+  color:black;
+  display:flex;
+  flex-direction:column;
+  padding:50px;
+  border-top-left-radius:15px;
+  border-top-right-radius:15px;
+  transition:0.5s;
+}
+#fullscreen-info.small{
+  padding:8px 15px;
+  height:70px;
+  background:black;
+}
+
+/* info top */
+.info-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+#fullscreen-title{
+  font-size:2.5em;
+  font-weight:bold;
+  transition:all 0.5s ease;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+#fullscreen-info.small #fullscreen-title{
+  font-size:1.2em;
+}
+
+/* controls */
+.controls{
+  display:flex;
+  gap:10px;
+}
+.controls button{
+  font-size:32px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:#333;
+  color:white;
+  border:none;
+  cursor:pointer;
+  transition:0.3s;
+}
+.controls button:hover { background:#40E0D0; }
+
+/* toggle and close */
+#toggle-size{
+  cursor:pointer;
+  font-size:28px;
+  margin-left:15px;
+  transition:transform 0.5s ease;
+}
+#close-fullscreen{
+  position:absolute;
+  top:10px;
+  right:10px;
+  font-size:32px;
+  cursor:pointer;
+  color:#ff3333;
+  z-index:1001;
+}
+
+/* progress bar */
+.progress-container{
+  width:100%;
+  height:10px;
+  background:black;
+  border-radius:5px;
+  margin-top:10px;
+  position:relative;
+}
+#progress-bar{
+  height:100%;
+  width:0%;
+  background:#40E0D0;
+  border-radius:5px;
+  transition:width 0.1s linear;
+}
+
+/* ================= MINI PLAYER ================= */
+#mini-player{
+  position:fixed;
+  bottom:0; left:0;
+  width:100%;
+  background:linear-gradient(to right,#40E0D0,#ffffff);
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 15px;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.3);
+  z-index:1000;
+}
+#mini-player #mini-title{
+  font-weight:bold;
+  font-size:1.2em;
+  color:black;
+}
+#mini-controls{
+  display:flex;
+  align-items:center;
+}
+#mini-controls button{
+  font-size:28px;
+  margin:0 5px;
+  cursor:pointer;
+  border:none;
+  border-radius:50%;
+  width:40px; height:40px;
+  color:white;
+  background:#333;
+  transition:0.3s;
+}
 #mini-controls button:hover{background:#40E0D0;}
-#mini-arrow{cursor:pointer;font-size:24px;margin-left:10px;}
+#mini-arrow{
+  position:absolute;
+  bottom:10px;
+  right:10px;
+  font-size:28px;
+  cursor:pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:1200px){
+  header h1{font-size:2.5em;}
+  header p{font-size:1.1em;}
+  .album-cover{width:280px;}
+  .track{font-size:1.1em;}
+  #fullscreen-title{font-size:2em;}
+}
+@media(max-width:768px){
+  header h1{font-size:2em;}
+  header p{font-size:1em;}
+  .album-cover{width:220px;}
+  .track{font-size:1em;}
+  #fullscreen-title{font-size:1.5em;}
+}
+@media(max-width:480px){
+  header h1{font-size:1.5em;}
+  header p{font-size:0.9em;}
+  .album-cover{width:180px;}
+  .track{font-size:0.9em;}
+  #fullscreen-title{font-size:1em;}
+}
 </style>
 </head>
 <body>
+
 <header id="header">
 <h1>Dua Lipa – Radical Optimism (2024)</h1>
-<p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Obsahuje 11 skladeb a kombinuje taneční pop, disco a moderní elektroniku. Singly <em>Houdini</em>, <em>Training Season</em> a <em>Illusion</em> se staly hity.</p>
+<p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Obsahuje 11 skladeb a kombinuje taneční pop, disco a moderní elektroniku. Singly <em>Houdini</em>, <em>Training Season</em> a <em>Illusion</em> se staly hity. Album reflektuje radikální optimismus a hledání radosti i v těžkých časech.</p>
 </header>
-<img src="radical_optimism.jpg" alt="Cover" class="album-cover">
+
+<img src="radical_optimism.jpg" alt="Cover" class="album-cover" loading="lazy">
+
 <div class="tracklist" id="tracklist"></div>
 
 <div id="fullscreen-player">
   <div class="video-overlay">
     <video id="bg-video" autoplay muted loop playsinline preload="none"></video>
   </div>
-  <div id="fullscreen-info">
+  <div id="fullscreen-info" class="expanded">
+    <span id="close-fullscreen">✖️</span>
     <div class="info-top">
       <div id="fullscreen-title"></div>
       <div class="controls">
         <button onclick="prevSong()">⏮️</button>
         <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
         <button onclick="nextSong()">⏭️</button>
+        <span id="toggle-size" onclick="toggleFullscreenSize()">⬇️</span>
       </div>
-      <span id="time-display">0:00 / 0:00</span>
-      <span id="toggle-size" onclick="toggleFullscreenSize()">⬇️</span>
-      <span id="close-fullscreen" onclick="closeFullscreen()">✖️</span>
     </div>
     <div class="progress-container" id="progress-container">
       <div id="progress-bar"></div>
@@ -80,19 +298,20 @@ header p{max-width:900px;margin:20px auto;font-size:1.3em;line-height:1.6em;font
 </div>
 
 <script>
-// TRACKS
+// ======================== TRACKS ========================
 const tracks=[
-{title:"End of an Era",file:"mech.mp3",length:"3:36",video:"a82x20.mp4"},
-{title:"Houdini",file:"kouzelník.mp3",length:"3:06",video:"a82xf4.mp4"},
-{title:"Training Season",file:"60m.mp3",length:"3:30",video:"a82xvv.mp4"},
-{title:"These Walls",file:"zeď.mp3",length:"3:36",video:"a82xxp.mp4"},
-{title:"Whatcha Doing",file:"Co.mp3",length:"3:08",video:"a82ywb.mp4"},
-{title:"French Exit",file:"Francosisch.mp3",length:"3:22",video:"a82yxv.mp4"},
-{title:"Illusion",file:"Iluze.mp3",length:"3:08",video:"a82zdu.mp4"},
-{title:"Falling Forever",file:"Padat.mp3",length:"3:51",video:"a82zjs.mp4"},
-{title:"Anything for Love",file:"Láska.mp3",length:"2:59",video:"a82zlw.mp4"},
-{title:"Maria",file:"Marie.mp3",length:"2:52",video:"a82zxw.mp4"},
-{title:"Happy for You",file:"Pro tebe.mp3",length:"4:09",video:"a83003.mp4"}];
+  {title:"End of an Era", file:"mech.mp3", length:"3:36", video:"a82x20.mp4"},
+  {title:"Houdini", file:"kouzelník.mp3", length:"3:06", video:"a82xf4.mp4"},
+  {title:"Training Season", file:"60m.mp3", length:"3:30", video:"a82xvv.mp4"},
+  {title:"These Walls", file:"zeď.mp3", length:"3:36", video:"a82xxp.mp4"},
+  {title:"Whatcha Doing", file:"Co.mp3", length:"3:08", video:"a82ywb.mp4"},
+  {title:"French Exit", file:"Francosisch.mp3", length:"3:22", video:"a82yxv.mp4"},
+  {title:"Illusion", file:"Iluze.mp3", length:"3:08", video:"a82zdu.mp4"},
+  {title:"Falling Forever", file:"Padat.mp3", length:"3:51", video:"a82zjs.mp4"},
+  {title:"Anything for Love", file:"Láska.mp3", length:"2:59", video:"a82zlw.mp4"},
+  {title:"Maria", file:"Marie.mp3", length:"2:52", video:"a82zxw.mp4"},
+  {title:"Happy for You", file:"Pro tebe.mp3", length:"4:09", video:"a83003.mp4"}
+];
 
 let tracklistDiv=document.getElementById("tracklist");
 let fullscreenPlayer=document.getElementById("fullscreen-player");
@@ -103,7 +322,6 @@ let playPauseBtn=document.getElementById("play-pause-btn");
 let progressBar=document.getElementById("progress-bar");
 let progressContainer=document.getElementById("progress-container");
 let header=document.getElementById("header");
-let timeDisplay=document.getElementById("time-display");
 let currentTrack=0;
 let progressInterval;
 let miniPlayer=document.getElementById("mini-player");
@@ -111,30 +329,18 @@ let miniTitle=document.getElementById("mini-title");
 let miniPlayPause=document.getElementById("mini-play-pause");
 let miniArrow=document.getElementById("mini-arrow");
 let isFullscreenSmall=false;
+let closeFullscreenBtn=document.getElementById("close-fullscreen");
 
-function toggleFullscreenSize(){
-  const info=document.getElementById("fullscreen-info");
-  if(isFullscreenSmall){
-    info.classList.remove("small");
-    bgVideo.style.opacity="1";
-    header.style.display="none";
-    isFullscreenSmall=false;
-  }else{
-    info.classList.add("small");
-    bgVideo.style.opacity="0";
-    header.style.display="block";
-    isFullscreenSmall=true;
-  }
-}
-
+// ================= CREATE TRACKLIST =================
 tracks.forEach((t,i)=>{
   let div=document.createElement("div");
   div.className="track";
   div.innerHTML=`<span class="title">${i+1}. ${t.title}</span><span class="duration">${t.length}</span>`;
-  div.onclick=()=>openFullscreen(i);
+  div.onclick=()=> openFullscreen(i);
   tracklistDiv.appendChild(div);
 });
 
+// ================= FUNCTIONS =================
 function openFullscreen(index){
   currentTrack=index;
   let t=tracks[index];
@@ -150,8 +356,9 @@ function openFullscreen(index){
   bgVideo.play();
   playPauseBtn.textContent="⏸️";
   miniPlayPause.textContent="⏸️";
+
   bgVideo.style.opacity="1";
-  isFullscreenSmall=false;
+
   clearInterval(progressInterval);
   progressInterval=setInterval(updateProgress,500);
 }
@@ -159,35 +366,78 @@ function openFullscreen(index){
 function closeFullscreen(){
   fullscreenPlayer.style.display="none";
   header.style.display="block";
-  miniPlayer.style.display="none";
+  miniPlayer.style.display="flex";
   audio.pause();
   bgVideo.pause();
 }
 
 function togglePlay(){
-  if(audio.paused){audio.play();bgVideo.play();playPauseBtn.textContent="⏸️";miniPlayPause.textContent="⏸️";}
-  else{audio.pause();bgVideo.pause();playPauseBtn.textContent="▶️";miniPlayPause.textContent="▶️";}
+  if(audio.paused){
+    audio.play(); bgVideo.play();
+    playPauseBtn.textContent="⏸️";
+    miniPlayPause.textContent="⏸️";
+  } else {
+    audio.pause(); bgVideo.pause();
+    playPauseBtn.textContent="▶️";
+    miniPlayPause.textContent="▶️";
+  }
 }
 
-function prevSong(){if(currentTrack>0)openFullscreen(currentTrack-1);}
-function nextSong(){if(currentTrack<tracks.length-1)openFullscreen(currentTrack+1);}
+function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
+function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
 
 function updateProgress(){
   if(audio.duration){
     let percent=(audio.currentTime/audio.duration)*100;
     progressBar.style.width=percent+"%";
-    let cur=Math.floor(audio.currentTime/60)+":"+("0"+Math.floor(audio.currentTime%60)).slice(-2);
-    let tot=Math.floor(audio.duration/60)+":"+("0"+Math.floor(audio.duration%60)).slice(-2);
-    timeDisplay.textContent=cur+" / "+tot;
   }
 }
 
-function updateMini(){miniPlayer.style.display="flex";miniTitle.textContent=tracks[currentTrack].title;miniPlayPause.textContent=audio.paused?"▶️":"⏸️";}
-function toggleMiniPlay(){togglePlay();}
-miniArrow.onclick=()=>{openFullscreen(currentTrack);}
-audio.onended=function(){if(currentTrack<tracks.length-1)openFullscreen(currentTrack+1);else{audio.pause();playPauseBtn.textContent="▶️";miniPlayPause.textContent="▶️";progressBar.style.width="0%";}}
-progressContainer.addEventListener("click",(e)=>{const rect=progressContainer.getBoundingClientRect();const clickX=e.clientX-rect.left;const width=rect.width;const duration=audio.duration;audio.currentTime=(clickX/width)*duration;updateProgress();});
+// mini player
+function updateMini(){
+  miniPlayer.style.display="flex";
+  miniTitle.textContent=tracks[currentTrack].title;
+  miniPlayPause.textContent=audio.paused ? "▶️":"⏸️";
+}
+
+// mini controls
+function toggleMiniPlay(){ togglePlay(); }
+miniArrow.onclick = ()=>{ toggleFullscreenSize(); }
+
+// fullscreen toggle
+function toggleFullscreenSize(){
+  const info=document.getElementById("fullscreen-info");
+  if(isFullscreenSmall){
+    info.classList.remove("small");
+    bgVideo.style.opacity="1";
+    header.style.display="none";
+    isFullscreenSmall=false;
+  } else {
+    info.classList.add("small");
+    bgVideo.style.opacity="0";
+    header.style.display="block";
+    isFullscreenSmall=true;
+  }
+}
+
+// close button
+closeFullscreenBtn.onclick=()=>{ closeFullscreen(); };
+
+// audio ended
+audio.onended=function(){
+  if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1);
+  else {audio.pause(); playPauseBtn.textContent="▶️"; miniPlayPause.textContent="▶️"; progressBar.style.width="0%";}
+}
+
+// progress click
+progressContainer.addEventListener("click",(e)=>{
+  const rect=progressContainer.getBoundingClientRect();
+  const clickX=e.clientX-rect.left;
+  const width=rect.width;
+  const duration=audio.duration;
+  audio.currentTime=(clickX/width)*duration;
+  updateProgress();
+});
 </script>
 </body>
 </html>
-

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Dua Lipa – Radical Optimism</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: url("background.gif") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    header {
+      background: rgba(0,0,0,0.7);
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.2em;
+      color: #1db954;
+    }
+    .album-cover {
+      display: block;
+      margin: 20px auto;
+      width: 250px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+    .description {
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 15px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 16px;
+      line-height: 1.5em;
+    }
+    .tracklist {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 20px;
+    }
+    .track {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+      padding: 10px;
+      border-bottom: 1px solid #444;
+      cursor: pointer;
+    }
+    .info {
+      flex: 1;
+      margin-left: 15px;
+    }
+    .title {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+    .duration {
+      font-size: 0.9em;
+      color: #ccc;
+    }
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: #333;
+      border-radius: 3px;
+      cursor: pointer;
+      margin: 5px 0;
+    }
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: #1db954;
+      border-radius: 3px;
+    }
+    button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    /* Fullscreen player */
+    #fullscreen-player {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    #fullscreen-player img {
+      width: 300px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    #fullscreen-player .song-title {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    #fullscreen-player .duration {
+      margin-bottom: 10px;
+    }
+    #fullscreen-player .progress-container {
+      width: 80%;
+    }
+    .controls {
+      margin-top: 20px;
+    }
+    .controls button {
+      font-size: 28px;
+      margin: 0 15px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Dua Lipa – Radical Optimism (2024)</h1>
+  <p>Album s tracklistem a přehrávačem ve stylu Spotify</p>
+</header>
+
+<img src="radical_optimism.jpg" alt="Radical Optimism Cover" class="album-cover">
+
+<div class="description">
+  <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024.
+  Album obsahuje 11 skladeb a navazuje na úspěch předchozích desek „Dua Lipa“ (2017) a „Future Nostalgia“ (2020).
+  Zvukově kombinuje taneční pop, disco a moderní elektronické prvky. Singly jako
+  <em>Houdini</em>, <em>Training Season</em> a <em>Illusion</em> se staly celosvětovými hity. 
+  Deska reprezentuje poselství radikálního optimismu – schopnosti najít naději i v těžkých časech.</p>
+</div>
+
+<div class="tracklist" id="tracklist">
+
+  <!-- Tracky se generují v JS -->
+
+</div>
+
+<!-- Fullscreen player -->
+<div id="fullscreen-player">
+  <button class="close-btn" onclick="closeFullscreen()">✖</button>
+  <img src="radical_optimism.jpg" alt="Cover" id="fullscreen-cover">
+  <div class="song-title" id="fullscreen-title"></div>
+  <div class="duration" id="fullscreen-duration">0:00 / 0:00</div>
+  <div class="progress-container" id="fullscreen-progress-container">
+    <div class="progress" id="fullscreen-progress"></div>
+  </div>
+  <div class="controls">
+    <button onclick="prevSong()">⏮️</button>
+    <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
+    <button onclick="nextSong()">⏭️</button>
+  </div>
+</div>
+
+<script>
+const tracks = [
+  {title: "End of an Era", file: "end_of_an_era.mp3", length: "3:36"},
+  {title: "Houdini", file: "houdini.mp3", length: "3:06"},
+  {title: "Training Season", file: "training_season.mp3", length: "3:30"},
+  {title: "These Walls", file: "these_walls.mp3", length: "3:36"},
+  {title: "Whatcha Doing", file: "whatcha_doing.mp3", length: "3:08"},
+  {title: "French Exit", file: "french_exit.mp3", length: "3:22"},
+  {title: "Illusion", file: "illusion.mp3", length: "3:08"},
+  {title: "Falling Forever", file: "falling_forever.mp3", length: "3:51"},
+  {title: "Anything for Love", file: "anything_for_love.mp3", length: "2:59"},
+  {title: "Maria", file: "maria.mp3", length: "2:52"},
+  {title: "Happy for You", file: "happy_for_you.mp3", length: "4:09"}
+];
+
+const tracklistDiv = document.getElementById("tracklist");
+let currentAudio = new Audio();
+let currentTrack = null;
+
+// Generování tracklistu
+tracks.forEach((t, i) => {
+  let div = document.createElement("div");
+  div.className = "track";
+  div.innerHTML = `
+    <div class="info">
+      <span class="title">${i+1}. ${t.title}</span><br>
+      <span class="duration">${t.length}</span>
+    </div>
+  `;
+  div.onclick = () => openFullscreen(i);
+  tracklistDiv.appendChild(div);
+});
+
+// Fullscreen ovládání
+let fullscreenPlayer = document.getElementById("fullscreen-player");
+let fullscreenTitle = document.getElementById("fullscreen-title");
+let fullscreenDuration = document.getElementById("fullscreen-duration");
+let fullscreenProgress = document.getElementById("fullscreen-progress");
+let fullscreenProgressContainer = document.getElementById("fullscreen-progress-container");
+let playPauseBtn = document.getElementById("play-pause-btn");
+
+function openFullscreen(index) {
+  currentTrack = index;
+  let t = tracks[index];
+  fullscreenPlayer.style.display = "flex";
+  fullscreenTitle.textContent = t.title;
+  currentAudio.src = "mp3/" + t.file;
+  currentAudio.play();
+  playPauseBtn.textContent = "⏸️";
+
+  currentAudio.ontimeupdate = () => {
+    let percent = (currentAudio.currentTime / currentAudio.duration) * 100;
+    fullscreenProgress.style.width = percent + "%";
+    let currentMin = Math.floor(currentAudio.currentTime / 60);
+    let currentSec = Math.floor(currentAudio.currentTime % 60).toString().padStart(2, '0');
+    let totalMin = Math.floor(currentAudio.duration / 60);
+    let totalSec = Math.floor(currentAudio.duration % 60).toString().padStart(2, '0');
+    fullscreenDuration.textContent = `${currentMin}:${currentSec} / ${totalMin}:${totalSec}`;
+  };
+
+  fullscreenProgressContainer.onclick = (e) => {
+    let width = fullscreenProgressContainer.clientWidth;
+    let clickX = e.offsetX;
+    let duration = currentAudio.duration;
+    currentAudio.currentTime = (clickX / width) * duration;
+  };
+}
+
+function closeFullscreen() {
+  fullscreenPlayer.style.display = "none";
+  currentAudio.pause();
+}
+
+function togglePlay() {
+  if (currentAudio.paused) {
+    currentAudio.play();
+    playPauseBtn.textContent = "⏸️";
+  } else {
+    currentAudio.pause();
+    playPauseBtn.textContent = "▶️";
+  }
+}
+
+function prevSong() {
+  if (currentTrack > 0) {
+    openFullscreen(currentTrack - 1);
+  }
+}
+
+function nextSong() {
+  if (currentTrack < tracks.length - 1) {
+    openFullscreen(currentTrack + 1);
+  }
+}
+</script>
+
+</body>
+</html>

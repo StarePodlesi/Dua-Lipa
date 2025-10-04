@@ -49,90 +49,72 @@ header p {
 }
 .track:hover { background: rgba(0,255,255,0.1); transform:scale(1.02); }
 
-/* Fullscreen Player */
+/* Player */
+#player-container {
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  z-index:999;
+}
 #fullscreen-player {
   position:fixed;
   top:0; left:0;
   width:100%; height:100%;
   display:none;
   flex-direction:column;
-  z-index:999;
+  z-index:1000;
   background:black;
   overflow:hidden;
-  transition: all 0.5s ease;
 }
-#fullscreen-player.minimized {
-  height:60px;
-  bottom:0;
-  top:auto;
-  flex-direction:row;
-  background:black;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
-}
-.video-overlay { position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden; }
+.video-overlay { position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; }
 .video-overlay video { width:100%; height:100%; object-fit:cover; }
-#fullscreen-info {
+
+#fullscreen-bar {
+  position:absolute;
+  bottom:0;
   width:100%;
-  z-index:1;
-  padding:20px;
+  background:linear-gradient(to right, #40E0D0, #ffffff);
+  padding:10px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
+  z-index:2;
 }
-#fullscreen-player.minimized #fullscreen-info {
-  flex-direction:row;
-  align-items:center;
-  justify-content:space-between;
-  padding:5px 10px;
-}
-#fullscreen-title {
-  font-size:2em;
-  margin-bottom:10px;
-  color:white;
-  text-align:center;
-}
-#fullscreen-player.minimized #fullscreen-title { font-size:1em; margin:0; }
-.progress-container {
+#fullscreen-bar .progress-container {
   width:90%;
-  background:#555;
+  background:#aaa;
   height:8px;
   border-radius:6px;
-  margin:10px auto;
-  position:relative;
   cursor:pointer;
-  flex-grow:1;
+  margin-bottom:8px;
+  position:relative;
 }
-#progress-bar {
+#fullscreen-bar #progress-bar {
   width:0%; height:100%;
   background:#1db954;
   border-radius:6px;
   transition:width 0.1s linear;
 }
-.controls { display:flex; justify-content:center; margin-top:15px; }
-#fullscreen-player.minimized .controls { margin:0; }
-.controls button {
-  font-size:20px;
-  margin:0 10px;
+#fullscreen-bar .controls { display:flex; justify-content:center; }
+#fullscreen-bar .controls button { margin:0 10px; font-size:20px; padding:5px 8px; border:none; border-radius:50%; background:#333; color:white; cursor:pointer; }
+#fullscreen-bar .controls button:hover{ background:#1db954; }
+
+#minimized-bar {
+  width:100%;
+  background:linear-gradient(to right, #40E0D0, #ffffff);
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  padding:5px 10px;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.3);
   cursor:pointer;
-  background:#333;
-  border:none;
-  border-radius:50%;
-  width:40px;
-  height:40px;
-  color:white;
-  transition:0.3s;
 }
-.controls button:hover { background:#1db954; }
-.close-btn {
-  position:absolute;
-  top:10px;
-  right:15px;
-  font-size:28px;
-  cursor:pointer;
-  z-index:2;
-  color:white;
-}
+#minimized-bar span { font-weight:bold; }
+#minimized-bar button { font-size:20px; background:none; border:none; cursor:pointer; }
+
 audio { display:none; }
 
 /* Responsive */
@@ -140,13 +122,11 @@ audio { display:none; }
   header h1{font-size:2em;}
   header p{font-size:1em;}
   .album-cover{width:200px;}
-  .controls button{width:35px;height:35px;font-size:18px;}
 }
 @media(max-width:480px){
   header h1{font-size:1.5em;}
   header p{font-size:0.9em;}
   .album-cover{width:150px;}
-  .controls button{width:30px;height:30px;font-size:16px;}
 }
 </style>
 </head>
@@ -161,22 +141,29 @@ audio { display:none; }
 
 <div class="tracklist" id="tracklist"></div>
 
-<div id="fullscreen-player">
-  <span class="close-btn" onclick="toggleMinimize()">⬇️</span>
-  <div class="video-overlay">
-    <video id="bg-video" autoplay muted loop playsinline preload="none"></video>
-  </div>
-  <div id="fullscreen-info">
-    <div id="fullscreen-title"></div>
-    <div class="progress-container" id="progress-container">
-      <div id="progress-bar"></div>
+<div id="player-container">
+  <div id="fullscreen-player">
+    <div class="video-overlay">
+      <video id="bg-video" autoplay muted loop playsinline preload="none"></video>
     </div>
-    <div class="controls">
-      <button onclick="prevSong()">⏮️</button>
-      <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
-      <button onclick="nextSong()">⏭️</button>
+    <div id="fullscreen-bar">
+      <div class="progress-container" id="progress-container">
+        <div id="progress-bar"></div>
+      </div>
+      <div class="controls">
+        <button onclick="prevSong()">⏮️</button>
+        <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
+        <button onclick="nextSong()">⏭️</button>
+        <button onclick="minimizePlayer()">⬇️</button>
+      </div>
     </div>
   </div>
+
+  <div id="minimized-bar">
+    <span id="minimized-title"></span>
+    <button onclick="restorePlayer()">⬆️</button>
+  </div>
+
   <audio id="audio" preload="none"></audio>
 </div>
 
@@ -196,8 +183,10 @@ const tracks = [
 ];
 
 let tracklistDiv = document.getElementById("tracklist");
-let player = document.getElementById("fullscreen-player");
-let fullscreenTitle = document.getElementById("fullscreen-title");
+let fullscreen = document.getElementById("fullscreen-player");
+let minimized = document.getElementById("minimized-bar");
+let fullscreenBar = document.getElementById("fullscreen-bar");
+let minimizedTitle = document.getElementById("minimized-title");
 let audio = document.getElementById("audio");
 let bgVideo = document.getElementById("bg-video");
 let playPauseBtn = document.getElementById("play-pause-btn");
@@ -218,10 +207,10 @@ tracks.forEach((t,i)=>{
 function openFullscreen(index){
   currentTrack = index;
   let t = tracks[index];
-  player.style.display="flex";
-  player.classList.remove("minimized");
+  fullscreen.style.display="flex";
+  minimized.style.display="none";
   header.style.display="none";
-  fullscreenTitle.textContent = t.title;
+  minimizedTitle.textContent = t.title;
 
   audio.src = t.file;
   bgVideo.src = t.video;
@@ -233,8 +222,14 @@ function openFullscreen(index){
   progressInterval = setInterval(updateProgress,500);
 }
 
-function toggleMinimize(){
-  player.classList.toggle("minimized");
+function minimizePlayer(){
+  fullscreen.style.display="none";
+  minimized.style.display="flex";
+}
+
+function restorePlayer(){
+  fullscreen.style.display="flex";
+  minimized.style.display="none";
 }
 
 function togglePlay(){
@@ -246,9 +241,7 @@ function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
 function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
 
 function updateProgress(){
-  if(audio.duration){
-    progressBar.style.width = (audio.currentTime/audio.duration*100)+"%";
-  }
+  if(audio.duration){ progressBar.style.width = (audio.currentTime/audio.duration*100)+"%"; }
 }
 
 progressContainer.addEventListener("click",(e)=>{

@@ -42,6 +42,13 @@ header p { max-width:900px;margin:20px auto;font-size:1.3em;line-height:1.6em;fo
 .video-overlay { position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:0;transition:opacity 0.5s;}
 .video-overlay video { width:100%;height:100%;object-fit:cover;}
 
+/* CLOSE BUTTON OVER VIDEO */
+#close-fullscreen {
+  position:absolute; top:10px; right:10px; z-index:1002;
+  font-size:36px; cursor:pointer; color:#ff3333;
+  background:rgba(0,0,0,0.4); padding:5px 10px; border-radius:5px;
+}
+
 /* INFO PANEL */
 #fullscreen-info {
   width:100%;position:absolute;bottom:0;
@@ -57,11 +64,11 @@ header p { max-width:900px;margin:20px auto;font-size:1.3em;line-height:1.6em;fo
 #fullscreen-info.small #fullscreen-title{font-size:1.2em;}
 
 /* CONTROLS */
-.controls{display:flex;gap:10px;}
+.controls{display:flex;gap:10px;align-items:center;}
 .controls button{font-size:32px;width:50px;height:50px;border-radius:50%;background:#333;color:white;border:none;cursor:pointer;transition:0.3s;}
 .controls button:hover{background:#40E0D0;}
 #toggle-size{cursor:pointer;font-size:28px;margin-left:15px;transition:transform 0.5s ease;}
-#close-fullscreen{position:absolute;top:10px;right:10px;font-size:32px;cursor:pointer;color:#ff3333;z-index:1001;}
+#track-time{font-size:1.2em;font-weight:bold;}
 
 /* PROGRESS BAR */
 .progress-container{width:100%;height:10px;background:black;border-radius:5px;margin-top:10px;position:relative;}
@@ -93,8 +100,8 @@ header p { max-width:900px;margin:20px auto;font-size:1.3em;line-height:1.6em;fo
 
 <div id="fullscreen-player">
   <div class="video-overlay"><video id="bg-video" autoplay muted loop playsinline preload="none"></video></div>
+  <span id="close-fullscreen">✖️</span>
   <div id="fullscreen-info" class="expanded">
-    <span id="close-fullscreen">✖️</span>
     <div class="info-top">
       <div id="fullscreen-title"></div>
       <div class="controls">
@@ -102,6 +109,7 @@ header p { max-width:900px;margin:20px auto;font-size:1.3em;line-height:1.6em;fo
         <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
         <button onclick="nextSong()">⏭️</button>
         <span id="toggle-size" onclick="toggleFullscreenSize()">⬇️</span>
+        <span id="track-time">0:00</span>
       </div>
     </div>
     <div class="progress-container" id="progress-container"><div id="progress-bar"></div></div>
@@ -151,6 +159,7 @@ let miniPlayPause=document.getElementById("mini-play-pause");
 let miniArrow=document.getElementById("mini-arrow");
 let isFullscreenSmall=false;
 let closeFullscreenBtn=document.getElementById("close-fullscreen");
+let trackTime=document.getElementById("track-time");
 
 // CREATE TRACKLIST
 tracks.forEach((t,i)=>{
@@ -196,7 +205,13 @@ function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
 function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
 
 function updateProgress(){
-  if(audio.duration){ progressBar.style.width=(audio.currentTime/audio.duration*100)+"%"; }
+  if(audio.duration){
+    progressBar.style.width=(audio.currentTime/audio.duration*100)+"%";
+    let minutes=Math.floor(audio.currentTime/60);
+    let seconds=Math.floor(audio.currentTime%60);
+    if(seconds<10) seconds="0"+seconds;
+    trackTime.textContent=`${minutes}:${seconds}`;
+  }
 }
 
 // mini player
@@ -210,11 +225,13 @@ function toggleFullscreenSize(){
     info.classList.remove("small");
     bgVideo.style.opacity="1";
     header.style.display="none";
+    miniPlayer.style.display="none";
     isFullscreenSmall=false;
   } else {
     info.classList.add("small");
     bgVideo.style.opacity="0";
     header.style.display="block";
+    miniPlayer.style.display="flex";
     isFullscreenSmall=true;
   }
 }
@@ -223,7 +240,7 @@ closeFullscreenBtn.onclick=()=>{ closeFullscreen(); };
 
 audio.onended=function(){
   if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1);
-  else{ audio.pause(); playPauseBtn.textContent="▶️"; miniPlayPause.textContent="▶️"; progressBar.style.width="0%";}
+  else{ audio.pause(); playPauseBtn.textContent="▶️"; miniPlayPause.textContent="▶️"; progressBar.style.width="0%"; trackTime.textContent="0:00";}
 }
 
 progressContainer.addEventListener("click",(e)=>{

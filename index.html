@@ -2,13 +2,15 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<title>Dua Lipa – Radical Optimism</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dua Lipa – Radical Optimism</title>
 <link rel="icon" href="radical_optimism.jpg" type="image/x-icon">
 <style>
+/* ===== Základní nastavení ===== */
 body{
   margin:0;
-  font-family:'Arial', sans-serif;
+  padding:0;
+  font-family:'Arial',sans-serif;
   background:linear-gradient(120deg,#40E0D0,#ffffff);
   color:black;
   overflow-x:hidden;
@@ -18,15 +20,17 @@ header{
   padding:60px 20px;
 }
 header h1{
-  margin:0;
   font-size:3em;
+  margin:0;
   font-weight:bold;
+  line-height:1.2em;
 }
 header p{
   max-width:900px;
   margin:25px auto 0;
   line-height:1.8em;
   font-size:1.2em;
+  text-shadow:0 1px 2px rgba(0,0,0,0.1);
 }
 .album-cover{
   display:block;
@@ -34,7 +38,13 @@ header p{
   width:300px;
   border-radius:25px;
   box-shadow:0 0 50px rgba(0,0,0,0.3);
+  transition:transform 0.3s ease;
 }
+.album-cover:hover{
+  transform:scale(1.05);
+}
+
+/* ===== Tracklist ===== */
 .tracklist{
   max-width:900px;
   margin:30px auto;
@@ -42,6 +52,7 @@ header p{
   background:rgba(255,255,255,0.6);
   border-radius:25px;
   box-shadow:0 0 25px rgba(0,0,0,0.2);
+  overflow:hidden;
 }
 .track{
   display:flex;
@@ -50,12 +61,14 @@ header p{
   border-bottom:1px solid rgba(0,0,0,0.1);
   cursor:pointer;
   font-size:1.3em;
-  transition:0.3s;
+  transition:all 0.3s ease;
 }
 .track:hover{
   background:rgba(0,255,255,0.15);
   transform:scale(1.02);
 }
+
+/* ===== Přehrávač ===== */
 #player-container{
   position:fixed;
   bottom:0;
@@ -76,6 +89,7 @@ header p{
   z-index:1000;
   background:black;
   overflow:hidden;
+  justify-content:flex-end;
 }
 .video-overlay{
   position:absolute;
@@ -89,20 +103,24 @@ header p{
   width:100%;
   height:100%;
   object-fit:cover;
+  filter:brightness(0.7);
+  transition:all 0.5s ease;
 }
+
+/* ===== Fullscreen lišta ===== */
 #fullscreen-bar{
   position:absolute;
   bottom:0;
   width:100%;
   background:#40E0D0;
   color:black;
-  padding:25px 30px;
+  padding:30px 40px;
   display:flex;
   flex-direction:column;
   align-items:center;
   z-index:2;
-  transition: all 0.5s ease;
-  box-shadow:0 -5px 20px rgba(0,0,0,0.2);
+  transition:all 0.5s ease;
+  box-shadow:0 -5px 20px rgba(0,0,0,0.3);
   font-size:1.5em;
 }
 #fullscreen-bar.small{
@@ -113,22 +131,23 @@ header p{
   width:100%;
   display:flex;
   justify-content:space-between;
-  margin-bottom:15px;
+  margin-bottom:20px;
 }
 #fullscreen-bar .progress-container{
   width:95%;
-  background:rgba(255,255,255,0.5);
-  height:12px;
-  border-radius:10px;
+  background:rgba(255,255,255,0.4);
+  height:15px;
+  border-radius:12px;
   cursor:pointer;
-  margin-bottom:15px;
+  margin-bottom:20px;
   position:relative;
+  overflow:hidden;
 }
 #fullscreen-bar #progress-bar{
   width:0%;
   height:100%;
   background:#1db954;
-  border-radius:10px;
+  border-radius:12px;
   transition:width 0.1s linear;
 }
 #fullscreen-bar .controls{
@@ -137,8 +156,8 @@ header p{
 }
 #fullscreen-bar .controls button{
   margin:0 15px;
-  font-size:26px;
-  padding:10px 12px;
+  font-size:28px;
+  padding:12px 14px;
   border:none;
   border-radius:50%;
   background:#333;
@@ -153,12 +172,29 @@ header p{
   position:absolute;
   top:15px;
   right:25px;
-  font-size:28px;
+  font-size:30px;
   background:none;
   border:none;
   cursor:pointer;
 }
-audio{display:none;}
+
+/* ===== Animace ===== */
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+.tracklist, .album-cover, header, #fullscreen-bar{
+  animation:fadeIn 1s ease;
+}
+
+/* ===== Responzivita ===== */
+@media(max-width:1024px){
+  header h1{font-size:2.5em;}
+  header p{font-size:1.1em;}
+  .album-cover{width:250px;}
+  .track{font-size:1.2em;}
+  #fullscreen-bar{padding:25px 30px; font-size:1.3em;}
+}
 @media(max-width:768px){
   header h1{font-size:2em;}
   header p{font-size:1em;}
@@ -168,7 +204,7 @@ audio{display:none;}
 }
 @media(max-width:480px){
   header h1{font-size:1.5em;}
-  header p{font-size:0.9em;}
+  header p{font-size:0.95em;}
   .album-cover{width:150px;}
   .track{font-size:1em;}
   #fullscreen-bar{padding:15px; font-size:1em;}
@@ -187,30 +223,31 @@ audio{display:none;}
 <div class="tracklist" id="tracklist"></div>
 
 <div id="player-container">
-  <div id="fullscreen-player">
-    <div class="video-overlay">
-      <video id="bg-video" autoplay muted loop playsinline preload="none"></video>
-    </div>
-    <div id="fullscreen-bar">
-      <div class="title-time">
-        <span id="track-title">Název skladby</span>
-        <span id="time-display"><span id="current-time">0:00</span> / <span id="total-time">0:00</span></span>
-      </div>
-      <div class="progress-container" id="progress-container">
-        <div id="progress-bar"></div>
-      </div>
-      <div class="controls">
-        <button onclick="prevSong()">⏮️</button>
-        <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
-        <button onclick="nextSong()">⏭️</button>
-      </div>
-      <button class="toggle-btn" onclick="toggleBar()">⬇️</button>
-    </div>
+<div id="fullscreen-player">
+  <div class="video-overlay">
+    <video id="bg-video" autoplay muted loop playsinline preload="none"></video>
   </div>
-  <audio id="audio" preload="none"></audio>
+  <div id="fullscreen-bar">
+    <div class="title-time">
+      <span id="track-title">Název skladby</span>
+      <span id="time-display"><span id="current-time">0:00</span> / <span id="total-time">0:00</span></span>
+    </div>
+    <div class="progress-container" id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+    <div class="controls">
+      <button onclick="prevSong()">⏮️</button>
+      <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
+      <button onclick="nextSong()">⏭️</button>
+    </div>
+    <button class="toggle-btn" onclick="toggleBar()">⬇️</button>
+  </div>
+</div>
+<audio id="audio" preload="none"></audio>
 </div>
 
 <script>
+// ===== Seznam skladeb =====
 const tracks=[
 {title:"End of an Era", file:"mech.mp3", video:"a82x20.mp4"},
 {title:"Houdini", file:"kouzelník.mp3", video:"a82xf4.mp4"},
@@ -225,6 +262,7 @@ const tracks=[
 {title:"Happy for You", file:"Pro tebe.mp3", video:"a83003.mp4"}
 ];
 
+// ===== Elementy =====
 let tracklistDiv=document.getElementById("tracklist");
 let fullscreen=document.getElementById("fullscreen-player");
 let fullscreenBar=document.getElementById("fullscreen-bar");
@@ -241,6 +279,7 @@ let toggleBtn=document.querySelector(".toggle-btn");
 let currentTrack=0;
 let progressInterval=null;
 
+// ===== Vytvoření seznamu skladeb =====
 tracks.forEach((t,i)=>{
   let div=document.createElement("div");
   div.className="track";
@@ -249,6 +288,7 @@ tracks.forEach((t,i)=>{
   tracklistDiv.appendChild(div);
 });
 
+// ===== Funkce fullscreen =====
 function openFullscreen(index){
   currentTrack=index;
   let t=tracks[index];
@@ -259,25 +299,17 @@ function openFullscreen(index){
   fullscreenBar.classList.remove("small");
   audio.src=t.file;
   bgVideo.src=t.video;
-  audio.load(); bgVideo.load();
-  audio.play(); bgVideo.play();
+  audio.load();
+  bgVideo.load();
+  audio.play();
+  bgVideo.play();
   playPauseBtn.textContent="⏸️";
   clearInterval(progressInterval);
   progressInterval=setInterval(updateProgress,500);
-  audio.onloadedmetadata=()=>{
-    totalTimeDisplay.textContent=formatTime(audio.duration);
-  };
+  audio.onloadedmetadata=()=>{ totalTimeDisplay.textContent=formatTime(audio.duration); };
 }
 
-audio.onended=function(){
-  if(currentTrack<tracks.length-1){openFullscreen(currentTrack+1);}
-  else{audio.pause(); bgVideo.pause(); playPauseBtn.textContent="▶️"; progressBar.style.width="0%"; currentTimeDisplay.textContent="0:00";}
-};
-
-function togglePlay(){if(audio.paused){audio.play(); bgVideo.play(); playPauseBtn.textContent="⏸️";} else{audio.pause(); bgVideo.pause(); playPauseBtn.textContent="▶️";}}
-function prevSong(){if(currentTrack>0) openFullscreen(currentTrack-1);}
-function nextSong(){if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1);}
-
+// ===== Update progress =====
 function updateProgress(){
   if(audio.duration){
     let percent=(audio.currentTime/audio.duration)*100;
@@ -286,15 +318,26 @@ function updateProgress(){
   }
 }
 
+// ===== Klikání na progress bar =====
 progressContainer.addEventListener("click",(e)=>{
   const rect=progressContainer.getBoundingClientRect();
   const clickX=e.clientX-rect.left;
   const width=rect.width;
-  const duration=audio.duration;
-  audio.currentTime=(clickX/width)*duration;
+  audio.currentTime=(clickX/width)*audio.duration;
   updateProgress();
 });
 
+// ===== Play / Pause =====
+function togglePlay(){
+  if(audio.paused){ audio.play(); bgVideo.play(); playPauseBtn.textContent="⏸️"; }
+  else{ audio.pause(); bgVideo.pause(); playPauseBtn.textContent="▶️"; }
+}
+
+// ===== Další / Předchozí skladba =====
+function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
+function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
+
+// ===== Čas formát =====
 function formatTime(seconds){
   let m=Math.floor(seconds/60);
   let s=Math.floor(seconds%60);
@@ -302,14 +345,18 @@ function formatTime(seconds){
   return m+":"+s;
 }
 
+// ===== Toggle lišty =====
 function toggleBar(){
   fullscreenBar.classList.toggle("small");
-  if(fullscreenBar.classList.contains("small")){
-    toggleBtn.textContent="⬆️";
-  } else{
-    toggleBtn.textContent="⬇️";
-  }
+  if(fullscreenBar.classList.contains("small")){ toggleBtn.textContent="⬆️"; }
+  else{ toggleBtn.textContent="⬇️"; }
 }
+
+// ===== Konec skladby =====
+audio.onended=function(){
+  if(currentTrack<tracks.length-1){ openFullscreen(currentTrack+1); }
+  else{ audio.pause(); bgVideo.pause(); playPauseBtn.textContent="▶️"; progressBar.style.width="0%"; currentTimeDisplay.textContent="0:00";}
+};
 </script>
 
 </body>

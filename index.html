@@ -4,107 +4,49 @@
 <meta charset="UTF-8">
 <title>Dua Lipa – Radical Optimism</title>
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: white;
-  background: black;
-}
-header {
-  text-align: center;
-  background: rgba(0,0,0,0.7);
-  padding: 20px;
-}
-header h1 { margin: 0; color: #1db954; font-size: 2em; }
-header p { max-width: 700px; margin: 10px auto; line-height: 1.5em; }
-.album-cover { display: block; margin: 20px auto; width: 250px; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
-.tracklist {
-  max-width: 700px;
-  margin: 20px auto;
-  padding: 20px;
-  background: rgba(0,0,0,0.6);
-  border-radius: 20px;
-}
-.track {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid #444;
-  cursor: pointer;
-}
-.track:hover { background: rgba(29,185,84,0.2); }
-.track .title { font-weight: bold; }
-.track .duration { color: #ccc; }
-
-#fullscreen-player {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  display: none;
-  justify-content: center; align-items: center;
-  background: rgba(0,0,0,0.95);
-  z-index: 999;
-  flex-direction: column;
-}
-
-#fullscreen-player img { width: 300px; border-radius: 16px; margin-bottom: 15px; }
-#fullscreen-player .song-title { font-size: 1.5em; margin-bottom: 10px; }
-#fullscreen-player .duration { margin-bottom: 10px; }
-#fullscreen-player .progress-container {
-  width: 80%;
-  height: 6px;
-  background: #333;
-  border-radius: 3px;
-  cursor: pointer;
-}
-#fullscreen-player .progress {
-  height: 100%;
-  width: 0%;
-  background: #1db954;
-  border-radius: 3px;
-}
-.controls { margin-top: 20px; }
-.controls button { font-size: 28px; margin: 0 15px; }
-.close-btn { position: absolute; top: 20px; right: 20px; font-size: 24px; }
-
-.player-container { position: relative; width: 100%; height: 400px; overflow: hidden; }
-.gif-overlay {
-  position: absolute;
-  top:0; left:0; width:100%; height:100%;
-  z-index: 10;
-}
-.gif-overlay img { width: 100%; height: 100%; object-fit: cover; }
+body { margin:0; font-family:Arial,sans-serif; background:black; color:white; }
+header { text-align:center; padding:20px; background:rgba(0,0,0,0.7);}
+header h1 { color:#1db954; margin:0; }
+header p { max-width:700px; margin:10px auto; line-height:1.5em;}
+.album-cover { display:block; margin:20px auto; width:250px; border-radius:16px; box-shadow:0 0 20px rgba(0,0,0,0.8);}
+.tracklist { max-width:700px; margin:20px auto; padding:20px; background:rgba(0,0,0,0.6); border-radius:20px; }
+.track { display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #444; cursor:pointer;}
+.track:hover { background: rgba(29,185,84,0.2);}
+#fullscreen-player { position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.95); z-index:999; flex-direction:column;}
+#fullscreen-player img { width:300px; border-radius:16px; margin-bottom:15px;}
+#fullscreen-player .song-title { font-size:1.5em; margin-bottom:10px; }
+.controls { margin-top:20px; }
+.controls button { font-size:28px; margin:0 15px; }
+.close-btn { position:absolute; top:20px; right:20px; font-size:24px; cursor:pointer; }
+.player-container { position:relative; width:100%; height:400px; overflow:hidden; }
+.gif-overlay { position:absolute; top:0; left:0; width:100%; height:100%; z-index:10; }
+.gif-overlay img { width:100%; height:100%; object-fit:cover; }
 iframe.yt-audio { width:1px; height:1px; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Dua Lipa – Radical Optimism (2024)</h1>
-  <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Obsahuje 11 skladeb a kombinuje taneční pop, disco a moderní elektroniku. Singly <em>Houdini</em>, <em>Training Season</em> a <em>Illusion</em> se staly hity. Album reflektuje radikální optimismus a hledání radosti i v těžkých časech.</p>
+<h1>Dua Lipa – Radical Optimism (2024)</h1>
+<p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Obsahuje 11 skladeb a kombinuje taneční pop, disco a moderní elektroniku. Singly <em>Houdini</em>, <em>Training Season</em> a <em>Illusion</em> se staly hity. Album reflektuje radikální optimismus a hledání radosti i v těžkých časech.</p>
 </header>
 
 <img src="radical_optimism.jpg" alt="Cover" class="album-cover">
 
 <div class="tracklist" id="tracklist"></div>
 
-<!-- Fullscreen player -->
 <div id="fullscreen-player">
   <div class="player-container">
-    <!-- YouTube audio -->
-    <iframe id="ytplayer" class="yt-audio" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    <!-- GIF overlay -->
+    <iframe id="ytplayer" class="yt-audio"
+      src="https://www.youtube.com/embed/apSZ77414bA?enablejsapi=1&autoplay=0&controls=0&modestbranding=1&rel=0"
+      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <div class="gif-overlay">
       <img src="background.gif" alt="GIF pozadí">
     </div>
   </div>
-  <button class="close-btn" onclick="closeFullscreen()">✖</button>
+  <span class="close-btn" onclick="closeFullscreen()">✖</span>
   <img src="radical_optimism.jpg" alt="Cover" id="fullscreen-cover">
   <div class="song-title" id="fullscreen-title"></div>
-  <div class="duration" id="fullscreen-duration">0:00 / 0:00</div>
-  <div class="progress-container" id="fullscreen-progress-container">
-    <div class="progress" id="fullscreen-progress"></div>
-  </div>
   <div class="controls">
     <button onclick="prevSong()">⏮️</button>
     <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
@@ -112,30 +54,29 @@ iframe.yt-audio { width:1px; height:1px; }
   </div>
 </div>
 
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
 const tracks = [
-  {title: "End of an Era", ytId: "apSZ77414bA&list=PLzbGLskt3hhn2EMjQn105nuiRM1B8dInt", length: "3:36"},
-  {title: "Houdini", ytId: "YOUTUBE_ID2", length: "3:06"},
-  {title: "Training Season", ytId: "YOUTUBE_ID3", length: "3:30"},
-  {title: "These Walls", ytId: "YOUTUBE_ID4", length: "3:36"},
-  {title: "Whatcha Doing", ytId: "YOUTUBE_ID5", length: "3:08"},
-  {title: "French Exit", ytId: "YOUTUBE_ID6", length: "3:22"},
-  {title: "Illusion", ytId: "YOUTUBE_ID7", length: "3:08"},
-  {title: "Falling Forever", ytId: "YOUTUBE_ID8", length: "3:51"},
-  {title: "Anything for Love", ytId: "YOUTUBE_ID9", length: "2:59"},
-  {title: "Maria", ytId: "YOUTUBE_ID10", length: "2:52"},
-  {title: "Happy for You", ytId: "YOUTUBE_ID11", length: "4:09"}
+  {title: "End of an Era", ytId:"apSZ77414bA", length:"3:36"},
+  {title: "Houdini", ytId:"YOUTUBE_ID2", length:"3:06"},
+  {title: "Training Season", ytId:"YOUTUBE_ID3", length:"3:30"},
+  {title: "These Walls", ytId:"YOUTUBE_ID4", length:"3:36"},
+  {title: "Whatcha Doing", ytId:"YOUTUBE_ID5", length:"3:08"},
+  {title: "French Exit", ytId:"YOUTUBE_ID6", length:"3:22"},
+  {title: "Illusion", ytId:"YOUTUBE_ID7", length:"3:08"},
+  {title: "Falling Forever", ytId:"YOUTUBE_ID8", length:"3:51"},
+  {title: "Anything for Love", ytId:"YOUTUBE_ID9", length:"2:59"},
+  {title: "Maria", ytId:"YOUTUBE_ID10", length:"2:52"},
+  {title: "Happy for You", ytId:"YOUTUBE_ID11", length:"4:09"}
 ];
 
 let tracklistDiv = document.getElementById("tracklist");
 let currentTrack = 0;
-let ytplayer = document.getElementById("ytplayer");
+let player;
 let fullscreenPlayer = document.getElementById("fullscreen-player");
 let fullscreenTitle = document.getElementById("fullscreen-title");
-let fullscreenProgress = document.getElementById("fullscreen-progress");
 let playPauseBtn = document.getElementById("play-pause-btn");
 
-// generování tracklistu
 tracks.forEach((t,i)=>{
   let div = document.createElement("div");
   div.className="track";
@@ -144,27 +85,32 @@ tracks.forEach((t,i)=>{
   tracklistDiv.appendChild(div);
 });
 
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('ytplayer');
+}
+
 function openFullscreen(index){
-  currentTrack = index;
-  let t = tracks[index];
+  currentTrack=index;
+  let t=tracks[index];
   fullscreenPlayer.style.display="flex";
-  fullscreenTitle.textContent = t.title;
-  ytplayer.src = `https://www.youtube.com/embed/${t.ytId}?enablejsapi=1&autoplay=1&controls=0&showinfo=0&modestbranding=1`;
+  fullscreenTitle.textContent=t.title;
+  player.loadVideoById({videoId:t.ytId});
+  player.unMute();
   playPauseBtn.textContent="⏸️";
 }
 
 function closeFullscreen(){
   fullscreenPlayer.style.display="none";
-  ytplayer.src="";
+  player.stopVideo();
 }
 
 function togglePlay(){
-  if(playPauseBtn.textContent==="▶️"){
-    ytplayer.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    playPauseBtn.textContent="⏸️";
-  } else {
-    ytplayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+  if(player.getPlayerState() === YT.PlayerState.PLAYING){
+    player.pauseVideo();
     playPauseBtn.textContent="▶️";
+  } else {
+    player.playVideo();
+    playPauseBtn.textContent="⏸️";
   }
 }
 
@@ -175,6 +121,5 @@ function nextSong(){
   if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1);
 }
 </script>
-
 </body>
 </html>

@@ -12,6 +12,7 @@ header p { max-width:700px; margin:10px auto; line-height:1.5em;}
 .tracklist { max-width:700px; margin:20px auto; padding:20px; background:rgba(0,0,0,0.6); border-radius:20px; }
 .track { display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #444; cursor:pointer;}
 .track:hover { background: rgba(29,185,84,0.2);}
+#start-album { display:block; margin:20px auto; font-size:20px; padding:10px 20px; cursor:pointer; background:#1db954; border:none; border-radius:10px; color:white; }
 #fullscreen-player { position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.95); z-index:999; flex-direction:column;}
 #fullscreen-player img { width:300px; border-radius:16px; margin-bottom:15px;}
 #fullscreen-player .song-title { font-size:1.5em; margin-bottom:10px; }
@@ -32,6 +33,8 @@ iframe.yt-audio { width:1px; height:1px; }
 </header>
 
 <img src="radical_optimism.jpg" alt="Cover" class="album-cover">
+
+<button id="start-album">Spustit album</button>
 
 <div class="tracklist" id="tracklist"></div>
 
@@ -89,21 +92,24 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('ytplayer');
 }
 
+// Funkce otevření fullscreen a spuštění skladby
 function openFullscreen(index){
   currentTrack=index;
-  let t=tracks[index];
-  fullscreenPlayer.style.display="flex";
-  fullscreenTitle.textContent=t.title;
-  player.loadVideoById({videoId:t.ytId});
+  let t = tracks[index];
+  fullscreenPlayer.style.display = "flex";
+  fullscreenTitle.textContent = t.title;
+  player.loadVideoById({videoId:t.ytId, suggestedQuality:"small"});
   player.unMute();
   playPauseBtn.textContent="⏸️";
 }
 
+// Funkce zavření fullscreen
 function closeFullscreen(){
   fullscreenPlayer.style.display="none";
   player.stopVideo();
 }
 
+// Play/Pause
 function togglePlay(){
   if(player.getPlayerState() === YT.PlayerState.PLAYING){
     player.pauseVideo();
@@ -114,12 +120,15 @@ function togglePlay(){
   }
 }
 
-function prevSong(){
-  if(currentTrack>0) openFullscreen(currentTrack-1);
-}
-function nextSong(){
-  if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1);
-}
+// Předchozí / následující skladba
+function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
+function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
+
+// Spuštění alba po kliknutí na tlačítko
+document.getElementById("start-album").addEventListener("click", ()=>{
+  openFullscreen(0);
+});
 </script>
+
 </body>
 </html>

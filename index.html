@@ -13,15 +13,18 @@ header p { max-width:700px; margin:10px auto; line-height:1.5em;}
 .track { display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #444; cursor:pointer;}
 .track:hover { background: rgba(29,185,84,0.2);}
 #fullscreen-player { position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.95); z-index:999; flex-direction:column;}
-#fullscreen-player img { width:300px; border-radius:16px; margin-bottom:15px;}
-#fullscreen-player .song-title { font-size:1.5em; margin-bottom:10px; }
-.controls { margin-top:20px; }
+#fullscreen-player img#fullscreen-cover { width:300px; border-radius:16px; margin-bottom:15px; z-index:1; position:relative;}
+#fullscreen-player .song-title { font-size:1.5em; margin-bottom:10px; z-index:1; position:relative; }
+.controls { margin-top:20px; z-index:1; position:relative;}
 .controls button { font-size:28px; margin:0 15px; cursor:pointer; }
-.close-btn { position:absolute; top:20px; right:20px; font-size:24px; cursor:pointer; }
+.close-btn { position:absolute; top:20px; right:20px; font-size:24px; cursor:pointer; z-index:1; }
 .player-container { position:relative; width:100%; height:400px; overflow:hidden; }
-.gif-overlay { position:absolute; top:0; left:0; width:100%; height:100%; z-index:10; }
+.gif-overlay { position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
 .gif-overlay img { width:100%; height:100%; object-fit:cover; opacity:0.5; }
 audio { display:none; }
+.progress-container { width:80%; background:#555; height:10px; border-radius:5px; margin:10px auto; position:relative; z-index:1; }
+#progress-bar { width:0%; height:100%; background:#1db954; border-radius:5px; }
+#time-display { text-align:center; margin-bottom:10px; z-index:1; position:relative; }
 </style>
 </head>
 <body>
@@ -44,7 +47,16 @@ audio { display:none; }
   <span class="close-btn" onclick="closeFullscreen()">✖</span>
   <img src="radical_optimism.jpg" alt="Cover" id="fullscreen-cover">
   <div class="song-title" id="fullscreen-title"></div>
-  <audio id="audio" controls></audio>
+  
+  <audio id="audio"></audio>
+  
+  <div class="progress-container">
+    <div id="progress-bar"></div>
+  </div>
+  <div id="time-display">
+    <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
+  </div>
+
   <div class="controls">
     <button onclick="prevSong()">⏮️</button>
     <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
@@ -56,15 +68,15 @@ audio { display:none; }
 const tracks = [
   {title:"End of an Era", file:"mech.mp3", length:"3:36"},
   {title:"Houdini", file:"Kouzelník.mp3", length:"3:06"},
-  {title:"Training Season", file:"Training_Season.mp3", length:"3:30"},
-  {title:"These Walls", file:"These_Walls.mp3", length:"3:36"},
-  {title:"Whatcha Doing", file:"Whatcha_Doing.mp3", length:"3:08"},
-  {title:"French Exit", file:"French_Exit.mp3", length:"3:22"},
-  {title:"Illusion", file:"Illusion.mp3", length:"3:08"},
-  {title:"Falling Forever", file:"Falling_Forever.mp3", length:"3:51"},
-  {title:"Anything for Love", file:"Anything_for_Love.mp3", length:"2:59"},
-  {title:"Maria", file:"Maria.mp3", length:"2:52"},
-  {title:"Happy for You", file:"Happy_for_You.mp3", length:"4:09"}
+  {title:"Training Season", file:"60m.mp3", length:"3:30"},
+  {title:"These Walls", file:"Zeď.mp3", length:"3:36"},
+  {title:"Whatcha Doing", file:"Co.mp3", length:"3:08"},
+  {title:"French Exit", file:"Francosisch.mp3", length:"3:22"},
+  {title:"Illusion", file:"Iluze.mp3", length:"3:08"},
+  {title:"Falling Forever", file:"Padat.mp3", length:"3:51"},
+  {title:"Anything for Love", file:"Láska.mp3", length:"2:59"},
+  {title:"Maria", file:"Marie.mp3", length:"2:52"},
+  {title:"Happy for You", file:"Pro tebe.mp3", length:"4:09"}
 ];
 
 let tracklistDiv = document.getElementById("tracklist");
@@ -72,7 +84,11 @@ let fullscreenPlayer = document.getElementById("fullscreen-player");
 let fullscreenTitle = document.getElementById("fullscreen-title");
 let audio = document.getElementById("audio");
 let playPauseBtn = document.getElementById("play-pause-btn");
+let progressBar = document.getElementById("progress-bar");
+let currentTimeDisplay = document.getElementById("current-time");
+let totalTimeDisplay = document.getElementById("total-time");
 let currentTrack = 0;
+let progressInterval;
 
 // Vytvoření seznamu skladeb
 tracks.forEach((t,i)=>{
@@ -92,12 +108,20 @@ function openFullscreen(index){
   audio.src = t.file;
   audio.play();
   playPauseBtn.textContent="⏸️";
+
+  audio.onloadedmetadata = ()=>{
+    totalTimeDisplay.textContent = formatTime(audio.duration);
+  }
+
+  clearInterval(progressInterval);
+  progressInterval = setInterval(updateProgress, 500);
 }
 
 // Zavření fullscreen
 function closeFullscreen(){
   fullscreenPlayer.style.display="none";
   audio.pause();
+  clearInterval(progressInterval);
 }
 
 // Play/Pause
@@ -115,6 +139,22 @@ function togglePlay(){
 function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
 function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
 
+// Aktualizace progresu
+function updateProgress(){
+  if(audio.duration){
+    let percent = (audio.currentTime / audio.duration) * 100;
+    progressBar.style.width = percent + "%";
+    currentTimeDisplay.textContent = formatTime(audio.currentTime);
+  }
+}
+
+function formatTime(seconds){
+  let m = Math.floor(seconds/60);
+  let s = Math.floor(seconds%60);
+  if(s<10) s="0"+s;
+  return m+":"+s;
+}
 </script>
 </body>
 </html>
+

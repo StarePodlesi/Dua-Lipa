@@ -17,10 +17,7 @@ header {
   text-align:center;
   padding:40px 20px;
 }
-header h1 {
-  margin:0;
-  font-size:2.5em;
-}
+header h1 { margin:0; font-size:2.5em; }
 header p {
   max-width:800px;
   margin:20px auto 0;
@@ -50,50 +47,38 @@ header p {
   cursor:pointer;
   transition:0.3s;
 }
-.track:hover {
-  background: rgba(0,255,255,0.1);
-  transform:scale(1.02);
-}
+.track:hover { background: rgba(0,255,255,0.1); transform:scale(1.02); }
 
-/* Fullscreen / Bottom Player */
+/* Fullscreen Player */
 #fullscreen-player {
   position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  max-height:100%;
+  top:0; left:0;
+  width:100%; height:100%;
   display:none;
   flex-direction:column;
   z-index:999;
-  background:linear-gradient(120deg, #40E0D0, #ffffff);
-  box-shadow:0 -2px 10px rgba(0,0,0,0.3);
+  background:black;
   overflow:hidden;
   transition: all 0.5s ease;
 }
 #fullscreen-player.minimized {
   height:60px;
+  bottom:0;
+  top:auto;
   flex-direction:row;
+  background:black;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
 }
-.video-overlay {
-  position:absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-  z-index:0;
-  overflow:hidden;
-}
-.video-overlay video {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+.video-overlay { position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden; }
+.video-overlay video { width:100%; height:100%; object-fit:cover; }
 #fullscreen-info {
   width:100%;
   z-index:1;
-  padding:10px;
+  padding:20px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  transition: all 0.5s ease;
+  justify-content:center;
 }
 #fullscreen-player.minimized #fullscreen-info {
   flex-direction:row;
@@ -102,44 +87,35 @@ header p {
   padding:5px 10px;
 }
 #fullscreen-title {
-  font-size:1.5em;
-  margin-bottom:5px;
+  font-size:2em;
+  margin-bottom:10px;
+  color:white;
   text-align:center;
 }
-#fullscreen-player.minimized #fullscreen-title {
-  font-size:1em;
-  margin:0;
-}
+#fullscreen-player.minimized #fullscreen-title { font-size:1em; margin:0; }
 .progress-container {
   width:90%;
-  background:#22ffff;
+  background:#555;
   height:8px;
   border-radius:6px;
-  margin:5px auto;
+  margin:10px auto;
   position:relative;
   cursor:pointer;
   flex-grow:1;
 }
 #progress-bar {
-  width:0%;
-  height:100%;
-  background:#008080;
+  width:0%; height:100%;
+  background:#1db954;
   border-radius:6px;
   transition:width 0.1s linear;
 }
-.controls {
-  display:flex;
-  justify-content:center;
-  margin-top:5px;
-}
-#fullscreen-player.minimized .controls {
-  margin:0;
-}
+.controls { display:flex; justify-content:center; margin-top:15px; }
+#fullscreen-player.minimized .controls { margin:0; }
 .controls button {
   font-size:20px;
   margin:0 10px;
   cursor:pointer;
-  background:#008080;
+  background:#333;
   border:none;
   border-radius:50%;
   width:40px;
@@ -147,17 +123,15 @@ header p {
   color:white;
   transition:0.3s;
 }
-.controls button:hover {
-  background:#00ffff;
-}
+.controls button:hover { background:#1db954; }
 .close-btn {
   position:absolute;
-  top:5px;
-  right:10px;
-  font-size:24px;
+  top:10px;
+  right:15px;
+  font-size:28px;
   cursor:pointer;
   z-index:2;
-  color:black;
+  color:white;
 }
 audio { display:none; }
 
@@ -207,7 +181,6 @@ audio { display:none; }
 </div>
 
 <script>
-// seznam skladeb
 const tracks = [
   {title:"End of an Era", file:"mech.mp3", video:"a82x20.mp4"},
   {title:"Houdini", file:"kouzelník.mp3", video:"a82xf4.mp4"},
@@ -234,17 +207,15 @@ let header = document.getElementById("header");
 let currentTrack = 0;
 let progressInterval = null;
 
-// vytvoření seznamu skladeb
 tracks.forEach((t,i)=>{
   let div = document.createElement("div");
   div.className="track";
   div.innerHTML=`<span class="title">${i+1}. ${t.title}</span>`;
-  div.onclick = ()=> openPlayer(i);
+  div.onclick = ()=> openFullscreen(i);
   tracklistDiv.appendChild(div);
 });
 
-// otevření přehrávače
-function openPlayer(index){
+function openFullscreen(index){
   currentTrack = index;
   let t = tracks[index];
   player.style.display="flex";
@@ -262,29 +233,21 @@ function openPlayer(index){
   progressInterval = setInterval(updateProgress,500);
 }
 
-// minimalizace / maximalizace
 function toggleMinimize(){
   player.classList.toggle("minimized");
 }
 
-// play/pause
 function togglePlay(){
-  if(audio.paused){
-    audio.play(); bgVideo.play(); playPauseBtn.textContent="⏸️";
-  } else{
-    audio.pause(); bgVideo.pause(); playPauseBtn.textContent="▶️";
-  }
+  if(audio.paused){ audio.play(); bgVideo.play(); playPauseBtn.textContent="⏸️"; }
+  else{ audio.pause(); bgVideo.pause(); playPauseBtn.textContent="▶️"; }
 }
 
-// předchozí/následující
-function prevSong(){ if(currentTrack>0) openPlayer(currentTrack-1); }
-function nextSong(){ if(currentTrack<tracks.length-1) openPlayer(currentTrack+1); }
+function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
+function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
 
-// progres bar
 function updateProgress(){
   if(audio.duration){
-    let percent = (audio.currentTime/audio.duration)*100;
-    progressBar.style.width = percent+"%";
+    progressBar.style.width = (audio.currentTime/audio.duration*100)+"%";
   }
 }
 

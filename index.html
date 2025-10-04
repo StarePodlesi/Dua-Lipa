@@ -81,6 +81,7 @@ header p {
   background:black;
   z-index:999;
   overflow:hidden;
+  transition: all 0.5s ease;
 }
 .video-overlay {
   position:absolute;
@@ -95,33 +96,35 @@ header p {
   object-fit:cover;
 }
 
-/* FULLSCREEN INFO PANEL */
+/* FULLSCREEN INFO PANEL (MENŠÍ) */
 #fullscreen-info {
   width:100%;
-  padding:40px 30px;
+  padding:20px 15px;
   background:linear-gradient(to top, #40E0D0, #ffffff);
   z-index:1;
   display:flex;
   flex-direction:column;
   align-items:center;
+  transition: all 0.5s ease;
 }
 #fullscreen-title {
-  font-size:3.5em;
+  font-size:2.5em;
   font-weight:bold;
-  margin-bottom:30px;
+  margin-bottom:20px;
   color:black;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
+  transition: all 0.5s ease;
 }
 
 /* PROGRESS BAR */
 .progress-container {
-  width:95%;
+  width:90%;
   background:#222;
-  height:25px;
-  border-radius:12px;
-  margin:15px auto;
+  height:20px;
+  border-radius:10px;
+  margin:10px auto;
   position:relative;
   cursor:pointer;
 }
@@ -129,31 +132,32 @@ header p {
   width:0%;
   height:100%;
   background:#40E0D0;
-  border-radius:12px;
+  border-radius:10px;
   transition:width 0.1s linear;
 }
 
 /* TIME DISPLAY */
 #time-display {
-  font-size:1.6em;
+  font-size:1.5em;
   font-weight:bold;
-  margin:10px 0;
+  margin:8px 0;
   color:black;
+  transition: all 0.5s ease;
 }
 
 /* CONTROLS */
 .controls {
   display:flex;
   justify-content:center;
-  margin-top:20px;
+  margin-top:15px;
 }
 .controls button {
-  font-size:40px;
-  margin:0 25px;
+  font-size:32px;
+  margin:0 20px;
   cursor:pointer;
   border:none;
   border-radius:50%;
-  width:80px; height:80px;
+  width:60px; height:60px;
   color:white;
   background:#333;
   transition:0.3s;
@@ -162,17 +166,18 @@ header p {
   background:#40E0D0;
 }
 
-/* FULLSCREEN ARROW TOGGLE */
+/* FULLSCREEN ARROW */
 #fullscreen-arrow {
   position:absolute;
-  top:20px; right:20px;
-  font-size:50px;
+  top:15px; right:15px;
+  font-size:40px;
   cursor:pointer;
   color:black;
   z-index:2;
+  transition: all 0.5s ease;
 }
 
-/* MINI PLAYER */
+/* MINI PLAYER (MENŠÍ) */
 #mini-player {
   position:fixed;
   bottom:0; left:0;
@@ -182,65 +187,47 @@ header p {
   align-items:center;
   justify-content:space-between;
   flex-direction:column;
-  padding:15px 20px;
-  box-shadow:0 -2px 15px rgba(0,0,0,0.3);
+  padding:8px 15px;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.3);
   z-index:1000;
+  transition: all 0.5s ease;
 }
 #mini-title {
   font-weight:bold;
-  font-size:1.8em;
+  font-size:1.2em;
   color:black;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  margin-bottom:10px;
+  margin-bottom:5px;
 }
 #mini-controls {
   display:flex;
   align-items:center;
   justify-content:flex-start;
+  width:100%;
 }
 #mini-controls button {
-  font-size:30px;
-  margin:0 10px;
+  font-size:24px;
+  margin:0 8px;
   cursor:pointer;
   border:none;
   border-radius:50%;
-  width:60px; height:60px;
+  width:45px; height:45px;
   color:white;
   background:#333;
   transition:0.3s;
 }
 #mini-controls button:hover {background:#40E0D0;}
-#mini-arrow {font-size:35px; margin-left:15px; cursor:pointer;}
+#mini-arrow {font-size:28px; margin-left:10px; cursor:pointer;}
+#mini-progress-bar {height:8px;border-radius:4px;}
 
 /* RESPONSIVE */
-@media(max-width:1200px){
-  header h1 {font-size:2.5em;}
-  header p {font-size:1.1em;}
-  .album-cover {width:280px;}
-  .track {font-size:1.1em;}
-  #fullscreen-title {font-size:3em;}
-  #time-display {font-size:1.4em;}
-  #mini-title {font-size:1.6em;}
-}
 @media(max-width:768px){
-  header h1 {font-size:2em;}
-  header p {font-size:1em;}
-  .album-cover {width:220px;}
-  .track {font-size:1em;}
-  #fullscreen-title {font-size:2.5em;}
-  #time-display {font-size:1.3em;}
-  #mini-title {font-size:1.4em;}
-}
-@media(max-width:480px){
-  header h1 {font-size:1.5em;}
-  header p {font-size:0.9em;}
-  .album-cover {width:180px;}
-  .track {font-size:0.9em;}
   #fullscreen-title {font-size:2em;}
   #time-display {font-size:1.2em;}
-  #mini-title {font-size:1.2em;}
+  #mini-title {font-size:1em;}
+  .controls button {width:50px;height:50px;font-size:28px;}
 }
 </style>
 </head>
@@ -288,8 +275,8 @@ header p {
       </div>
       <span id="mini-arrow">⬆️</span>
     </div>
-    <div class="progress-container" style="width:100%;margin-top:10px;">
-      <div id="mini-progress-bar" style="width:0%;height:10px;background:#40E0D0;border-radius:5px;"></div>
+    <div class="progress-container" style="width:100%;margin-top:5px;">
+      <div id="mini-progress-bar" style="width:0%;background:#40E0D0;"></div>
     </div>
   </div>
 </div>
@@ -310,36 +297,36 @@ const tracks = [
   {title:"Happy for You", file:"Pro tebe.mp3", length:"4:09", video:"a83003.mp4"}
 ];
 
-let tracklistDiv = document.getElementById("tracklist");
-let fullscreenPlayer = document.getElementById("fullscreen-player");
-let fullscreenTitle = document.getElementById("fullscreen-title");
-let audio = document.getElementById("audio");
-let bgVideo = document.getElementById("bg-video");
-let playPauseBtn = document.getElementById("play-pause-btn");
-let progressBar = document.getElementById("progress-bar");
-let progressContainer = document.getElementById("progress-container");
-let currentTimeDisplay = document.getElementById("current-time");
-let totalTimeDisplay = document.getElementById("total-time");
-let header = document.getElementById("header");
-let currentTrack = 0;
+let tracklistDiv=document.getElementById("tracklist");
+let fullscreenPlayer=document.getElementById("fullscreen-player");
+let fullscreenTitle=document.getElementById("fullscreen-title");
+let audio=document.getElementById("audio");
+let bgVideo=document.getElementById("bg-video");
+let playPauseBtn=document.getElementById("play-pause-btn");
+let progressBar=document.getElementById("progress-bar");
+let progressContainer=document.getElementById("progress-container");
+let currentTimeDisplay=document.getElementById("current-time");
+let totalTimeDisplay=document.getElementById("total-time");
+let header=document.getElementById("header");
+let currentTrack=0;
 let progressInterval;
 
 // MINI PLAYER
-let miniPlayer = document.getElementById("mini-player");
-let miniTitle = document.getElementById("mini-title");
-let miniPlayPause = document.getElementById("mini-play-pause");
-let miniProgressBar = document.getElementById("mini-progress-bar");
+let miniPlayer=document.getElementById("mini-player");
+let miniTitle=document.getElementById("mini-title");
+let miniPlayPause=document.getElementById("mini-play-pause");
+let miniProgressBar=document.getElementById("mini-progress-bar");
 
 // ARROWS
-let fullscreenArrow = document.getElementById("fullscreen-arrow");
-let miniArrow = document.getElementById("mini-arrow");
+let fullscreenArrow=document.getElementById("fullscreen-arrow");
+let miniArrow=document.getElementById("mini-arrow");
 
 // CREATE TRACKLIST
 tracks.forEach((t,i)=>{
-  let div = document.createElement("div");
+  let div=document.createElement("div");
   div.className="track";
   div.innerHTML=`<span class="title">${i+1}. ${t.title}</span><span class="duration">${t.length}</span>`;
-  div.onclick = ()=> openFullscreen(i);
+  div.onclick=()=> openFullscreen(i);
   tracklistDiv.appendChild(div);
 });
 
@@ -357,7 +344,7 @@ function openFullscreen(index){
   audio.play(); bgVideo.play();
   playPauseBtn.textContent="⏸️"; miniPlayPause.textContent="⏸️";
 
-  audio.onloadedmetadata=()=>{ totalTimeDisplay.textContent = formatTime(audio.duration); }
+  audio.onloadedmetadata=()=>{ totalTimeDisplay.textContent=formatTime(audio.duration); }
 
   clearInterval(progressInterval);
   progressInterval=setInterval(updateProgress,200);
@@ -405,8 +392,8 @@ function updateMini(){
 function toggleMiniPlay(){ togglePlay(); }
 
 // ARROW EVENTS
-fullscreenArrow.onclick = ()=>{closeFullscreen();}
-miniArrow.onclick = ()=>{openFullscreen(currentTrack);}
+fullscreenArrow.onclick=()=>{closeFullscreen();}
+miniArrow.onclick=()=>{openFullscreen(currentTrack);}
 
 // AUDIO ENDED
 audio.onended=function(){
@@ -418,8 +405,7 @@ audio.onended=function(){
 progressContainer.addEventListener("click",(e)=>{
   const rect=progressContainer.getBoundingClientRect();
   const clickX=e.clientX-rect.left;
-  const width=rect.width;
-  audio.currentTime=(clickX/width)*audio.duration;
+  audio.currentTime=(clickX/rect.width)*audio.duration;
   updateProgress();
 });
 </script>

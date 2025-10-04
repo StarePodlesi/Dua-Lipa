@@ -56,6 +56,8 @@ header p {
   background: rgba(255,255,255,0.1);
   transform:scale(1.02);
 }
+
+/* Fullscreen player */
 #fullscreen-player {
   position:fixed;
   top:0;
@@ -63,30 +65,65 @@ header p {
   width:100%;
   height:100%;
   display:none;
-  justify-content:center;
+  justify-content:flex-end; /* obsah dole */
   align-items:center;
   background:rgba(0,0,0,0.95);
   z-index:999;
   flex-direction:column;
+  overflow:hidden;
 }
-#fullscreen-player img#fullscreen-cover {
-  width:350px;
-  border-radius:20px;
-  margin-bottom:20px;
+.gif-overlay {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+.gif-overlay img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0.5;
+}
+#fullscreen-info {
+  width:100%;
   z-index:1;
-  position:relative;
-  box-shadow:0 0 30px rgba(0,0,0,0.8);
+  padding:20px;
+  background:rgba(0,0,0,0.4);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
-#fullscreen-player .song-title {
+#fullscreen-title {
   font-size:2em;
-  margin-bottom:15px;
-  z-index:1;
+  margin-bottom:10px;
+}
+.progress-container {
+  width:80%;
+  background:rgba(255,255,255,0.2);
+  height:12px;
+  border-radius:6px;
+  margin:10px auto;
   position:relative;
+  cursor:pointer;
+}
+#progress-bar {
+  width:0%;
+  height:100%;
+  background:#1db954;
+  border-radius:6px;
+  transition:width 0.1s linear;
+}
+#time-display {
+  text-align:center;
+  margin-bottom:10px;
+  font-size:1.1em;
 }
 .controls {
-  margin-top:25px;
-  z-index:1;
-  position:relative;
+  margin-top:15px;
+  display:flex;
+  justify-content:center;
 }
 .controls button {
   font-size:32px;
@@ -112,56 +149,12 @@ header p {
   z-index:1;
   color:white;
 }
-.player-container {
-  position:relative;
-  width:100%;
-  max-width:800px;
-  height:450px;
-  overflow:hidden;
-}
-.gif-overlay {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  z-index:0;
-}
-.gif-overlay img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:0.5;
-}
-audio {
-  display:none;
-}
-.progress-container {
-  width:80%;
-  background:rgba(255,255,255,0.2);
-  height:12px;
-  border-radius:6px;
-  margin:15px auto;
-  position:relative;
-  cursor:pointer;
-}
-#progress-bar {
-  width:0%;
-  height:100%;
-  background:#1db954;
-  border-radius:6px;
-  transition:width 0.1s linear;
-}
-#time-display {
-  text-align:center;
-  margin-bottom:15px;
-  font-size:1.1em;
-}
+audio { display:none; }
 </style>
 </head>
 <body>
 
-<header>
+<header id="header">
 <h1>Dua Lipa – Radical Optimism (2024)</h1>
 <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Obsahuje 11 skladeb a kombinuje taneční pop, disco a moderní elektroniku. Singly <em>Houdini</em>, <em>Training Season</em> a <em>Illusion</em> se staly hity. Album reflektuje radikální optimismus a hledání radosti i v těžkých časech.</p>
 </header>
@@ -171,29 +164,25 @@ audio {
 <div class="tracklist" id="tracklist"></div>
 
 <div id="fullscreen-player">
-  <div class="player-container">
-    <div class="gif-overlay">
-      <img src="gif1.gif" alt="GIF pozadí">
-    </div>
+  <div class="gif-overlay">
+    <img src="gif1.gif" alt="GIF pozadí">
   </div>
   <span class="close-btn" onclick="closeFullscreen()">✖</span>
-  <img src="radical_optimism.jpg" alt="Cover" id="fullscreen-cover">
-  <div class="song-title" id="fullscreen-title"></div>
-  
+  <div id="fullscreen-info">
+    <div id="fullscreen-title"></div>
+    <div class="progress-container" id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+    <div id="time-display">
+      <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
+    </div>
+    <div class="controls">
+      <button onclick="prevSong()">⏮️</button>
+      <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
+      <button onclick="nextSong()">⏭️</button>
+    </div>
+  </div>
   <audio id="audio"></audio>
-  
-  <div class="progress-container" id="progress-container">
-    <div id="progress-bar"></div>
-  </div>
-  <div id="time-display">
-    <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
-  </div>
-
-  <div class="controls">
-    <button onclick="prevSong()">⏮️</button>
-    <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
-    <button onclick="nextSong()">⏭️</button>
-  </div>
 </div>
 
 <script>
@@ -220,10 +209,10 @@ let progressBar = document.getElementById("progress-bar");
 let progressContainer = document.getElementById("progress-container");
 let currentTimeDisplay = document.getElementById("current-time");
 let totalTimeDisplay = document.getElementById("total-time");
+let header = document.getElementById("header");
 let currentTrack = 0;
 let progressInterval;
 
-// Vytvoření seznamu skladeb
 tracks.forEach((t,i)=>{
   let div = document.createElement("div");
   div.className="track";
@@ -232,17 +221,16 @@ tracks.forEach((t,i)=>{
   tracklistDiv.appendChild(div);
 });
 
-// Otevření fullscreen a spuštění skladby s GIF
 function openFullscreen(index){
   currentTrack = index;
   let t = tracks[index];
   fullscreenPlayer.style.display="flex";
+  header.style.display="none"; // skryje úvodní banner
   fullscreenTitle.textContent = t.title;
   audio.src = t.file;
   audio.play();
   playPauseBtn.textContent="⏸️";
 
-  // Změna GIF podle skladby
   document.querySelector(".gif-overlay img").src = t.gif;
 
   audio.onloadedmetadata = ()=>{
@@ -253,7 +241,6 @@ function openFullscreen(index){
   progressInterval = setInterval(updateProgress, 500);
 }
 
-// Automatický přechod na další skladbu
 audio.onended = function(){
   if(currentTrack < tracks.length-1){
     openFullscreen(currentTrack+1);
@@ -265,14 +252,13 @@ audio.onended = function(){
   }
 };
 
-// Zavření fullscreen
 function closeFullscreen(){
   fullscreenPlayer.style.display="none";
+  header.style.display="block"; // znovu zobrazí úvodní banner
   audio.pause();
   clearInterval(progressInterval);
 }
 
-// Play/Pause
 function togglePlay(){
   if(audio.paused){
     audio.play();
@@ -283,11 +269,9 @@ function togglePlay(){
   }
 }
 
-// Next / Prev
 function prevSong(){ if(currentTrack>0) openFullscreen(currentTrack-1); }
 function nextSong(){ if(currentTrack<tracks.length-1) openFullscreen(currentTrack+1); }
 
-// Aktualizace progresu
 function updateProgress(){
   if(audio.duration){
     let percent = (audio.currentTime / audio.duration) * 100;
@@ -315,4 +299,3 @@ function formatTime(seconds){
 </script>
 </body>
 </html>
-

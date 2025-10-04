@@ -2,144 +2,116 @@
 <html lang="cs">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dua Lipa — Radical Optimism (Player)</title>
 <link rel="icon" href="radical_optimism.jpg" type="image/x-icon">
-
 <style>
-/* ===== RESET & BASE ===== */
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;background:#f5f5f5;color:#111;overflow-x:hidden}
+/* ================= RESET & BASE ================= */
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:"Inter","Arial",sans-serif;overflow-x:hidden;background:#fff;}
+body{background:linear-gradient(180deg,#40E0D0,#ffffff);color:#111;}
 
-/* ===== HEADER / INTRO ===== */
-header{position:relative;text-align:center;padding:40px 20px;background:linear-gradient(180deg,#40E0D0,#ffffff);color:#000;overflow:hidden}
-header .intro-wrap{max-width:1000px;margin:0 auto;display:flex;gap:28px;align-items:center;justify-content:center;flex-wrap:wrap}
-header .intro-left{max-width:600px;text-align:left}
-header h1{font-size:2.4rem;font-weight:900;margin-bottom:10px;line-height:1.1}
-header p{font-size:1.05rem;line-height:1.6;font-weight:600;opacity:.95}
-header .header-img{width:220px;height:220px;border-radius:16px;overflow:hidden;flex-shrink:0;box-shadow:0 12px 40px rgba(0,0,0,.18)}
-header .header-img img{width:100%;height:100%;object-fit:cover}
+/* ================= HEADER / INTRO ================= */
+#intro{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;text-align:center;padding:40px 20px;transition:all .5s ease;
+}
+#intro-content{max-width:900px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+#intro-left{text-align:left;flex:1;min-width:280px;}
+#intro-left h1{font-size:2rem;font-weight:900;margin-bottom:12px;}
+#intro-left p{font-size:1rem;line-height:1.5;color:#111;opacity:.95;}
+#intro-right img{width:240px;border-radius:16px;box-shadow:0 12px 36px rgba(0,0,0,.2);}
+#intro-toggle{margin-top:24px;cursor:pointer;font-size:2rem;color:#40E0D0;transition:transform .3s;}
+#intro-toggle:hover{transform:scale(1.2);}
 
-/* ===== INTRO TOGGLE ===== */
-#intro-toggle{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);cursor:pointer;font-size:2rem;color:#111;transition:all .3s}
-#intro-toggle:hover{color:#40E0D0;transform:translateX(-50%) translateY(-4px)}
+/* ================= TRACKLIST ================= */
+#tracklist{max-width:980px;margin:20px auto;padding:18px;background:rgba(255,255,255,.8);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.1);}
+.track{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:10px;cursor:pointer;transition:all .2s; background:rgba(255,255,255,.4);}
+.track:hover{background:rgba(64,224,208,.2);transform:translateY(-2px);}
+.track .left{display:flex;gap:12px;align-items:center;}
+.track .num{width:30px;text-align:center;color:#666;font-weight:700;}
+.track .title{font-weight:800;color:#111;}
+.track .duration{color:#666;font-weight:600;}
 
-/* ===== ALBUM COVER ===== */
-.album-cover{display:block;margin:20px auto;width:300px;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.16)}
+/* ================= FULLSCREEN PLAYER ================= */
+#fullscreen-player{position:fixed;inset:0;display:none;flex-direction:column;justify-content:flex-end;z-index:1400;background:#000;}
+#fullscreen-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.3;}
+#fs-info{position:relative;z-index:2;background:linear-gradient(to top,#40E0D0,#fff);padding:36px 30px;border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -18px 60px rgba(0,0,0,.25);transition:all .36s;}
+#fs-title{font-size:1.9rem;font-weight:900;color:#000;margin-bottom:12px;}
+#fs-controls{display:flex;align-items:center;justify-content:space-between;}
+#fs-controls button{width:52px;height:52px;border-radius:50%;border:0;background:#222;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.2);transition:all .16s;}
+#fs-controls button:hover{background:#40E0D0;transform:scale(1.05);}
+#fs-time{font-weight:800;color:#000;min-width:160px;text-align:right;}
+#fs-progress{width:100%;height:12px;background:#000;border-radius:10px;margin-top:12px;overflow:hidden;cursor:pointer;}
+#fs-fill{height:100%;width:0%;background:#40E0D0;transition:width .05s linear;}
 
-/* ===== TRACKLIST ===== */
-.tracklist{max-width:980px;margin:20px auto;padding:20px;background:rgba(0,0,0,0.03);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.06)}
-.track{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:10px;cursor:pointer;transition:all .2s; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0))}
-.track:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.06);background:rgba(0,0,0,0.02)}
-.track .left{display:flex;align-items:center;gap:12px;min-width:0}
-.track .num{width:36px;text-align:center;color:#666;font-weight:800}
-.track .title{font-weight:800;color:#111;white-space:normal}
-.track .duration{color:#666;font-weight:700;white-space:nowrap}
-
-/* ===== FULLSCREEN PLAYER ===== */
-#fullscreen-player{position:fixed;inset:0;display:none;z-index:1400;align-items:flex-end;justify-content:flex-end;overflow:hidden;background:#000;transition:opacity .25s}
-.bg-video-wrap{position:absolute;inset:0;z-index:0;overflow:hidden;transition:opacity .35s}
-.bg-video-wrap video{width:100%;height:100%;object-fit:cover}
-#close-full{position:absolute;top:12px;right:12px;z-index:1600;background:rgba(0,0,0,0.55);color:#fff;border:0;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.4)}
-#close-full:hover{background:#ff4d4d}
-#fullscreen-info{position:relative;z-index:1500;width:100%;padding:36px 30px;background:linear-gradient(to top,#40E0D0,#ffffff);border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -18px 60px rgba(0,0,0,.25);transition:transform .36s cubic-bezier(.2,.9,.3,1), background .36s, padding .25s}
-#fullscreen-info.compact{padding:12px 14px;height:80px;background:rgba(0,0,0,0.92);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top-left-radius:10px;border-top-right-radius:10px}
-.info-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.left-block{display:flex;align-items:center;gap:18px;min-width:0}
-.title-big{font-size:2rem;font-weight:900;color:#000;line-height:1.1;max-width:68%}
-.title-big p{margin:0;line-height:1.05;color:inherit}
-.controls{display:flex;align-items:center;gap:12px}
-.controls button{width:52px;height:52px;border-radius:50%;border:0;background:#222;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.2);transition:all .16s}
-.controls button:hover{transform:scale(1.04);background:#40E0D0}
-#time-big{font-size:2.3rem;font-weight:900;color:#000;min-width:160px;text-align:right}
-.progress-wrap{width:100%;margin-top:12px}
-.progress-bar{width:100%;height:14px;background:#000;border-radius:10px;overflow:hidden;cursor:pointer}
-.progress-fill{height:100%;width:0%;background:#40E0D0;border-radius:10px;transition:width .06s linear}
-
-/* ===== MINI PLAYER ===== */
-#mini-player{position:fixed;left:12px;right:12px;bottom:12px;z-index:1500;display:none;background:linear-gradient(90deg,#40E0D0,#ffffff);padding:12px;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:space-between;gap:14px}
-.mini-left{display:flex;align-items:center;gap:12px;min-width:0}
-.mini-cover{width:66px;height:66px;border-radius:8px;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,.18)}
-.mini-meta{min-width:0;overflow:hidden}
-.mini-title{font-weight:800;color:#000;white-space:normal;max-width:280px}
-.mini-desc{font-size:.92rem;color:#111;opacity:.95;max-width:420px}
-.mini-controls{display:flex;align-items:center;gap:8px}
-.mini-controls button{width:40px;height:40px;border-radius:50%;border:0;background:#222;color:#fff;font-size:18px;cursor:pointer}
-#mini-time{font-weight:800;color:#111;min-width:140px;text-align:right}
-#mini-expand{font-size:20px;cursor:pointer;background:transparent;border:0}
-
-/* ===== ANIMATIONS ===== */
-.fade-in{animation:fadeIn .35s ease both}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:980px){.title-big{font-size:1.4rem}#time-big{font-size:1rem}.mini-desc{display:none}.album-cover{width:220px}}
-@media(max-width:480px){header h1{font-size:1.2rem}.album-cover{width:160px}.title-big{font-size:1rem}#time-big{font-size:1rem}#mini-player{left:8px;right:8px;bottom:8px;padding:8px}.mini-cover{width:48px;height:48px}.mini-title{font-size:0.95rem}}
-
-/* ===== AUDIO VISUALIZER ===== */
-#visualizer{position:absolute;bottom:0;left:0;width:100%;height:100px;pointer-events:none;z-index:1450;opacity:.3}
+/* ================= MINI PLAYER ================= */
+#mini-player{position:fixed;left:12px;right:12px;bottom:12px;z-index:1500;background:linear-gradient(90deg,#40E0D0,#ffffff);padding:12px;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:space-between;gap:14px;display:none;}
+.mini-left{display:flex;align-items:center;gap:12px;}
+.mini-cover{width:66px;height:66px;border-radius:8px;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,.18);}
+.mini-meta{overflow:hidden;}
+.mini-title{font-weight:800;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mini-desc{font-size:.9rem;color:#111;opacity:.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mini-controls{display:flex;align-items:center;gap:8px;}
+.mini-controls button{width:40px;height:40px;border-radius:50%;border:0;background:#222;color:#fff;font-size:18px;cursor:pointer;}
+#mini-time{font-weight:800;color:#111;min-width:100px;text-align:right;}
 </style>
 </head>
 <body>
 
-<!-- HEADER / INTRO -->
-<header id="header">
-  <div class="intro-wrap">
-    <div class="intro-left">
+<!-- ================= INTRO ================= -->
+<div id="intro">
+  <div id="intro-content">
+    <div id="intro-left">
       <h1>Dua Lipa — Radical Optimism (2024)</h1>
-      <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Album kombinuje taneční pop, disco a moderní elektroniku. Kliknutím na šipku se intro zmenší a objeví se plnohodnotný přehrávač s playlistem a vizualizací.</p>
+      <p>Dua Lipa je britská zpěvačka a autorka písní. Album <strong>Radical Optimism</strong> kombinuje taneční pop, disco a moderní elektroniku. Zde najdeš kompletní seznam skladeb a interaktivní přehrávač — klikni na šipku a otevři přehrávač.</p>
     </div>
-    <div class="header-img">
-      <img src="radical_optimism.jpg" alt="Dua Lipa">
+    <div id="intro-right">
+      <img src="Dua_Lipa.jpg" alt="Dua Lipa">
     </div>
   </div>
   <div id="intro-toggle">⬇</div>
-</header>
+</div>
 
-<img class="album-cover" src="radical_optimism.jpg" alt="Radical Optimism cover">
+<!-- ================= TRACKLIST ================= -->
+<div id="tracklist" aria-label="Seznam skladeb"></div>
 
-<div class="tracklist" id="tracklist" aria-label="Seznam skladeb"></div>
-
-<!-- FULLSCREEN PLAYER -->
-<div id="fullscreen-player" aria-hidden="true">
-  <div class="bg-video-wrap"><video id="bg-video" autoplay muted loop playsinline></video></div>
-  <canvas id="visualizer"></canvas>
-  <button id="close-full" title="Ukončit přehrávání">✖</button>
-  <div id="fullscreen-info">
-    <div class="info-row">
-      <div class="left-block"><div class="title-big" id="fs-title"><p>Vyber skladbu</p></div></div>
-      <div class="controls">
-        <button id="prev">⏮</button>
-        <button id="play">▶</button>
-        <button id="next">⏭</button>
-      </div>
-      <div id="time-big">0:00 / 0:00</div>
+<!-- ================= FULLSCREEN PLAYER ================= -->
+<div id="fullscreen-player">
+  <video id="fullscreen-video" autoplay muted loop></video>
+  <div id="fs-info">
+    <div id="fs-title">—</div>
+    <div id="fs-controls">
+      <button id="prev">⏮</button>
+      <button id="play">▶</button>
+      <button id="next">⏭</button>
+      <div id="fs-time">0:00 / 0:00</div>
     </div>
-    <div class="progress-wrap">
-      <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-    </div>
+    <div id="fs-progress"><div id="fs-fill"></div></div>
   </div>
 </div>
 
-<!-- MINI PLAYER -->
+<!-- ================= MINI PLAYER ================= -->
 <div id="mini-player">
   <div class="mini-left">
-    <img class="mini-cover" id="mini-cover" src="" alt="cover">
+    <img id="mini-cover" class="mini-cover" src="radical_optimism.jpg" alt="cover">
     <div class="mini-meta">
-      <div class="mini-title" id="mini-title"></div>
-      <div class="mini-desc" id="mini-desc"></div>
+      <div id="mini-title" class="mini-title">—</div>
+      <div id="mini-desc" class="mini-desc">Radical Optimism — Dua Lipa</div>
     </div>
   </div>
   <div class="mini-controls">
     <button id="mini-prev">⏮</button>
     <button id="mini-play">▶</button>
     <button id="mini-next">⏭</button>
+    <div id="mini-time">0:00 / 0:00</div>
   </div>
-  <div id="mini-time">0:00 / 0:00</div>
-  <button id="mini-expand">⬆</button>
 </div>
 
+<audio id="audio"></audio>
+
 <script>
+// ================= PLAYLIST =================
 const tracks=[
   {num:1,title:"End of an Era",mp3:"mech.mp3",mp4:"a82x20.mp4",duration:"3:35"},
   {num:2,title:"Houdini",mp3:"kouzelník.mp3",mp4:"a82xf4.mp4",duration:"2:58"},
@@ -154,61 +126,104 @@ const tracks=[
   {num:11,title:"Happy for You",mp3:"Pro tebe.mp3",mp4:"a83003.mp4",duration:"3:16"}
 ];
 
-const tracklist=document.getElementById('tracklist');
+const tracklistEl=document.getElementById('tracklist');
+const intro=document.getElementById('intro');
+const introToggle=document.getElementById('intro-toggle');
+const fullscreen=document.getElementById('fullscreen-player');
+const fsVideo=document.getElementById('fullscreen-video');
+const fsTitle=document.getElementById('fs-title');
+const playBtn=document.getElementById('play');
+const prevBtn=document.getElementById('prev');
+const nextBtn=document.getElementById('next');
+const fsTime=document.getElementById('fs-time');
+const fsFill=document.getElementById('fs-fill');
+
+const mini=document.getElementById('mini-player');
+const miniCover=document.getElementById('mini-cover');
+const miniTitle=document.getElementById('mini-title');
+const miniDesc=document.getElementById('mini-desc');
+const miniPlay=document.getElementById('mini-play');
+const miniPrev=document.getElementById('mini-prev');
+const miniNext=document.getElementById('mini-next');
+const miniTime=document.getElementById('mini-time');
+
+const audio=document.getElementById('audio');
+
+let current=null;
+let timer=null;
+
+// ================= BUILD TRACKLIST =================
 tracks.forEach(t=>{
-  const div=document.createElement('div');
-  div.className='track fade-in';
-  div.innerHTML=`<div class="left"><div class="num">${t.num}</div><div class="title">${t.title}</div></div><div class="duration">${t.duration}</div>`;
-  div.addEventListener('click',()=>{loadTrack(t.num-1);openFullscreen();});
-  tracklist.appendChild(div);
+  const row=document.createElement('div');
+  row.className='track';
+  row.innerHTML=`<div class="left"><div class="num">${t.num}</div><div class="title">${t.title}</div></div><div class="duration">${t.duration}</div>`;
+  row.addEventListener('click',()=>playTrack(t.num-1));
+  tracklistEl.appendChild(row);
 });
 
-let currentTrack=0, audio=new Audio();
-const playBtn=document.getElementById('play');
-const fsTitle=document.getElementById('fs-title');
-const bgVideo=document.getElementById('bg-video');
-const progressFill=document.getElementById('progress-fill');
-const timeBig=document.getElementById('time-big');
+// ================= INTRO TOGGLE =================
+introToggle.addEventListener('click',()=>{
+  intro.style.height='80px';
+  intro.style.padding='12px 20px';
+  intro.style.flexDirection='row';
+  introToggle.style.display='none';
+  fullscreen.style.display='flex';
+  mini.style.display='flex';
+});
 
-function formatTime(sec){let m=Math.floor(sec/60),s=Math.floor(sec%60);return m+":"+((s<10)?"0"+s:s)}
-function loadTrack(index){
-  currentTrack=index;
-  audio.src=tracks[index].mp3; audio.load(); fsTitle.innerHTML=`<p>${tracks[index].title}</p>`;
-  bgVideo.src=tracks[index].mp4; bgVideo.load();
-  updateMini(); audio.play(); playBtn.textContent='⏸';
+// ================= PLAYER FUNCTIONS =================
+function playTrack(index){
+  current=index;
+  const t=tracks[current];
+  audio.src=t.mp3;
+  fsVideo.src=t.mp4;
+  fsTitle.textContent=t.title;
+  miniTitle.textContent=t.title;
+  miniCover.src='radical_optimism.jpg';
+  audio.play();
+  playBtn.textContent='⏸';
+  miniPlay.textContent='⏸';
 }
 
-function playPause(){audio.paused?audio.play():audio.pause(); playBtn.textContent=audio.paused?'▶':'⏸'}
-playBtn.addEventListener('click',playPause);
-audio.addEventListener('timeupdate',()=>{progressFill.style.width=(audio.currentTime/audio.duration*100)+'%';timeBig.textContent=formatTime(audio.currentTime)+' / '+formatTime(audio.duration)});
-document.getElementById('progress-bar').addEventListener('click',e=>{const w=e.offsetX/progressBar.offsetWidth;audio.currentTime=w*audio.duration});
-
-document.getElementById('prev').addEventListener('click',()=>{loadTrack((currentTrack-1+tracks.length)%tracks.length)});
-document.getElementById('next').addEventListener('click',()=>{loadTrack((currentTrack+1)%tracks.length)});
-
-// FULLSCREEN / MINI PLAYER
-const fsPlayer=document.getElementById('fullscreen-player');
-const miniPlayer=document.getElementById('mini-player');
-document.getElementById('intro-toggle').addEventListener('click',()=>{fsPlayer.style.display='flex';miniPlayer.style.display='flex';document.getElementById('header').style.display='none'});
-document.getElementById('close-full').addEventListener('click',()=>{fsPlayer.style.display='none';miniPlayer.style.display='flex';});
-
-function updateMini(){
-  document.getElementById('mini-title').textContent=tracks[currentTrack].title;
-  document.getElementById('mini-cover').src='radical_optimism.jpg';
+function updateTime(){
+  const cur=audio.currentTime;
+  const dur=audio.duration||1;
+  const minutes=Math.floor(cur/60);
+  const seconds=Math.floor(cur%60).toString().padStart(2,'0');
+  const totalMinutes=Math.floor(dur/60);
+  const totalSeconds=Math.floor(dur%60).toString().padStart(2,'0');
+  fsTime.textContent=`${minutes}:${seconds} / ${totalMinutes}:${totalSeconds}`;
+  miniTime.textContent=fsTime.textContent;
+  fsFill.style.width=`${(cur/dur)*100}%`;
 }
-document.getElementById('mini-play').addEventListener('click',playPause);
-document.getElementById('mini-next').addEventListener('click',()=>{loadTrack((currentTrack+1)%tracks.length)});
-document.getElementById('mini-prev').addEventListener('click',()=>{loadTrack((currentTrack-1+tracks.length)%tracks.length)});
-document.getElementById('mini-expand').addEventListener('click',()=>{fsPlayer.style.display='flex';miniPlayer.style.display='none'});
 
-// INITIAL LOAD
-loadTrack(0);
+audio.addEventListener('timeupdate',updateTime);
+audio.addEventListener('ended',()=>{nextTrack();});
 
-// AUDIO VISUALIZER
-const canvas=document.getElementById('visualizer'),ctx=canvas.getContext('2d'),audioCtx=new (window.AudioContext||window.webkitAudioContext)(),analyser=audioCtx.createAnalyser(),source=audioCtx.createMediaElementSource(audio);source.connect(analyser);analyser.connect(audioCtx.destination);analyser.fftSize=128;const bufferLength=analyser.frequencyBinCount,dataArray=new Uint8Array(bufferLength);
-function draw(){requestAnimationFrame(draw);ctx.clearRect(0,0,canvas.width,canvas.height);analyser.getByteFrequencyData(dataArray);const w=canvas.width/bufferLength;for(let i=0;i<bufferLength;i++){const h=dataArray[i];ctx.fillStyle=`rgba(64,224,208,${h/255})`;ctx.fillRect(i*w,canvas.height-h,w,h)}};draw();
-window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=100});
-canvas.width=window.innerWidth;canvas.height=100;
+function togglePlay(){
+  if(audio.paused){audio.play();playBtn.textContent='⏸';miniPlay.textContent='⏸';}
+  else{audio.pause();playBtn.textContent='▶';miniPlay.textContent='▶';}
+}
+
+function nextTrack(){playTrack((current+1)%tracks.length);}
+function prevTrack(){playTrack((current-1+tracks.length)%tracks.length);}
+
+// ================= BUTTONS =================
+playBtn.addEventListener('click',togglePlay);
+miniPlay.addEventListener('click',togglePlay);
+nextBtn.addEventListener('click',nextTrack);
+miniNext.addEventListener('click',nextTrack);
+prevBtn.addEventListener('click',prevTrack);
+miniPrev.addEventListener('click',prevTrack);
+
+// ================= PROGRESS BAR =================
+const fsProgress=document.getElementById('fs-progress');
+fsProgress.addEventListener('click',(e)=>{
+  const rect=fsProgress.getBoundingClientRect();
+  const pct=(e.clientX-rect.left)/rect.width;
+  audio.currentTime=audio.duration*pct;
+});
+
 </script>
 </body>
 </html>

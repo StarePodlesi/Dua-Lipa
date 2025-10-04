@@ -165,7 +165,7 @@ audio { display:none; }
 
 <div id="fullscreen-player">
   <div class="video-overlay">
-    <video id="bg-video" autoplay muted loop playsinline></video>
+    <video id="bg-video" autoplay muted loop playsinline preload="none"></video>
   </div>
   <span class="close-btn" onclick="closeFullscreen()">✖</span>
   <div id="fullscreen-info">
@@ -182,10 +182,11 @@ audio { display:none; }
       <button onclick="nextSong()">⏭️</button>
     </div>
   </div>
-  <audio id="audio"></audio>
+  <audio id="audio" preload="none"></audio>
 </div>
 
 <script>
+// seznam skladeb
 const tracks = [
   {title:"End of an Era", file:"mech.mp3", length:"3:36", video:"a82x20.mp4"},
   {title:"Houdini", file:"kouzelník.mp3", length:"3:06", video:"a82xf4.mp4"},
@@ -229,8 +230,13 @@ function openFullscreen(index){
   fullscreenPlayer.style.display="flex";
   header.style.display="none";
   fullscreenTitle.textContent = t.title;
+
+  // lazy loading: audio a video se načtou až teď
   audio.src = t.file;
   bgVideo.src = t.video;
+  audio.load();
+  bgVideo.load();
+
   audio.play();
   bgVideo.play();
   playPauseBtn.textContent="⏸️";
@@ -248,6 +254,7 @@ audio.onended = function(){
     openFullscreen(currentTrack+1);
   } else {
     audio.pause();
+    bgVideo.pause();
     playPauseBtn.textContent="▶️";
     progressBar.style.width = "0%";
     currentTimeDisplay.textContent = "0:00";
@@ -285,6 +292,7 @@ function updateProgress(){
   }
 }
 
+// klikací progres bar
 progressContainer.addEventListener("click",(e)=>{
   const rect = progressContainer.getBoundingClientRect();
   const clickX = e.clientX - rect.left;

@@ -8,39 +8,41 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Arial',sans-serif;overflow-x:hidden;background:linear-gradient(to bottom,#40E0D0,#ffffff);color:white;transition:background 0.5s ease;}
-/* ================= HEADER ================= */
+/* HEADER */
 header{text-align:center;padding:40px 20px;background:linear-gradient(120deg,#40E0D0,#ffffff);color:black;transition:all 0.5s ease;}
 header h1{font-size:3em;font-weight:bold;text-shadow:2px 2px 5px rgba(0,0,0,0.5);}
 header p{max-width:900px;margin:20px auto;font-size:1.3em;line-height:1.6em;font-weight:bold;text-shadow:1px 1px 3px rgba(0,0,0,0.3);transition:all 0.5s ease;}
-/* ================= ALBUM COVER ================= */
+/* ALBUM COVER */
 .album-cover{display:block;margin:30px auto;width:320px;border-radius:20px;box-shadow:0 0 50px rgba(0,0,0,0.7);transition:all 0.5s ease;}
-/* ================= TRACKLIST ================= */
+/* TRACKLIST */
 .tracklist{max-width:900px;margin:30px auto;padding:25px;background:rgba(0,0,0,0.4);border-radius:25px;box-shadow:0 0 30px rgba(0,0,0,0.4);transition:all 0.5s ease;}
 .track{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.2);cursor:pointer;transition:0.3s;font-size:1.2em;font-weight:bold;}
 .track:hover{background: rgba(255,255,255,0.1);transform:scale(1.02);}
-/* ================= FULLSCREEN PLAYER ================= */
+/* FULLSCREEN PLAYER */
 #fullscreen-player{position:fixed;top:0;left:0;width:100%;height:100%;display:none;justify-content:flex-end;align-items:center;background:black;z-index:999;flex-direction:column;overflow:hidden;transition:all 0.5s ease;}
 .video-overlay{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:0;transition:opacity 0.5s ease;}
 .video-overlay video{width:100%;height:100%;object-fit:cover;transition:all 0.5s ease;}
-#fullscreen-info{width:100%;position:absolute;bottom:0;background:linear-gradient(to top,#40E0D0,#ffffff);color:black;display:flex;flex-direction:column;padding:20px;transition:all 0.5s ease;border-top-left-radius:15px;border-top-right-radius:15px;}
-#fullscreen-info.small{padding:8px 15px;height:60px;}
+#fullscreen-info{width:100%;position:absolute;bottom:0;background:linear-gradient(to top,#40E0D0,#ffffff);color:black;display:flex;flex-direction:column;padding:30px;transition:all 0.5s ease;border-top-left-radius:15px;border-top-right-radius:15px;}
+#fullscreen-info.small{padding:8px 15px;height:70px;background:black;}
 .info-top{display:flex;justify-content:space-between;align-items:center;transition:all 0.5s ease;}
-#fullscreen-title{font-size:2.5em;font-weight:bold;transition:all 0.5s ease;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-#fullscreen-info.small #fullscreen-title{font-size:1.2em;}
-.controls{display:flex;gap:10px;}
+#fullscreen-title{font-size:2.8em;font-weight:bold;transition:all 0.5s ease;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#fullscreen-info.small #fullscreen-title{font-size:1.2em;color:white;}
+.controls{display:flex;gap:10px;align-items:center;}
 .controls button{font-size:32px;width:50px;height:50px;border-radius:50%;background:#333;color:white;border:none;cursor:pointer;transition:0.3s;}
 .controls button:hover{background:#40E0D0;}
+#close-fullscreen{cursor:pointer;font-size:28px;margin-left:15px;color:#ff3333;}
 #toggle-size{cursor:pointer;font-size:28px;margin-left:15px;transition:transform 0.5s ease;}
-.progress-container{width:100%;height:10px;background:#222;border-radius:5px;margin-top:10px;position:relative;cursor:pointer;}
+#time-display{margin-left:15px;font-weight:bold;}
+.progress-container{width:100%;height:10px;background:black;border-radius:5px;margin-top:10px;position:relative;cursor:pointer;}
 #progress-bar{height:100%;width:0%;background:#40E0D0;border-radius:5px;transition:width 0.1s linear;}
-/* ================= MINI PLAYER ================= */
+/* MINI PLAYER */
 #mini-player{position:fixed;bottom:0;left:0;width:100%;background:linear-gradient(to right,#40E0D0,#ffffff);display:none;align-items:center;justify-content:space-between;padding:8px 15px;box-shadow:0 -2px 10px rgba(0,0,0,0.3);z-index:1000;transition:all 0.5s ease;}
 #mini-player #mini-title{font-weight:bold;font-size:1.2em;color:black;transition:all 0.5s ease;}
 #mini-controls{display:flex;align-items:center;}
 #mini-controls button{font-size:28px;margin:0 5px;cursor:pointer;border:none;border-radius:50%;width:40px;height:40px;color:white;background:#333;transition:0.3s;}
 #mini-controls button:hover{background:#40E0D0;}
 #mini-arrow{cursor:pointer;font-size:24px;margin-left:10px;}
-/* ================= RESPONSIVE ================= */
+/* RESPONSIVE */
 @media(max-width:1200px){header h1{font-size:2.5em;}header p{font-size:1.1em;}.album-cover{width:280px;}.track{font-size:1.1em;}#fullscreen-title{font-size:2em;}}
 @media(max-width:768px){header h1{font-size:2em;}header p{font-size:1em;}.album-cover{width:220px;}.track{font-size:1em;}#fullscreen-title{font-size:1.5em;}}
 @media(max-width:480px){header h1{font-size:1.5em;}header p{font-size:0.9em;}.album-cover{width:180px;}.track{font-size:0.9em;}#fullscreen-title{font-size:1em;}}
@@ -49,7 +51,7 @@ header p{max-width:900px;margin:20px auto;font-size:1.3em;line-height:1.6em;font
 <body>
 <header id="header">
 <h1>Dua Lipa – Radical Optimism (2024)</h1>
-<p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Obsahuje 11 skladeb a kombinuje taneční pop, disco a moderní elektroniku. Singly <em>Houdini</em>, <em>Training Season</em> a <em>Illusion</em> se staly hity. Album reflektuje radikální optimismus a hledání radosti i v těžkých časech.</p>
+<p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Obsahuje 11 skladeb a kombinuje taneční pop, disco a moderní elektroniku. Singly <em>Houdini</em>, <em>Training Season</em> a <em>Illusion</em> se staly hity.</p>
 </header>
 <img src="radical_optimism.jpg" alt="Cover" class="album-cover">
 <div class="tracklist" id="tracklist"></div>
@@ -66,7 +68,9 @@ header p{max-width:900px;margin:20px auto;font-size:1.3em;line-height:1.6em;font
         <button id="play-pause-btn" onclick="togglePlay()">▶️</button>
         <button onclick="nextSong()">⏭️</button>
       </div>
+      <span id="time-display">0:00 / 0:00</span>
       <span id="toggle-size" onclick="toggleFullscreenSize()">⬇️</span>
+      <span id="close-fullscreen" onclick="closeFullscreen()">✖️</span>
     </div>
     <div class="progress-container" id="progress-container">
       <div id="progress-bar"></div>
@@ -86,7 +90,7 @@ header p{max-width:900px;margin:20px auto;font-size:1.3em;line-height:1.6em;font
 </div>
 
 <script>
-// ======================== TRACKS ========================
+// TRACKS
 const tracks=[
 {title:"End of an Era",file:"mech.mp3",length:"3:36",video:"a82x20.mp4"},
 {title:"Houdini",file:"kouzelník.mp3",length:"3:06",video:"a82xf4.mp4"},
@@ -109,6 +113,7 @@ let playPauseBtn=document.getElementById("play-pause-btn");
 let progressBar=document.getElementById("progress-bar");
 let progressContainer=document.getElementById("progress-container");
 let header=document.getElementById("header");
+let timeDisplay=document.getElementById("time-display");
 let currentTrack=0;
 let progressInterval;
 
@@ -122,22 +127,20 @@ let miniArrow=document.getElementById("mini-arrow");
 let isFullscreenSmall=false;
 function toggleFullscreenSize(){
   const info=document.getElementById("fullscreen-info");
-  const toggle=document.getElementById("toggle-size");
   if(isFullscreenSmall){
     info.classList.remove("small");
     bgVideo.style.opacity="1";
     header.style.display="none";
-    toggle.textContent="⬇️";
-  } else {
+    isFullscreenSmall=false;
+  }else{
     info.classList.add("small");
     bgVideo.style.opacity="0";
     header.style.display="block";
-    toggle.textContent="⬆️";
+    isFullscreenSmall=true;
   }
-  isFullscreenSmall=!isFullscreenSmall;
 }
 
-// ================= CREATE TRACKLIST =================
+// CREATE TRACKLIST
 tracks.forEach((t,i)=>{
   let div=document.createElement("div");
   div.className="track";
@@ -146,7 +149,7 @@ tracks.forEach((t,i)=>{
   tracklistDiv.appendChild(div);
 });
 
-// ================= FUNCTIONS =================
+// FUNCTIONS
 function openFullscreen(index){
   currentTrack=index;
   let t=tracks[index];
@@ -186,15 +189,14 @@ function updateProgress(){
   if(audio.duration){
     let percent=(audio.currentTime/audio.duration)*100;
     progressBar.style.width=percent+"%";
+    let cur=Math.floor(audio.currentTime/60)+":"+("0"+Math.floor(audio.currentTime%60)).slice(-2);
+    let tot=Math.floor(audio.duration/60)+":"+("0"+Math.floor(audio.duration%60)).slice(-2);
+    timeDisplay.textContent=cur+" / "+tot;
   }
 }
 
 // mini player
-function updateMini(){
-  miniPlayer.style.display="flex";
-  miniTitle.textContent=tracks[currentTrack].title;
-  miniPlayPause.textContent=audio.paused?"▶️":"⏸️";
-}
+function updateMini(){miniPlayer.style.display="flex";miniTitle.textContent=tracks[currentTrack].title;miniPlayPause.textContent=audio.paused?"▶️":"⏸️";}
 
 // mini controls
 function toggleMiniPlay(){togglePlay();}

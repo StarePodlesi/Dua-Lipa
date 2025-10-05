@@ -6,37 +6,39 @@
 <title>Dua Lipa — Radical Optimism Player</title>
 <link rel="icon" href="radical_optimism.jpg" type="image/x-icon">
 <style>
-/* ===== RESET & BASE ===== */
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:"Inter",sans-serif;overflow-x:hidden;background:#f5f5f5;color:#111;-webkit-font-smoothing:antialiased;}
+html,body{height:100%;font-family:"Inter",sans-serif;overflow-x:hidden;background:#0f4f54;color:#fff;-webkit-font-smoothing:antialiased;}
 button{cursor:pointer}
 
-/* ===== HEADER / INTRO ===== */
-header{position:relative;width:100%;text-align:center;overflow:hidden;padding:40px 20px;background:linear-gradient(120deg,#40E0D0,#ffffff);}
-header h1{font-size:2.2rem;font-weight:800;margin-bottom:12px;}
-header p{font-size:1.05rem;line-height:1.5;color:#111;max-width:700px;margin:0 auto;}
-.header-img{width:220px;height:220px;border-radius:16px;margin-top:20px;object-fit:cover;box-shadow:0 12px 40px rgba(0,0,0,.2);}
+/* ===== HEADER ===== */
+header{position:relative;width:100%;text-align:center;overflow:hidden;padding:50px 20px;background:#0f4f54;}
+header img.hero{width:260px;height:260px;border-radius:50%;object-fit:cover;box-shadow:0 12px 50px rgba(0,0,0,.4);}
+header h1{font-size:2.4rem;font-weight:800;margin-top:22px;margin-bottom:16px;}
+header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:0 auto;text-align:justify;}
+.album-section{margin-top:40px;}
+.album-section img{width:220px;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.4);}
+.album-section p{margin-top:18px;max-width:700px;margin-inline:auto;color:#eaeaea;line-height:1.6;}
 
 /* ===== TRACKLIST ===== */
-.tracklist{max-width:980px;margin:28px auto;padding:16px;border-radius:12px;background:rgba(0,0,0,0.03);box-shadow:0 8px 30px rgba(0,0,0,0.06);}
-.track{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:10px;margin-bottom:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0));transition:0.15s;cursor:pointer}
-.track:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.08);background:rgba(0,0,0,0.02);}
-.track .num{width:36px;text-align:center;color:#666;font-weight:800}
-.track .title{font-weight:800;color:#111}
-.track .duration{color:#666;font-weight:700}
+.tracklist{max-width:980px;margin:40px auto;padding:16px;border-radius:12px;background:rgba(255,255,255,0.05);box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+.track{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:10px;margin-bottom:10px;transition:0.15s;cursor:pointer}
+.track:hover{transform:translateY(-3px);background:rgba(255,255,255,0.08);}
+.track .num{width:36px;text-align:center;color:#aaa;font-weight:800}
+.track .title{font-weight:800;color:#fff}
+.track .duration{color:#aaa;font-weight:700}
 
 /* ===== MINI PLAYER ===== */
-#mini-player{position:fixed;left:12px;right:12px;bottom:12px;background:linear-gradient(90deg,#40E0D0,#ffffff);padding:12px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 12px 36px rgba(0,0,0,.22);display:none;z-index:1500;transition:all .3s ease;}
+#mini-player{position:fixed;left:12px;right:12px;bottom:12px;background:linear-gradient(90deg,#40E0D0,#0f4f54);padding:12px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 12px 36px rgba(0,0,0,.5);display:none;z-index:1500;}
 .mini-left{display:flex;align-items:center;gap:12px}
-.mini-cover{width:66px;height:66px;border-radius:8px;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,.18);}
+.mini-cover{width:66px;height:66px;border-radius:8px;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,.4);}
 .mini-meta{overflow:hidden;min-width:0;}
-.mini-title{font-weight:800;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;}
-.mini-time{color:#111;margin-top:2px;}
+.mini-title{font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;}
 .mini-controls{display:flex;align-items:center;gap:8px;}
 .mini-controls button{width:40px;height:40px;border-radius:50%;border:0;background:#222;color:#fff;font-size:18px;}
+#mini-time{color:#fff;font-size:0.9rem;font-weight:600;margin-right:8px;}
 
 /* ===== FULLSCREEN PLAYER ===== */
-#fullscreen-player{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:flex-end;z-index:2000;background:#000;overflow:hidden;transition:opacity .25s;}
+#fullscreen-player{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:flex-end;z-index:2000;background:#000;overflow:hidden;}
 .bg-video-wrap{position:absolute;inset:0;z-index:0;overflow:hidden;}
 .bg-video-wrap video{width:100%;height:100%;object-fit:cover;}
 #close-full{position:absolute;top:12px;right:12px;z-index:1600;background:rgba(0,0,0,0.55);color:#fff;border:0;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.4);}
@@ -53,17 +55,33 @@ header p{font-size:1.05rem;line-height:1.5;color:#111;max-width:700px;margin:0 a
 .progress-bar{width:100%;height:14px;background:#000;border-radius:10px;overflow:hidden;cursor:pointer;}
 .progress-fill{height:100%;width:0%;background:#40E0D0;border-radius:10px;transition:width .06s linear;}
 
-/* ===== ANIMATIONS ===== */
+/* ===== ANIMATION ===== */
 .fade-in{animation:fadeIn .35s ease both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 
-<header id="header">
+<header>
+  <img class="hero" src="dua_lipa_portrait.jpg" alt="Dua Lipa">
   <h1>Dua Lipa — Radical Optimism (2024)</h1>
-  <p><strong>Radical Optimism</strong> je třetí studiové album britské zpěvačky Dua Lipy, vydané 3. května 2024. Album kombinuje taneční pop, disco a moderní elektroniku. Zde najdeš kompletní seznam skladeb a interaktivní přehrávač — klikni na skladbu pro spuštění.</p>
-  <img class="header-img" src="Dua_Lipa.jpg" alt="Dua Lipa">
+  <p>
+    Dua Lipa je britská zpěvačka, skladatelka a herečka narozená 22. srpna 1995 v Londýně. 
+    Proslavila se svým debutovým albem „Dua Lipa“ (2017) s hity jako „New Rules“ a „IDGAF“, 
+    které jí zajistily celosvětový úspěch. Druhé album „Future Nostalgia“ (2020) 
+    jí přineslo status popové ikony díky hitům „Don't Start Now“ a „Levitating“. 
+    Její tvorba kombinuje taneční pop, disco a moderní elektroniku s osobitým stylem a vizuální estetikou.
+  </p>
+
+  <div class="album-section">
+    <img src="radical_optimism.jpg" alt="Radical Optimism Album">
+    <p>
+      <strong>Radical Optimism</strong> je třetí studiové album Dua Lipy vydané 3. května 2024. 
+      Projekt navazuje na retro-disco atmosféru, ale s moderním nádechem a svěžím zvukem. 
+      Album se zabývá osobním růstem, sebevědomím a emocemi, které přicházejí se ztrátami i vítězstvími. 
+      Vizuálně i zvukově odráží mořskou symboliku — představuje klid, sílu a vyrovnanost.
+    </p>
+  </div>
 </header>
 
 <div class="tracklist" id="tracklist"></div>
@@ -73,13 +91,14 @@ header p{font-size:1.05rem;line-height:1.5;color:#111;max-width:700px;margin:0 a
     <img id="mini-cover" class="mini-cover" src="radical_optimism.jpg" alt="cover">
     <div class="mini-meta">
       <div id="mini-title" class="mini-title">—</div>
-      <div id="mini-time" class="mini-time">0:00 / 0:00</div>
+      <div id="mini-time">0:00 / 0:00</div>
     </div>
   </div>
   <div class="mini-controls">
     <button id="mini-prev">⏮</button>
     <button id="mini-play">▶</button>
     <button id="mini-next">⏭</button>
+    <button id="mini-expand">⬆</button>
   </div>
 </div>
 
@@ -135,16 +154,15 @@ tracks.forEach(track=>{
   tracklistDiv.appendChild(div);
 });
 
-// MINI PLAYER
 const miniPlayer=document.getElementById("mini-player");
 const miniTitle=document.getElementById("mini-title");
 const miniCover=document.getElementById("mini-cover");
-const miniTime=document.getElementById("mini-time");
 const miniPlay=document.getElementById("mini-play");
 const miniPrev=document.getElementById("mini-prev");
 const miniNext=document.getElementById("mini-next");
+const miniExpand=document.getElementById("mini-expand");
+const miniTime=document.getElementById("mini-time");
 
-// FULLSCREEN
 const fsPlayer=document.getElementById("fullscreen-player");
 const fsTitle=document.getElementById("fs-title");
 const bgVideo=document.getElementById("bg-video");
@@ -169,40 +187,34 @@ function playTrack(index){
   miniPlayer.style.display="flex";
   miniTitle.textContent=t.title;
   miniCover.src="radical_optimism.jpg";
-  fsTitle.innerHTML=t.title;
+  fsTitle.textContent=t.title;
   bgVideo.src=t.mp4;
   updateButtons();
 }
-
 function playNext(){currentIndex=(currentIndex+1)%tracks.length;playTrack(currentIndex);}
 function playPrev(){currentIndex=(currentIndex-1+tracks.length)%tracks.length;playTrack(currentIndex);}
 audio.addEventListener("ended",()=>playNext());
 
-// SYNC PLAY BUTTONS
+miniPlay.addEventListener("click",()=>{audio.paused?audio.play():audio.pause();updateButtons();});
+miniPrev.addEventListener("click",playPrev);
+miniNext.addEventListener("click",playNext);
+miniExpand.addEventListener("click",()=>{fsPlayer.style.display="flex";});
+
+closeFull.addEventListener("click",()=>{fsPlayer.style.display="none";});
+playBtn.addEventListener("click",()=>{audio.paused?audio.play():audio.pause();updateButtons();});
+prevBtn.addEventListener("click",playPrev);
+nextBtn.addEventListener("click",playNext);
+
 function updateButtons(){
-  const icon=audio.paused?"▶":"⏸";
-  miniPlay.textContent=icon;
-  playBtn.textContent=icon;
+  miniPlay.textContent=audio.paused?"▶":"⏸";
+  playBtn.textContent=audio.paused?"▶":"⏸";
 }
 
-// MINI CONTROLS
-miniPlay.addEventListener("click",()=>{audio.paused?audio.play():audio.pause();updateButtons();});
-miniPrev.addEventListener("click",()=>{playPrev();updateButtons();});
-miniNext.addEventListener("click",()=>{playNext();updateButtons();});
-miniPlayer.addEventListener("click",()=>{fsPlayer.style.display="flex";});
-
-// FULLSCREEN CONTROLS
-playBtn.addEventListener("click",()=>{audio.paused?audio.play():audio.pause();updateButtons();});
-prevBtn.addEventListener("click",()=>{playPrev();updateButtons();});
-nextBtn.addEventListener("click",()=>{playNext();updateButtons();});
-closeFull.addEventListener("click",()=>{fsPlayer.style.display="none";});
-
-// PROGRESS & TIME SYNC
 audio.addEventListener("timeupdate",()=>{
   let percent=(audio.currentTime/audio.duration)*100;
   progressFill.style.width=percent+"%";
-  let current=formatTime(audio.currentTime);
-  let total=formatTime(audio.duration);
+  const current=formatTime(audio.currentTime);
+  const total=formatTime(audio.duration);
   timeBig.textContent=`${current} / ${total}`;
   miniTime.textContent=`${current} / ${total}`;
 });

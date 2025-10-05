@@ -38,22 +38,127 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
 #mini-time{color:#fff;font-size:0.9rem;font-weight:600;margin-right:8px;}
 
 /* ===== FULLSCREEN PLAYER ===== */
-#fullscreen-player{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:flex-end;z-index:2000;background:#000;overflow:hidden;}
-.bg-video-wrap{position:absolute;inset:0;z-index:0;overflow:hidden;}
-.bg-video-wrap video{width:100%;height:100%;object-fit:cover;}
-#close-full{position:absolute;top:12px;right:12px;z-index:1600;background:rgba(0,0,0,0.55);color:#fff;border:0;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.4);}
-#close-full:hover{background:#ff4d4d;}
-#fullscreen-info{position:relative;z-index:1500;width:100%;padding:36px 30px;background:linear-gradient(to top,#40E0D0,#ffffff);border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -18px 60px rgba(0,0,0,.25);}
-.info-row{display:flex;align-items:center;justify-content:space-between;gap:16px;}
-.left-block{display:flex;align-items:center;gap:18px;min-width:0;}
-.title-big{font-size:1.9rem;font-weight:900;color:#000;line-height:1.05;max-width:68%;}
-.controls{display:flex;align-items:center;gap:12px}
-.controls button{width:52px;height:52px;border-radius:50%;border:0;background:#222;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.2);transition:all .16s;}
-.controls button:hover{transform:scale(1.04);background:#40E0D0;}
-#time-big{font-size:2.3rem;font-weight:900;color:#000;min-width:160px;text-align:right;}
-.progress-wrap{width:100%;margin-top:12px}
-.progress-bar{width:100%;height:14px;background:#000;border-radius:10px;overflow:hidden;cursor:pointer;}
-.progress-fill{height:100%;width:0%;background:#40E0D0;border-radius:10px;transition:width .06s linear;}
+#fullscreen-player {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: flex-end;
+  justify-content: flex-end;
+  z-index: 2000;
+  background: #0f4f54; /* tmavě tyrkysové pozadí */
+  overflow: hidden;
+}
+
+.bg-video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bg-video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#close-full {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1600;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+#close-full:hover { background: #ff4d4d; }
+
+#fullscreen-info {
+  position: relative;
+  z-index: 1500;
+  width: 100%;
+  padding: 36px 30px;
+  background: linear-gradient(90deg, rgba(64,224,208,0.8), rgba(15,79,84,0.8)); /* stejné jako mini-player */
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  box-shadow: 0 -18px 60px rgba(0,0,0,.25);
+  backdrop-filter: blur(10px);
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.left-block {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.title-big {
+  font-size: 1.9rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.05;
+  max-width: 68%;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.controls button {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 0;
+  background: #222;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(0,0,0,.2);
+  transition: all .16s;
+}
+.controls button:hover {
+  transform: scale(1.04);
+  background: #40E0D0;
+}
+
+#time-big {
+  font-size: 2.3rem;
+  font-weight: 900;
+  color: #fff;
+  min-width: 160px;
+  text-align: right;
+}
+
+.progress-wrap { width: 100%; margin-top: 12px; }
+.progress-bar {
+  width: 100%;
+  height: 14px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #40E0D0;
+  border-radius: 10px;
+  transition: width .06s linear;
+}
+
 
 /* ===== ANIMATION ===== */
 .fade-in{animation:fadeIn .35s ease both}

@@ -45,7 +45,7 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
   align-items: flex-end;
   justify-content: flex-end;
   z-index: 2000;
-  background: #0f4f54; /* tmavě tyrkysové pozadí */
+  background: #0f4f54;
   overflow: hidden;
 }
 
@@ -83,7 +83,7 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
   z-index: 1500;
   width: 100%;
   padding: 36px 30px;
-  background: linear-gradient(90deg, rgba(64,224,208,0.8), rgba(15,79,84,0.8)); /* stejné jako mini-player */
+  background: linear-gradient(90deg, rgba(64,224,208,0.8), rgba(15,79,84,0.8));
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   box-shadow: 0 -18px 60px rgba(0,0,0,.25);
@@ -95,6 +95,7 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  flex-wrap: wrap; /* umožní zalomení na mobilu */
 }
 
 .left-block {
@@ -102,6 +103,7 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
   align-items: center;
   gap: 18px;
   min-width: 0;
+  flex: 1 1 60%;
 }
 
 .title-big {
@@ -109,13 +111,17 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
   font-weight: 900;
   color: #fff;
   line-height: 1.05;
-  max-width: 68%;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 
 .controls {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1 1 35%;
+  justify-content: flex-end;
+  flex-wrap: wrap;
 }
 .controls button {
   width: 52px;
@@ -142,6 +148,7 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
   text-align: right;
 }
 
+/* Progress bar */
 .progress-wrap { width: 100%; margin-top: 12px; }
 .progress-bar {
   width: 100%;
@@ -162,6 +169,15 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
 /* ===== ANIMATION ===== */
 .fade-in{animation:fadeIn .35s ease both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ===== RESPONSIVE ===== */
+@media screen and (max-width: 600px) {
+  #fullscreen-info { padding: 24px 16px; }
+  .title-big { font-size: 1.4rem; }
+  #time-big { font-size: 1.8rem; text-align: left; }
+  .controls { justify-content: space-around; width: 100%; margin-top: 8px; }
+  .info-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
 </style>
 </head>
 <body>
@@ -214,7 +230,7 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
       <div class="left-block">
         <div class="title-big" id="fs-title"><p>—</p></div>
       </div>
-      <div style="display:flex;align-items:center;gap:16px">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
         <div id="time-big">0:00 / 0:00</div>
         <div class="controls">
           <button id="prev-btn">⏮</button>

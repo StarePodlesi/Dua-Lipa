@@ -45,7 +45,7 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
   align-items: flex-end;
   justify-content: flex-end;
   z-index: 2000;
-  background: #0f4f54; /* tmavě tyrkysové pozadí */
+  background: #0f4f54;
   overflow: hidden;
 }
 
@@ -83,7 +83,7 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
   z-index: 1500;
   width: 100%;
   padding: 36px 30px;
-  background: linear-gradient(90deg, rgba(64,224,208,0.8), rgba(15,79,84,0.8)); /* stejné jako mini-player */
+  background: linear-gradient(90deg, rgba(64,224,208,0.8), rgba(15,79,84,0.8));
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   box-shadow: 0 -18px 60px rgba(0,0,0,.25);
@@ -159,10 +159,34 @@ header p{font-size:1.05rem;line-height:1.6;color:#f0f0f0;max-width:760px;margin:
   transition: width .06s linear;
 }
 
-
 /* ===== ANIMATION ===== */
 .fade-in{animation:fadeIn .35s ease both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 600px) {
+  header img.hero { width: 180px; height: 180px; }
+  header h1 { font-size: 1.8rem; }
+  header p, .album-section p { font-size: 0.95rem; line-height:1.4; text-align:justify; }
+
+  .tracklist { margin: 20px 12px; padding: 12px; }
+  .track { flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px; }
+  .track .num { width: auto; text-align: left; }
+
+  #mini-player { flex-direction: column; align-items: flex-start; gap: 10px; padding: 10px; bottom: 8px; left: 8px; right: 8px; }
+  .mini-left { flex-direction: row; gap: 10px; }
+  .mini-meta { max-width: 180px; }
+  .mini-title { font-size: 0.95rem; }
+  #mini-time { font-size: 0.85rem; }
+
+  #fullscreen-info { padding: 20px 16px; }
+  .info-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .left-block { gap: 10px; max-width: 100%; }
+  .title-big { font-size: 1.4rem; max-width: 100%; line-height: 1.2; }
+  #time-big { font-size: 1.6rem; min-width: auto; text-align: left; }
+  .controls { gap: 8px; }
+  .controls button { width: 42px; height: 42px; font-size: 16px; }
+}
 </style>
 </head>
 <body>
